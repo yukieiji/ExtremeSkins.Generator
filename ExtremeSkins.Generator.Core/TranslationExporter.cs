@@ -3,6 +3,8 @@ using System.IO;
 
 namespace ExtremeSkins.Generator.Core;
 
+// TODO: 翻訳ファイルの自動作成をこのクラスで行う
+// csv等がなければ作る、あればそこに上書き
 public sealed class TranslationExporter
 {
     public string AmongUsPath

@@ -13,6 +13,7 @@ using ExtremeSkins.Generator.Event;
 
 namespace ExtremeSkins.Generator.ViewModels;
 
+// TODO: 出力したフォルダを出せるようにする
 public sealed class MainWindowViewModel : BindableBase
 {
     public string Title => "ExtremeSkins.Generator";
