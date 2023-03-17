@@ -6,14 +6,14 @@
         Title="{Binding Title}" 
         MinWidth="620" MinHeight="580"
         Height="720" Width="1280" >
-    <Grid>
+    <Grid Margin="20,20,20,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!-- AmongUsPath -->
-        <Grid Grid.Row="0" Margin="0,20,0,5">
+        <Grid Grid.Row="0" Margin="0,0,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="256" />
                 <ColumnDefinition Width="*" />
@@ -24,13 +24,13 @@
             <Button Grid.Column="2" Content="{DynamicResource SelectFile}" Width="128" Command="{Binding SetAmongUsPathCommand}" />
         </Grid>
         <Grid Grid.Row="1" Margin="2.5,0,0,10">
-            <StackPanel Orientation="Horizontal" Margin="1">
-                <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeHat" Content="ExtremeHats"/>
-                <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeVisor" Content="ExtremeVisor"/>
-                <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeNamePlate" Content="ExtremeNamePlate"/>
+            <StackPanel Orientation="Horizontal" Margin="0,2,2,5">
+                <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeHat" Content="ExtremeHats" Width="128"/>
+                <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeVisor" Content="ExtremeVisor" Width="128"/>
+                <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeNamePlate" Content="ExtremeNamePlate"  Width="128"/>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="2" Margin="2.5,0,0,10">
+        <Grid Grid.Row="2" Margin="0,0,0,0">
             <ContentControl prism:RegionManager.RegionName="ContentRegion" />
         </Grid>
     </Grid>
