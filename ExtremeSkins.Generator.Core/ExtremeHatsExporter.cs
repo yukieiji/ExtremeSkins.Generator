@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 using ExtremeSkins.Generator.Core.Interface;
 
