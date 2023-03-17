@@ -1,6 +1,6 @@
 # ExtremeSkins.Generator
 
-Extreme Skinsの各種スキンを簡単にエクスポート出来るソフトウェアです
+Extreme Skinsの各種スキンを簡単にエクスポート出来るソフトウェアです<br>
 まだベータ版なので一部機能がおかしかったり動かなかったりします
 
 # 利用規約
