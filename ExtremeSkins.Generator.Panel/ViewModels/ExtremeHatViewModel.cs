@@ -125,7 +125,7 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
             Author: this.SkinName,
             Bound: this.IsBounce,
             Shader: this.IsShader,
-            HasClimb: !string.IsNullOrEmpty(this.ClimbImagePath),
+            Climb: !string.IsNullOrEmpty(this.ClimbImagePath),
             FrontFlip: !string.IsNullOrEmpty(this.FrontFlipImagePath),
             Back: !string.IsNullOrEmpty(this.BackImagePath),
             BackFlip: !string.IsNullOrEmpty(this.BackFlipImagePath)
@@ -154,7 +154,7 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
         {
             exporter.AddImage("back_flip.png", this.BackFlipImagePath);
         }
-        if (hatInfo.HasClimb)
+        if (hatInfo.Climb)
         {
             exporter.AddImage("climb.png", this.ClimbImagePath);
         }

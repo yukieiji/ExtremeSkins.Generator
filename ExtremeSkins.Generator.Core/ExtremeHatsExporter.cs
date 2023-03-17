@@ -10,7 +10,7 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<ExtremeHatsExporter.
         string Name, string Author,
         bool Bound = false,
         bool Shader = false,
-        bool HasClimb = false,
+        bool Climb = false,
         bool FrontFlip = false,
         bool Back = false,
         bool BackFlip = false,
