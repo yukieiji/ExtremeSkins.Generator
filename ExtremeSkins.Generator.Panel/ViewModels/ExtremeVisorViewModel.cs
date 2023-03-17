@@ -107,14 +107,11 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
             LeftIdle: !string.IsNullOrEmpty(this.LeftImagePath)
         );
 
-        string amongUsPath = this.AmongUsPath;
-        string licensePath = this.licensePath;
-
         ExtremeVisorExporter exporter = new ExtremeVisorExporter()
         {
             Info = visorInfo,
-            AmongUsPath = amongUsPath,
-            LicenseFile = licensePath,
+            AmongUsPath = this.AmongUsPath,
+            LicenseFile = this.licensePath,
         };
 
         exporter.AddImage("idle.png", this.ImagePath);

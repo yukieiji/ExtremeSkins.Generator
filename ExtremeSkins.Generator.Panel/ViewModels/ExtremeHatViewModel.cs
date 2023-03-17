@@ -131,14 +131,11 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
             BackFlip: !string.IsNullOrEmpty(this.BackFlipImagePath)
         );
 
-        string amongUsPath = this.AmongUsPath;
-        string licensePath = this.licensePath;
-
         ExtremeHatsExporter exporter = new ExtremeHatsExporter()
         {
             Info = hatInfo,
-            AmongUsPath = amongUsPath,
-            LicenseFile = licensePath,
+            AmongUsPath = this.AmongUsPath,
+            LicenseFile = this.licensePath,
         };
 
         exporter.AddImage("front.png", this.FrontImagePath);

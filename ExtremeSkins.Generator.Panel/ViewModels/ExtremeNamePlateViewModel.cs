@@ -77,14 +77,10 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
         }
 
         // TODO: 強制的にローマ字化
-
-        string amongUsPath = this.AmongUsPath;
-        string licensePath = this.licensePath;
-
         ExtremeNamePlateExporter exporter = new ExtremeNamePlateExporter()
         {
-            AmongUsPath = amongUsPath,
-            LicenseFile = licensePath,
+            AmongUsPath = this.AmongUsPath,
+            LicenseFile = this.licensePath,
         };
 
         exporter.AddImage($"{this.SkinName}.png", this.ImagePath);
