@@ -19,6 +19,7 @@ public sealed class MainWindowViewModel : BindableBase
 
     private readonly IRegionManager regionManager;
     private readonly ICommonDialogService<FileDialogService.Result> commonDialogService;
+    private readonly IWindowsDialogService windowDlgService;
     private readonly IEventAggregator ea;
 
     public DelegateCommand<string> RadioCheckCommand { get; private set; }
@@ -36,12 +37,13 @@ public sealed class MainWindowViewModel : BindableBase
         IEventAggregator ea,
         IRegionManager regionManager,
         IDialogService dialogService,
-        ICommonDialogService<FileDialogService.Result> comDlgService)
+        ICommonDialogService<FileDialogService.Result> comDlgService,
+        IWindowsDialogService windowDlgService)
     {
         this.ea = ea;
         this.regionManager = regionManager;
-
         this.commonDialogService = comDlgService;
+        this.windowDlgService = windowDlgService;
 
         this.RadioCheckCommand = new DelegateCommand<string>(ChangeExportTarget);
         this.SetAmongUsPathCommand = new DelegateCommand(SetAmongUsPath);
@@ -59,10 +61,12 @@ public sealed class MainWindowViewModel : BindableBase
     private void SetAmongUsPath()
     {
 
+        var resource = Application.Current.MainWindow.Resources;
+
         var settings = new FileDialogService.Setting
         {
             Filter = "Among Us.exe |*.exe",
-            Title = (string)Application.Current.MainWindow.Resources["SetAmongUsPath"],
+            Title = (string)resource["SetAmongUsPath"],
         };
         
         bool result = this.commonDialogService.ShowDialog(settings);
@@ -76,6 +80,27 @@ public sealed class MainWindowViewModel : BindableBase
         if (Path.HasExtension(amongUsExePath))
         {
             amongUsExePath = Path.GetDirectoryName(amongUsExePath);
+        }
+
+        if (!File.Exists(Path.Combine(amongUsExePath, @"BepInEx/plugins/ExtremeSkins.dll")))
+        {
+            this.windowDlgService.Show(
+                new MessageShowService.ErrorMessageSetting()
+                {
+                    Title = (string)resource["Error"],
+                    Message = (string)resource["CannotFindExS"],
+                });
+            return;
+        }
+        if (!File.Exists(Path.Combine(amongUsExePath, @"BepInEx/config/me.yukieiji.extremeskins.cfg")))
+        {
+            this.windowDlgService.Show(
+                new MessageShowService.ErrorMessageSetting()
+                {
+                    Title = (string)resource["Error"],
+                    Message = (string)resource["CannotFindExSConfig"],
+                });
+            return;
         }
 
         this.AmongUsPathText = amongUsExePath;
