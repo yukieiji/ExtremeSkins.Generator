@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExtremeSkins.Generator.Event\ExtremeSkins.Generator.Event.csproj" />
+    <ProjectReference Include="..\ExtremeSkins.Generator.Panel\ExtremeSkins.Generator.Panel.csproj" />
+    <ProjectReference Include="..\ExtremeSkins.Generator.Resource\ExtremeSkins.Generator.Resource.csproj" />
+    <ProjectReference Include="..\ExtremeSkins.Generator.Service\ExtremeSkins.Generator.Service.csproj" />
+  </ItemGroup>
+</Project>
