@@ -5,6 +5,7 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 
 using System.Windows;
+using System.IO;
 
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
@@ -71,7 +72,13 @@ public sealed class MainWindowViewModel : BindableBase
             return;
         }
 
-        this.AmongUsPathText = settings.Result.FileName;
+        string amongUsExePath = settings.Result.FileName;
+        if (Path.HasExtension(amongUsExePath))
+        {
+            amongUsExePath = Path.GetDirectoryName(amongUsExePath);
+        }
+
+        this.AmongUsPathText = amongUsExePath;
         this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.AmongUsPathText);
     }
 }
