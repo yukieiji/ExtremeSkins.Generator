@@ -2,6 +2,7 @@
 using Prism.Events;
 using Prism.Services.Dialogs;
 
+using System.Collections.Generic;
 using System.Windows;
 
 using ExtremeSkins.Generator.Core;
@@ -118,11 +119,23 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
             return;
         }
 
-        // TODO: 強制的にローマ字化
-        ExtremeHatsExporter.HatInfo hatInfo = new ExtremeHatsExporter.HatInfo(
+        Dictionary<string, string> replacedStr = new Dictionary<string, string>();
+        string autherName = this.AutherName;
+        if (TryReplaceAscii(autherName, out string asciiedAutherName))
+        {
+            replacedStr.Add(asciiedAutherName, autherName);
+            autherName = asciiedAutherName;
+        }
+        string skinName = this.SkinName;
+        if (TryReplaceAscii(skinName, out string asciiedSkinName))
+        {
+            replacedStr.Add(asciiedSkinName, skinName);
+            skinName = asciiedSkinName;
+        }
 
-            Name: this.AutherName,
-            Author: this.SkinName,
+        ExtremeHatsExporter.HatInfo hatInfo = new ExtremeHatsExporter.HatInfo(
+            Name: skinName,
+            Author: autherName,
             Bound: this.IsBounce,
             Shader: this.IsShader,
             Climb: !string.IsNullOrEmpty(this.ClimbImagePath),

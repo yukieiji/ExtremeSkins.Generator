@@ -7,6 +7,7 @@ using System.Windows;
 using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
+using System.Collections.Generic;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
@@ -76,14 +77,28 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
             return;
         }
 
-        // TODO: 強制的にローマ字化
+        Dictionary<string, string> replacedStr = new Dictionary<string, string>();
+        string autherName = this.AutherName;
+        if (TryReplaceAscii(autherName, out string asciiedAutherName))
+        {
+            replacedStr.Add(asciiedAutherName, autherName);
+            autherName = asciiedAutherName;
+        }
+        string skinName = this.SkinName;
+        if (TryReplaceAscii(skinName, out string asciiedSkinName))
+        {
+            replacedStr.Add(asciiedSkinName, skinName);
+            skinName = asciiedSkinName;
+        }
+
         ExtremeNamePlateExporter exporter = new ExtremeNamePlateExporter()
         {
+            Author = autherName,
             AmongUsPath = this.AmongUsPath,
             LicenseFile = this.licensePath,
         };
 
-        exporter.AddImage($"{this.SkinName}.png", this.ImagePath);
+        exporter.AddImage($"{skinName}.png", this.ImagePath);
 
         try
         {

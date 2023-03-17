@@ -5,6 +5,8 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
+using AnyAscii;
+
 using ExtremeSkins.Generator.Event;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
@@ -83,5 +85,17 @@ public abstract class SkinsExportPanelBase : BindableBase
     private void SetAmongUsPath(string path)
     {
         this.AmongUsPath = path;
+    }
+
+    protected static bool TryReplaceAscii(string checkStr, out string replacedStr)
+    {
+        replacedStr = checkStr;
+        bool isAscii = !checkStr.IsAscii();
+        if (!isAscii)
+        {
+            replacedStr = checkStr.Transliterate();
+        }
+
+        return isAscii;
     }
 }
