@@ -133,6 +133,17 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
             skinName = asciiedSkinName;
         }
 
+        if (replacedStr.Count != 0)
+        {
+            var transExporter = new TranslationExporter()
+            {
+                Locale = (string)resource["CurLocale"],
+                AmongUsPath = this.AmongUsPath,
+            };
+            transExporter.AddTransData(replacedStr);
+            transExporter.Export();
+        }
+
         ExtremeHatsExporter.HatInfo hatInfo = new ExtremeHatsExporter.HatInfo(
             Name: skinName,
             Author: autherName,

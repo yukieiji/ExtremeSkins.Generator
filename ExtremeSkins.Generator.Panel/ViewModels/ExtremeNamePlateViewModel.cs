@@ -91,6 +91,17 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
             skinName = asciiedSkinName;
         }
 
+        if (replacedStr.Count != 0)
+        {
+            var transExporter = new TranslationExporter()
+            {
+                Locale = (string)resource["CurLocale"],
+                AmongUsPath = this.AmongUsPath,
+            };
+            transExporter.AddTransData(replacedStr);
+            transExporter.Export();
+        }
+
         ExtremeNamePlateExporter exporter = new ExtremeNamePlateExporter()
         {
             Author = autherName,

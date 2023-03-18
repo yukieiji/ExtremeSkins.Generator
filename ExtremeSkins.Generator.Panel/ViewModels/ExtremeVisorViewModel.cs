@@ -112,6 +112,17 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
             skinName = asciiedSkinName;
         }
 
+        if (replacedStr.Count != 0)
+        {
+            var transExporter = new TranslationExporter()
+            {
+                Locale = (string)resource["CurLocale"],
+                AmongUsPath = this.AmongUsPath,
+            };
+            transExporter.AddTransData(replacedStr);
+            transExporter.Export();
+        }
+
         ExtremeVisorExporter.VisorInfo visorInfo = new ExtremeVisorExporter.VisorInfo(
 
             Name: skinName,
