@@ -15,7 +15,7 @@
     <system:String x:Key="ExH.SelectBackImage">ハット：背面レイヤー　右向きの画像（任意）：</system:String>
     <system:String x:Key="ExH.SelectBackFlipImage">ハット：背面レイヤー　左向きの画像（任意）：</system:String>
     <system:String x:Key="ExH.SelectClimbImage">ハット：はしご等使用時の背面画像（任意）：</system:String>
-    <system:String x:Key="ExH.IsBounce">ハットが移動でバウンドするか </system:String>
+    <system:String x:Key="ExH.IsBounce">ハットが移動等でバウンドするか </system:String>
     <system:String x:Key="ExH.IsUseShader">ハットが体の色とシンクロするか </system:String>
     <system:String x:Key="ExH.SelectLicense">ハットの利用規約等が記載されているテキストファイル</system:String>
 
