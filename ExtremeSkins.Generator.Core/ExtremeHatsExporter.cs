@@ -61,7 +61,7 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<ExtremeHatsExporter.
     {
         if (!string.IsNullOrEmpty(this.amongUsPath))
         {
-            ExportTo(Path.Combine(this.amongUsPath));
+            ExportTo(this.amongUsPath);
         }
         ExportTo(Path.Combine(IExporter.ExportDefaultPath, "ExtremeHat"));
     }

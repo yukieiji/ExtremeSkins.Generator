@@ -51,7 +51,7 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
     {
         if (!string.IsNullOrEmpty(this.amongUsPath))
         {
-            ExportTo(Path.Combine(this.amongUsPath));
+            ExportTo(this.amongUsPath);
         }
         ExportTo(Path.Combine(IExporter.ExportDefaultPath, "ExtremeNamePlate"));
     }
