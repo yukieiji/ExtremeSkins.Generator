@@ -24,11 +24,22 @@
             <Button Grid.Column="2" Content="{DynamicResource SelectFile}" Width="128" Command="{Binding SetAmongUsPathCommand}" />
         </Grid>
         <Grid Grid.Row="1" Margin="2.5,0,0,10">
-            <StackPanel Orientation="Horizontal" Margin="0,2,2,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,2,2,5">
                 <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeHat" Content="ExtremeHats" Width="128"/>
                 <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeVisor" Content="ExtremeVisor" Width="128"/>
                 <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeNamePlate" Content="ExtremeNamePlate"  Width="128"/>
             </StackPanel>
+            <Button  
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Content="{DynamicResource OpenExportedFolder}" 
+                Margin="0,0,0,0" 
+                Width="256"
+                Command="{Binding OpenExportedFolderCommand}" />
         </Grid>
         <Grid Grid.Row="2" Margin="0,0,0,0">
             <ContentControl prism:RegionManager.RegionName="ContentRegion" />

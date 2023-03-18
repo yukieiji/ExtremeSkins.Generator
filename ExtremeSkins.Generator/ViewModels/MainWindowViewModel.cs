@@ -8,6 +8,7 @@ using System.Windows;
 using System.IO;
 
 using ExtremeSkins.Generator.Core;
+using ExtremeSkins.Generator.Core.Interface;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Event;
@@ -20,9 +21,13 @@ public sealed class MainWindowViewModel : BindableBase
     public string Title => "ExtremeSkins.Generator";
 
     private readonly IRegionManager regionManager;
+    private readonly IEventAggregator ea;
+
     private readonly ICommonDialogService<FileDialogService.Result> commonDialogService;
     private readonly IWindowsDialogService windowDlgService;
-    private readonly IEventAggregator ea;
+    private readonly IOpenExplorerService openExplorerService;
+
+    public DelegateCommand OpenExportedFolderCommand { get; private set; }
 
     public DelegateCommand<string> RadioCheckCommand { get; private set; }
 
@@ -41,7 +46,8 @@ public sealed class MainWindowViewModel : BindableBase
         IRegionManager regionManager,
         IDialogService dialogService,
         ICommonDialogService<FileDialogService.Result> comDlgService,
-        IWindowsDialogService windowDlgService)
+        IWindowsDialogService windowDlgService,
+        IOpenExplorerService openExplorerService)
     {
         this.ea = ea;
         this.ea.GetEvent<AmongUsPathGetEvent>().Subscribe(GetAmongUsPath);
@@ -49,7 +55,9 @@ public sealed class MainWindowViewModel : BindableBase
         this.regionManager = regionManager;
         this.commonDialogService = comDlgService;
         this.windowDlgService = windowDlgService;
+        this.openExplorerService = openExplorerService;
 
+        this.OpenExportedFolderCommand = new DelegateCommand(OpenExportedFolder);
         this.RadioCheckCommand = new DelegateCommand<string>(ChangeExportTarget);
         this.SetAmongUsPathCommand = new DelegateCommand(SetAmongUsPath);
     }
@@ -66,6 +74,20 @@ public sealed class MainWindowViewModel : BindableBase
     private void GetAmongUsPath()
     {
         this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.amongUsFolderPath);
+    }
+
+    private void OpenExportedFolder()
+    {
+        string curDirPath = Directory.GetCurrentDirectory();
+        string exportedDir = Path.Combine(curDirPath, IExporter.ExportDefaultPath);
+        if (!Directory.Exists(exportedDir))
+        {
+            Directory.CreateDirectory(exportedDir);
+        }
+        this.openExplorerService.Open(new OpenExplorerService.Setting
+        {
+            TargetPath = exportedDir,
+        });
     }
 
     private void SetAmongUsPath()

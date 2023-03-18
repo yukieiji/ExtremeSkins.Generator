@@ -24,6 +24,8 @@ public sealed partial class App
             ICommonDialogService<FileDialogService.Result>, FileDialogService>();
         containerRegistry.RegisterSingleton<
             IWindowsDialogService, MessageShowService>();
+        containerRegistry.RegisterSingleton<
+            IOpenExplorerService, OpenExplorerService>();
     }
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     {
