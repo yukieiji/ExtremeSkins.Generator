@@ -4,7 +4,7 @@ using ExtremeSkins.Generator.Core.Interface;
 
 namespace ExtremeSkins.Generator.Core;
 
-public sealed class ExtremeNamePlateExporter : IExporter
+public sealed class ExtremeNamePlateExporter : ISkinExporter
 {
     public string Author
     {
@@ -63,6 +63,6 @@ public sealed class ExtremeNamePlateExporter : IExporter
 
         File.Copy(this.imgFromPath, Path.Combine(exportFolder, this.imgName));
 
-        IExporter.ExportLicense(this.licenseFile, exportFolder);
+        ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }
 }

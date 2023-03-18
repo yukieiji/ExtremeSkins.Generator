@@ -83,8 +83,8 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<ExtremeHatsExporter.
 
         File.WriteAllText(
             Path.Combine(exportFolder, "info.json"),
-            JsonSerializer.Serialize(this.info, options:IExporter.Option));
+            JsonSerializer.Serialize(this.info, options:ISkinExporter.Option));
 
-        IExporter.ExportLicense(this.licenseFile, exportFolder);
+        ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }
 }

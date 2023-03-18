@@ -80,8 +80,8 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<ExtremeVisorExporter
 
         File.WriteAllText(
             Path.Combine(exportFolder, "info.json"),
-            JsonSerializer.Serialize(this.info, IExporter.Option));
+            JsonSerializer.Serialize(this.info, ISkinExporter.Option));
 
-        IExporter.ExportLicense(this.licenseFile, exportFolder);
+        ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }
 }
