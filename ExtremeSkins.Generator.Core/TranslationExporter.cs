@@ -6,8 +6,6 @@ using ExtremeSkins.Generator.Core.Interface;
 
 namespace ExtremeSkins.Generator.Core;
 
-// TODO: 翻訳ファイルの自動作成をこのクラスで行う
-// csv等がなければ作る、あればそこに上書き
 public sealed class TranslationExporter : IExporter
 {
     private const string translaterPath = @"CreatorMode/translation.csv";
