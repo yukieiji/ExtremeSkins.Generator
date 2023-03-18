@@ -183,12 +183,15 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
         try
         {
             exporter.Export();
+            string messageKey =
+                string.IsNullOrEmpty(this.AmongUsPath) ?
+                "ExportSuccess" : "ExportSuccessWithInstall";
 
             this.showMessageService.Show(
                 new MessageShowService.InfoMessageSetting()
                 {
                     Title = (string)resource["Success"],
-                    Message = (string)resource["ExportSuccess"],
+                    Message = (string)resource[messageKey],
                 });
         }
         catch (System.Exception ex)

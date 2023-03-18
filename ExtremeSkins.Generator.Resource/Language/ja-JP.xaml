@@ -55,6 +55,7 @@
     <system:String x:Key="CannotEmptySkin">スキン名を無名に出来ません、追加して下さい</system:String>
     <system:String x:Key="CannotEmptyFlontImage">ハットの正面画像は必須です、追加して下さい</system:String>
     <system:String x:Key="ExportError">出力時にエラーが発生しました</system:String>
-    <system:String x:Key="ExportSuccess">スキンの出力に成功しました、AmongUsを起動することでスキンを確認できます</system:String>
+    <system:String x:Key="ExportSuccess">スキンの出力に成功しました</system:String>
+    <system:String x:Key="ExportSuccessWithInstall">スキンの出力に成功しました、AmongUsを起動することでスキンを確認できます</system:String>
 
 </ResourceDictionary>
