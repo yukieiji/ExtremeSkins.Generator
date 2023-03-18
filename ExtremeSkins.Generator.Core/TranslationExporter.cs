@@ -104,9 +104,11 @@ public sealed class TranslationExporter : IExporter
     }
     private void ExportTo(string path)
     {
-        if (!Directory.Exists(path))
+        string directoryFolder = Path.GetDirectoryName(path);
+
+        if (!Directory.Exists(directoryFolder))
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(directoryFolder);
         }
         bool isFileExist = File.Exists(path);
 

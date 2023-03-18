@@ -90,12 +90,12 @@ public abstract class SkinsExportPanelBase : BindableBase
     protected static bool TryReplaceAscii(string checkStr, out string replacedStr)
     {
         replacedStr = checkStr;
-        bool isAscii = !checkStr.IsAscii();
+        bool isAscii = checkStr.IsAscii();
         if (!isAscii)
         {
             replacedStr = checkStr.Transliterate();
         }
 
-        return isAscii;
+        return !isAscii;
     }
 }
