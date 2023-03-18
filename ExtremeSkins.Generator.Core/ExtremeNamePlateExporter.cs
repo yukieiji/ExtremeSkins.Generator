@@ -18,6 +18,10 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
     {
         init
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
             this.amongUsPath = Path.Combine(value, "ExtremeNamePlate");
         }
     }
@@ -30,12 +34,12 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
         }
     }
 
-    private string amongUsPath = "";
-    private string licenseFile = "";
-    private string author = "";
+    private string amongUsPath = string.Empty;
+    private string licenseFile = string.Empty;
+    private string author = string.Empty;
 
-    private string imgName = "";
-    private string imgFromPath = "";
+    private string imgName = string.Empty;
+    private string imgFromPath = string.Empty;
 
     public void AddImage(string imgName, string basePath)
     {

@@ -30,6 +30,10 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<ExtremeHatsExporter.
     {
         init
         {
+            if (string.IsNullOrEmpty(value))
+            { 
+                return; 
+            }
             this.amongUsPath = Path.Combine(value, "ExtremeHat");
         }
     }
@@ -42,8 +46,8 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<ExtremeHatsExporter.
         }
     }
 
-    private string amongUsPath = "";
-    private string licenseFile = "";
+    private string amongUsPath = string.Empty;
+    private string licenseFile = string.Empty;
     private HatInfo info = new HatInfo(string.Empty, string.Empty, false, false);
 
     private Dictionary<string, string> img = new Dictionary<string, string>();

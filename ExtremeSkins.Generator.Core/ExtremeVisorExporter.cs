@@ -27,6 +27,10 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<ExtremeVisorExporter
     {
         init
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
             this.amongUsPath = Path.Combine(value, "ExtremeVisor");
         }
     }
@@ -39,8 +43,8 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<ExtremeVisorExporter
         }
     }
 
-    private string amongUsPath = "";
-    private string licenseFile = "";
+    private string amongUsPath = string.Empty;
+    private string licenseFile = string.Empty;
     private VisorInfo info = new VisorInfo(string.Empty, string.Empty, false, false);
 
     private Dictionary<string, string> img = new Dictionary<string, string>();
