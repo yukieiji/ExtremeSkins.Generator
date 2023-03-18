@@ -1,7 +1,5 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Collections.Generic;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Markup;
 
