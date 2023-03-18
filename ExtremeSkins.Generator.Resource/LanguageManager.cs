@@ -13,7 +13,7 @@ public static class LanguageManager
     private static ResourceDictionary Main;
     private static HashSet<string> supportLang => new HashSet<string>()
     {
-
+        "ja-JP"
     };
 
     public static void Load(string locale)
