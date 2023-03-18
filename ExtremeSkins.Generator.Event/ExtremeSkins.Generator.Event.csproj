@@ -3,6 +3,14 @@
     <OutputType>library</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Prism.Core" Version="8.1.97" />
   </ItemGroup>

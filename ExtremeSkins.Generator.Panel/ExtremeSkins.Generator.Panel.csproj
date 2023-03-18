@@ -3,16 +3,26 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="AnyAscii" Version="0.3.2" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\ExtremeSkins.Generator.Core\ExtremeSkins.Generator.Core.csproj" />
     <ProjectReference Include="..\ExtremeSkins.Generator.Event\ExtremeSkins.Generator.Event.csproj" />
     <ProjectReference Include="..\ExtremeSkins.Generator.Resource\ExtremeSkins.Generator.Resource.csproj" />
     <ProjectReference Include="..\ExtremeSkins.Generator.Service\ExtremeSkins.Generator.Service.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
     <Compile Update="Views\ExtremeNamePlate.xaml.cs">
       <SubType>Code</SubType>
