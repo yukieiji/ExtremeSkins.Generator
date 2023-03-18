@@ -30,7 +30,8 @@ public sealed class MainWindowViewModel : BindableBase
         get { return amongUsPathText; }
         set { SetProperty(ref amongUsPathText, value); }
     }
-    private string amongUsPathText;
+    private string amongUsPathText = string.Empty;
+    private string amongUsFolderPath = string.Empty;
 
     public DelegateCommand SetAmongUsPathCommand { get; private set; }
 
@@ -42,6 +43,8 @@ public sealed class MainWindowViewModel : BindableBase
         IWindowsDialogService windowDlgService)
     {
         this.ea = ea;
+        this.ea.GetEvent<AmongUsPathGetEvent>().Subscribe(GetAmongUsPath);
+
         this.regionManager = regionManager;
         this.commonDialogService = comDlgService;
         this.windowDlgService = windowDlgService;
@@ -59,9 +62,13 @@ public sealed class MainWindowViewModel : BindableBase
         this.regionManager.RequestNavigate("ContentRegion", target);
     }
 
+    private void GetAmongUsPath()
+    {
+        this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.amongUsFolderPath);
+    }
+
     private void SetAmongUsPath()
     {
-
         var resource = Application.Current.MainWindow.Resources;
 
         var settings = new FileDialogService.Setting
@@ -77,13 +84,14 @@ public sealed class MainWindowViewModel : BindableBase
             return;
         }
 
-        string amongUsExePath = settings.Result.FileName;
-        if (Path.HasExtension(amongUsExePath))
+        this.AmongUsPathText = settings.Result.FileName;
+        this.amongUsFolderPath = this.AmongUsPathText;
+        if (Path.HasExtension(this.amongUsFolderPath))
         {
-            amongUsExePath = Path.GetDirectoryName(amongUsExePath);
+            this.amongUsFolderPath = Path.GetDirectoryName(this.amongUsFolderPath);
         }
 
-        if (!File.Exists(Path.Combine(amongUsExePath, @"BepInEx/plugins/ExtremeSkins.dll")))
+        if (!File.Exists(Path.Combine(this.amongUsFolderPath, @"BepInEx/plugins/ExtremeSkins.dll")))
         {
             this.windowDlgService.Show(
                 new MessageShowService.ErrorMessageSetting()
@@ -93,7 +101,8 @@ public sealed class MainWindowViewModel : BindableBase
                 });
             return;
         }
-        if (!File.Exists(Path.Combine(amongUsExePath, @"BepInEx/config/me.yukieiji.extremeskins.cfg")))
+        if (!File.Exists(Path.Combine(
+                this.amongUsFolderPath, @"BepInEx/config/me.yukieiji.extremeskins.cfg")))
         {
             this.windowDlgService.Show(
                 new MessageShowService.ErrorMessageSetting()
@@ -104,7 +113,6 @@ public sealed class MainWindowViewModel : BindableBase
             return;
         }
 
-        this.AmongUsPathText = amongUsExePath;
-        this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.AmongUsPathText);
+        this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.amongUsFolderPath);
     }
 }

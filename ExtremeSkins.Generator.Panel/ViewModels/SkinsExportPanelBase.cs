@@ -51,7 +51,9 @@ public abstract class SkinsExportPanelBase : BindableBase
         IWindowsDialogService windowsDialogService)
     {
         this.ea = ea;
+
         this.ea.GetEvent<AmongUsPathSetEvent>().Subscribe(SetAmongUsPath);
+        this.ea.GetEvent<AmongUsPathGetEvent>().Publish();
 
         this.showMessageService = windowsDialogService;
         this.fileDialogService = comDlgService;
