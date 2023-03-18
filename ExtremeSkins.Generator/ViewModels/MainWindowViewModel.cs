@@ -7,6 +7,7 @@ using Prism.Services.Dialogs;
 using System.Windows;
 using System.IO;
 
+using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Event;
@@ -102,7 +103,8 @@ public sealed class MainWindowViewModel : BindableBase
             return;
         }
         if (!File.Exists(Path.Combine(
-                this.amongUsFolderPath, @"BepInEx/config/me.yukieiji.extremeskins.cfg")))
+                this.amongUsFolderPath,
+                TranslationExporter.ExSConfigPath)))
         {
             this.windowDlgService.Show(
                 new MessageShowService.ErrorMessageSetting()

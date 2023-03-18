@@ -8,6 +8,8 @@ namespace ExtremeSkins.Generator.Core;
 
 public sealed class TranslationExporter : IExporter
 {
+    public const string ExSConfigPath = @"BepInEx/config/me.yukieiji.extremeskins.cfg";
+
     private const string translaterPath = @"CreatorMode/translation.csv";
     private const string comma = ",";
 
