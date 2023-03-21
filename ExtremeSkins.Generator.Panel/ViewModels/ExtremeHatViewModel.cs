@@ -163,22 +163,27 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
             LicenseFile = this.licensePath,
         };
 
-        exporter.AddImage("front.png", this.FrontImagePath);
+        exporter.AddImage(
+            DataStructure.FrontImageName, this.FrontImagePath);
         if (hatInfo.FrontFlip)
         {
-            exporter.AddImage("front_flip.png", this.FrontFlipImagePath);
+            exporter.AddImage(
+                DataStructure.FrontFlipImageName, this.FrontFlipImagePath);
         }
         if (hatInfo.Back)
         {
-            exporter.AddImage("back.png", this.BackImagePath);
+            exporter.AddImage(
+                DataStructure.BackImageName, this.BackImagePath);
         }
         if (hatInfo.BackFlip)
         {
-            exporter.AddImage("back_flip.png", this.BackFlipImagePath);
+            exporter.AddImage(
+                DataStructure.BackFlipImageName, this.BackFlipImagePath);
         }
         if (hatInfo.Climb)
         {
-            exporter.AddImage("climb.png", this.ClimbImagePath);
+            exporter.AddImage(
+                DataStructure.ClimbImageName, this.ClimbImagePath);
         }
 
         try

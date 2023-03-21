@@ -140,10 +140,12 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
             LicenseFile = this.licensePath,
         };
 
-        exporter.AddImage("idle.png", this.ImagePath);
+        exporter.AddImage(
+            DataStructure.IdleImageName, this.ImagePath);
         if (visorInfo.LeftIdle)
         {
-            exporter.AddImage("flip_idle.png", this.LeftImagePath);
+            exporter.AddImage(
+                DataStructure.FlipIdleImageName, this.LeftImagePath);
         }
 
         try
