@@ -5,6 +5,7 @@ using Prism.Services.Dialogs;
 using System.Collections.Generic;
 using System.Windows;
 
+using ExtremeSkins.Core.ExtremeHats;
 using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
@@ -144,7 +145,7 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
             transExporter.Export();
         }
 
-        ExtremeHatsExporter.HatInfo hatInfo = new ExtremeHatsExporter.HatInfo(
+        HatInfo hatInfo = new HatInfo(
             Name: skinName,
             Author: autherName,
             Bound: this.IsBounce,

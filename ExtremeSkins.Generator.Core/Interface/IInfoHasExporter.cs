@@ -1,7 +1,9 @@
-﻿namespace ExtremeSkins.Generator.Core.Interface;
+﻿using ExtremeSkins.Core;
+
+namespace ExtremeSkins.Generator.Core.Interface;
 
 public interface IInfoHasExporter<T> : ISkinExporter
-    where T : IInfo
+    where T : InfoBase
 {
     public T Info { init; }
 }

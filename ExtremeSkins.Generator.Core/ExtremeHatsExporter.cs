@@ -2,22 +2,13 @@
 using System.IO;
 using System.Text.Json;
 
+using ExtremeSkins.Core.ExtremeHats;
 using ExtremeSkins.Generator.Core.Interface;
 
 namespace ExtremeSkins.Generator.Core;
 
-public sealed class ExtremeHatsExporter  : IInfoHasExporter<ExtremeHatsExporter.HatInfo>
+public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
 {
-    public record HatInfo(
-        string Name, string Author,
-        bool Bound = false,
-        bool Shader = false,
-        bool Climb = false,
-        bool FrontFlip = false,
-        bool Back = false,
-        bool BackFlip = false,
-        string comitHash = "") : IInfo(Name, Author);
-
     public HatInfo Info
     {
         init

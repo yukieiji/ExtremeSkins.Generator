@@ -2,18 +2,13 @@
 using System.IO;
 using System.Text.Json;
 
+using ExtremeSkins.Core.ExtremeVisor;
 using ExtremeSkins.Generator.Core.Interface;
 
 namespace ExtremeSkins.Generator.Core;
 
-public sealed class ExtremeVisorExporter : IInfoHasExporter<ExtremeVisorExporter.VisorInfo>
+public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
 {
-    public record VisorInfo(
-        string Name, string Author,
-        bool LeftIdle = false,
-        bool Shader = false,
-        bool BehindHat = false,
-        string ComitHash = "") : IInfo(Name, Author);
 
     public VisorInfo Info
     {
