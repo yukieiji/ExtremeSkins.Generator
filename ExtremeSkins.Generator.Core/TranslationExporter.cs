@@ -104,7 +104,7 @@ public sealed class TranslationExporter : IExporter
     }
     private void ExportTo(string path)
     {
-        string? directoryFolder = Path.GetDirectoryName(path);
+        string directoryFolder = Path.GetDirectoryName(path);
 
         if (string.IsNullOrEmpty(directoryFolder)) { return; }
 
