@@ -79,9 +79,9 @@ public abstract class SkinsExportPanelBase : BindableBase
             Title = (string)resource[$"{type}Title"],
         };
 
-        bool result = this.fileDialogService.ShowDialog(settings);
+        var result = this.fileDialogService.ShowDialog(settings);
 
-        return result ? settings.Result.FileName : string.Empty;
+        return result.FileName;
     }
 
     private void SetAmongUsPath(string path)

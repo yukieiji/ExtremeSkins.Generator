@@ -1,6 +1,5 @@
 ﻿namespace ExtremeSkins.Generator.Service.Interface;
 
-public interface ICommonDialogSetting<T> where T : ICommonDialogResult
+public interface ICommonDialogSetting
 {
-    public T Result { get; set; }
 }

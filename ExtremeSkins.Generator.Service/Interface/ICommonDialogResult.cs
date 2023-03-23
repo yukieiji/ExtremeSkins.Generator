@@ -2,4 +2,11 @@
 
 public interface ICommonDialogResult
 {
+    public enum DialogShowState
+    {
+        InvalidSetting,
+        Ok,
+        Cancel,
+    }
+    public DialogShowState State { get; set; }
 }

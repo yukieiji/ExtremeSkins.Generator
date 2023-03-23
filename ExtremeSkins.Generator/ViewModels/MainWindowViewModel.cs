@@ -100,14 +100,14 @@ public sealed class MainWindowViewModel : BindableBase
             Title = (string)resource["SetAmongUsPath"],
         };
         
-        bool result = this.commonDialogService.ShowDialog(settings);
+        var result = this.commonDialogService.ShowDialog(settings);
         
-        if (!result)
+        if (result.State != ICommonDialogResult.DialogShowState.Ok)
         {
             return;
         }
 
-        this.AmongUsPathText = settings.Result.FileName;
+        this.AmongUsPathText = result.FileName;
         this.amongUsFolderPath = this.AmongUsPathText;
         if (Path.HasExtension(this.amongUsFolderPath))
         {
