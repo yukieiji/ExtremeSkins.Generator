@@ -2,6 +2,7 @@
 
 Extreme Skinsの各種スキンを簡単にエクスポート出来るソフトウェアです<br>
 このソフトウェアを使うことで今までスキン制作時に必要であったJsonファイル等の編集が必要なくなり直感的な操作でExtremeSkinsの各種スキンを作成できます
+- Extreme Skinsについては[こちら](https://github.com/yukieiji/ExtremeRoles)
 - 機能詳細
   - グラフィカルな操作による各種スキンの自動出力及び自動インストール
     - ハット、バイザー、ネームプレート全てに対応
@@ -14,12 +15,12 @@ Extreme Skinsの各種スキンを簡単にエクスポート出来るソフト�
 
 # 使い方
 1. [ここ](https://github.com/yukieiji/ExtremeSkins.Generator/releases/latest)からExtremeSkins.Generatorの最新版をダウンロードする
-  - エディションの違い、よくわからないって方はAllinOneをダウンロードして下さい(LightとAllinOneで機能の違いはありません)
-    - AllinOne : 容量は大きいが何もしなくてもそのまま利用可能
-    - Light : 容量は小さいが別途.NET 6.0 Runtimeのインストールが必要になります
+   - エディションの違い、よくわからないって方はAllinOneをダウンロードして下さい(LightとAllinOneで機能の違いはありません)
+     - AllinOne : 容量は大きいが何もしなくてもそのまま利用可能
+     - Light : 容量は小さいが別途.NET 6.0 Runtimeのインストールが必要になります
 2. ダウンロードしたZipファイルを適当な場所に展開する
 3. 展開したフォルダの中にある「ExtremeSkins.Generator.exe」をダブルクリックして起動する
-  - 起動しない場合はセキュリティソフトの設定を見直して下さい
+   - 起動しない場合はセキュリティソフトの設定を見直して下さい
 4. Let's Create!!
 
 - 「スキンをインストールするAmongUsのパス」にExtreme SkinsがインストールされているAmongUsが設定されている場合、出力された各種スキンを自動的にインストールします
