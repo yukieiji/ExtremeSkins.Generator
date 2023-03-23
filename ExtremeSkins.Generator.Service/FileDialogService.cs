@@ -25,9 +25,11 @@ public sealed class FileDialogService : ICommonDialogService<FileDialogService.R
             return false;
         }
 
-        OpenFileDialog dlg = new OpenFileDialog();
-        dlg.Filter = dialogSetting.Filter;
-        dlg.Title = dialogSetting.Title;
+        OpenFileDialog dlg = new OpenFileDialog()
+        {
+            Filter = dialogSetting.Filter,
+            Title = dialogSetting.Title,
+        };
 
         bool? result = dlg.ShowDialog();
 
