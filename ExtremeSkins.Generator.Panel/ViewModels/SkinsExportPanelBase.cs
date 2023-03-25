@@ -100,21 +100,26 @@ public abstract class SkinsExportPanelBase : BindableBase
         }
 
         bool isReplace = false;
-        char[] invalidch = Path.GetInvalidFileNameChars();
+        char[] invalidch = Path.GetInvalidPathChars();
         foreach (char c in invalidch)
         {
-            if (replacedStr.Contains(c))
-            {
-                isReplace = true;
-                replacedStr = replacedStr.Replace(c.ToString(), "");
-            }
+            isReplace = TryReplecString(ref replacedStr, c) || isReplace;
         }
-        if (replacedStr.Contains("."))
-        {
-            isReplace = true;
-            replacedStr = replacedStr.Replace(".", "");
-        }
+        isReplace = TryReplecString(ref replacedStr, '.') || isReplace;
+        isReplace = TryReplecString(ref replacedStr, ' ') || isReplace;
 
         return !isAscii || isReplace;
+    }
+
+    private static bool TryReplecString(ref string replacedStr, char c)
+    {
+        bool isReplace = false;
+        if (replacedStr.Contains(c))
+        {
+            isReplace = true;
+            replacedStr = replacedStr.Replace(c.ToString(), "");
+        }
+
+        return isReplace;
     }
 }
