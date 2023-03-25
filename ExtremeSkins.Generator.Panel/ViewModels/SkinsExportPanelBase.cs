@@ -109,6 +109,11 @@ public abstract class SkinsExportPanelBase : BindableBase
                 replacedStr = replacedStr.Replace(c.ToString(), "");
             }
         }
+        if (replacedStr.Contains("."))
+        {
+            isReplace = true;
+            replacedStr = replacedStr.Replace(".", "");
+        }
 
         return !isAscii || isReplace;
     }
