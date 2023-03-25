@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 
 using Prism.Commands;
 using Prism.Events;
@@ -98,6 +99,17 @@ public abstract class SkinsExportPanelBase : BindableBase
             replacedStr = checkStr.Transliterate();
         }
 
-        return !isAscii;
+        bool isReplace = false;
+        char[] invalidch = Path.GetInvalidFileNameChars();
+        foreach (char c in invalidch)
+        {
+            if (replacedStr.Contains(c))
+            {
+                isReplace = true;
+                replacedStr = replacedStr.Replace(c.ToString(), "");
+            }
+        }
+
+        return !isAscii || isReplace;
     }
 }
