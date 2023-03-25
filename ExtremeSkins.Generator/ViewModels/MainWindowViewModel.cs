@@ -7,6 +7,7 @@ using Prism.Services.Dialogs;
 using System.Windows;
 using System.IO;
 
+using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Core.Interface;
 using ExtremeSkins.Generator.Service;
@@ -126,7 +127,7 @@ public sealed class MainWindowViewModel : BindableBase
         }
         if (!File.Exists(Path.Combine(
                 this.amongUsFolderPath,
-                TranslationExporter.ExSConfigPath)))
+                Config.Path)))
         {
             this.windowDlgService.Show(
                 new MessageShowService.ErrorMessageSetting()
