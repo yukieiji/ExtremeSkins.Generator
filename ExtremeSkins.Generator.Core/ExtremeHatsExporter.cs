@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 
+using ExtremeSkins.Core;
 using ExtremeSkins.Core.ExtremeHats;
 using ExtremeSkins.Generator.Core.Interface;
 
@@ -25,7 +25,8 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
             { 
                 return; 
             }
-            this.amongUsPath = Path.Combine(value, "ExtremeHat");
+            this.amongUsPath = Path.Combine(
+                value, DataStructure.FolderName);
         }
     }
 
@@ -54,7 +55,8 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
         {
             ExportTo(this.amongUsPath);
         }
-        ExportTo(Path.Combine(IExporter.ExportDefaultPath, "ExtremeHat"));
+        ExportTo(Path.Combine(
+            IExporter.ExportDefaultPath, DataStructure.FolderName));
     }
 
     private void ExportTo(string targetPath)
@@ -76,10 +78,7 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
             File.Copy(copyFromPath, imgCopyPath);
         }
 
-        File.WriteAllText(
-            Path.Combine(exportFolder, "info.json"),
-            JsonSerializer.Serialize(this.info, options:ISkinExporter.Option));
-
+        InfoBase.ExportToJson(this.info, exportFolder);
         ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }
 }

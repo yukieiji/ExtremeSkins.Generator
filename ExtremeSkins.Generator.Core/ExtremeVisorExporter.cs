@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 
+using ExtremeSkins.Core;
 using ExtremeSkins.Core.ExtremeVisor;
 using ExtremeSkins.Generator.Core.Interface;
 
@@ -26,7 +27,8 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
             {
                 return;
             }
-            this.amongUsPath = Path.Combine(value, "ExtremeVisor");
+            this.amongUsPath = Path.Combine(
+                value, DataStructure.FolderName);
         }
     }
 
@@ -55,7 +57,8 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
         {
             ExportTo(this.amongUsPath);
         }
-        ExportTo(Path.Combine(IExporter.ExportDefaultPath, "ExtremeVisor"));
+        ExportTo(Path.Combine(
+            IExporter.ExportDefaultPath, DataStructure.FolderName));
     }
 
     private void ExportTo(string targetPath)
@@ -77,10 +80,7 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
             File.Copy(copyFromPath, imgCopyPath);
         }
 
-        File.WriteAllText(
-            Path.Combine(exportFolder, "info.json"),
-            JsonSerializer.Serialize(this.info, ISkinExporter.Option));
-
+        InfoBase.ExportToJson(this.info, exportFolder);
         ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }
 }

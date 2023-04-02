@@ -83,7 +83,8 @@ public sealed class TranslationExporter : IExporter
 
         if (string.IsNullOrEmpty(directoryFolder)) { return; }
 
-        using StreamWriter transCsv = CreatorMode.GetTranslationWriter(directoryFolder);
+        using StreamWriter transCsv = CreatorMode.GetTranslationWriter(
+            directoryFolder);
 
         foreach (string line in this.writeLineData)
         {
