@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="AmongUsPath">想要安装皮肤的Among us路径：</system:String>
+    <system:String x:Key="ExportButton">输出</system:String>
+    <system:String x:Key="SelectFile">选择文件</system:String>
+    <system:String x:Key="OpenExportedFolder">打开输出目录</system:String>
+    
+    <!-- ExtremeHat -->
+    <system:String x:Key="ExH.EnterAuther">帽子作者名字：</system:String>
+    <system:String x:Key="ExH.EnterSkin">帽子名称：</system:String>
+    <system:String x:Key="ExH.SelectFrontImage">帽子：正面图像　朝右时图像（必填）：</system:String>
+    <system:String x:Key="ExH.SelectFrontFlipImage">帽子：正面图像　朝左时图像（可选）：</system:String>
+    <system:String x:Key="ExH.SelectBackImage">帽子：背面图像　朝右时图像（可选）：</system:String>
+    <system:String x:Key="ExH.SelectBackFlipImage">帽子：背面图像　朝左时图像（可选）：</system:String>
+    <system:String x:Key="ExH.SelectClimbImage">帽子：使用梯子时背面图像（可选）：</system:String>
+    <system:String x:Key="ExH.IsBounce">移动时帽子有动画效果 </system:String>
+    <system:String x:Key="ExH.IsUseShader">帽子颜色与玩家颜色相同 </system:String>
+    <system:String x:Key="ExH.SelectLicense">帽子的使用条款文件文本</system:String>
+
+    <!-- ExtremeVisor -->
+    <system:String x:Key="ExV.EnterAuther">脸部装饰作者名字：</system:String>
+    <system:String x:Key="ExV.EnterSkin">脸部装饰名称：</system:String>
+    <system:String x:Key="ExV.SelectFrontImage">脸部装饰：朝右时图像（必填）：</system:String>
+    <system:String x:Key="ExV.SelectFrontFlipImage">脸部装饰：朝左时图像（可选）：</system:String>
+    <system:String x:Key="ExV.IsBehindHat">脸部装饰可以被帽子遮盖</system:String>
+    <system:String x:Key="ExV.IsUseShader">脸部装饰颜色与玩家颜色相同</system:String>
+    <system:String x:Key="ExV.SelectLicense">脸部装饰的使用条款文件文本</system:String>
+
+    <!-- ExtremeNamePlate -->
+    <system:String x:Key="ExN.EnterAuther">名牌作者名字：</system:String>
+    <system:String x:Key="ExN.EnterSkin">名牌名称：</system:String>
+    <system:String x:Key="ExN.SelectFrontImage">名牌图像（必填）：</system:String>
+    <system:String x:Key="ExN.SelectLicense">名牌的使用条款文件文本</system:String>
+    
+    <!-- C#プログラム内文字列 -->
+    <system:String x:Key="AmongUsExeTitle">请选择“AmongUs.exe”文件</system:String>
+    <system:String x:Key="PngFileTitle">选择图像文件</system:String>
+    <system:String x:Key="TextFileTitle">选择文件文本</system:String>
+    <system:String x:Key="PngFile">图像文件</system:String>
+    <system:String x:Key="TextFile">文本文件</system:String>
+    <system:String x:Key="Error">错误</system:String>
+    <system:String x:Key="Success">成功</system:String>
+
+    <system:String x:Key="PngFilter">图像文件</system:String>
+    <system:String x:Key="TextFilter">文本文件</system:String>
+
+    <system:String x:Key="PngTitle">选择图像文件</system:String>
+    <system:String x:Key="TextTitle">选择文本文件</system:String>
+
+    <system:String x:Key="CannotFindExS">没有安装Extreme Skins，请安装后重启Among us</system:String>
+    <system:String x:Key="CannotFindExSConfig">Extreme Skins在第一次启动中没有加载成功，请重新启动Among us</system:String>
+    <system:String x:Key="CannotEmptyAuther">没有输入作者名称，请输入</system:String>
+    <system:String x:Key="CannotEmptySkin">没有输入皮肤名称，请输入</system:String>
+    <system:String x:Key="CannotEmptyFlontImage">帽子的正面图像是必须的，请添加</system:String>
+    <system:String x:Key="ExportError">输出时出现错误</system:String>
+    <system:String x:Key="ExportSuccess">皮肤输出成功</system:String>
+    <system:String x:Key="ExportSuccessWithInstall">皮肤已成功输出，你可以进入Among us中查看</system:String>
+
+</ResourceDictionary>
