@@ -9,5 +9,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExtremeSkins.Core\ExtremeSkins.Core\ExtremeSkins.Core.csproj" />
+  </ItemGroup>
 
 </Project>

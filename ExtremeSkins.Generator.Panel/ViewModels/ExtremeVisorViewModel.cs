@@ -2,12 +2,13 @@
 using Prism.Events;
 using Prism.Services.Dialogs;
 
+using System.Collections.Generic;
 using System.Windows;
 
+using ExtremeSkins.Core.ExtremeVisor;
 using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
-using System.Collections.Generic;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
@@ -123,7 +124,7 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
             transExporter.Export();
         }
 
-        ExtremeVisorExporter.VisorInfo visorInfo = new ExtremeVisorExporter.VisorInfo(
+        VisorInfo visorInfo = new VisorInfo(
 
             Name: skinName,
             Author: autherName,
@@ -139,10 +140,12 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
             LicenseFile = this.licensePath,
         };
 
-        exporter.AddImage("idle.png", this.ImagePath);
+        exporter.AddImage(
+            DataStructure.IdleImageName, this.ImagePath);
         if (visorInfo.LeftIdle)
         {
-            exporter.AddImage("flip_idle.png", this.LeftImagePath);
+            exporter.AddImage(
+                DataStructure.FlipIdleImageName, this.LeftImagePath);
         }
 
         try

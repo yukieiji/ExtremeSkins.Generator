@@ -2,6 +2,8 @@
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
+using ExtremeSkins.Core;
+
 namespace ExtremeSkins.Generator.Core.Interface;
 
 public interface ISkinExporter : IExporter
@@ -25,6 +27,6 @@ public interface ISkinExporter : IExporter
         }
 
         File.Copy(licensePath,
-            Path.Combine(exportFolder, "LICENSE.md"));
+            Path.Combine(exportFolder, License.FileName));
     }
 }

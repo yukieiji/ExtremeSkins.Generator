@@ -17,6 +17,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\ExtremeSkins.Core\ExtremeSkins.Core\ExtremeSkins.Core.csproj" />
     <ProjectReference Include="..\ExtremeSkins.Generator.Core\ExtremeSkins.Generator.Core.csproj" />
     <ProjectReference Include="..\ExtremeSkins.Generator.Event\ExtremeSkins.Generator.Event.csproj" />
     <ProjectReference Include="..\ExtremeSkins.Generator.Resource\ExtremeSkins.Generator.Resource.csproj" />

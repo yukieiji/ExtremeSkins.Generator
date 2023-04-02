@@ -1,5 +1,6 @@
 ﻿using System.IO;
 
+using ExtremeSkins.Core.ExtremeNamePlate;
 using ExtremeSkins.Generator.Core.Interface;
 
 namespace ExtremeSkins.Generator.Core;
@@ -22,7 +23,8 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
             {
                 return;
             }
-            this.amongUsPath = Path.Combine(value, "ExtremeNamePlate");
+            this.amongUsPath = Path.Combine(
+                value, DataStructure.FolderName);
         }
     }
 
@@ -53,7 +55,8 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
         {
             ExportTo(this.amongUsPath);
         }
-        ExportTo(Path.Combine(IExporter.ExportDefaultPath, "ExtremeNamePlate"));
+        ExportTo(Path.Combine(
+            IExporter.ExportDefaultPath, DataStructure.FolderName));
     }
 
     private void ExportTo(string targetPath)

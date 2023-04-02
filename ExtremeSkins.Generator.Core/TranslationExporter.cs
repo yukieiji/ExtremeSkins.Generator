@@ -2,19 +2,16 @@
 using System.IO;
 using System.Text;
 
+using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Core.Interface;
+
+using SupportedLangs = ExtremeSkins.Core.CreatorMode.SupportedLangs;
 
 namespace ExtremeSkins.Generator.Core;
 
 public sealed class TranslationExporter : IExporter
 {
-    public const string ExSConfigPath = @"BepInEx/config/me.yukieiji.extremeskins.cfg";
-
-    private const string translaterPath = @"CreatorMode/translation.csv";
     private const string comma = ",";
-
-    private const string creatorStr = "CreatorMode = false";
-    private const string replacedCreatorModeStr = "CreatorMode = true";
 
     public string Locale { get; init; } = string.Empty;
 
@@ -26,34 +23,13 @@ public sealed class TranslationExporter : IExporter
             {
                 return;
             }
-            this.transPath = Path.Combine(value, translaterPath);
-            this.configPath = Path.Combine(value, @"BepInEx/config/me.yukieiji.extremeskins.cfg");
+            this.amongUsPath = value;
         }
     }
-    private string transPath = string.Empty;
-    private string configPath = string.Empty;
+    private string amongUsPath = string.Empty;
     private List<string> writeLineData = new List<string>();
 
-    public enum SupportedLangs
-    {
-        English,
-        Latam,
-        Brazilian,
-        Portuguese,
-        Korean,
-        Russian,
-        Dutch,
-        Filipino,
-        French,
-        German,
-        Italian,
-        Japanese,
-        Spanish,
-        SChinese,
-        TChinese,
-        Irish
-    }
-
+    
     private static Dictionary<SupportedLangs, string> supportLnag = new Dictionary<SupportedLangs, string>()
     {
         {SupportedLangs.English   , ""},
@@ -94,13 +70,12 @@ public sealed class TranslationExporter : IExporter
     {
         if (this.writeLineData.Count == 0) { return; }
 
-        if (!string.IsNullOrEmpty(this.transPath) &&
-            !string.IsNullOrEmpty(this.configPath))
+        if (!string.IsNullOrEmpty(this.amongUsPath))
         {
-            ReplaceConfigValue(this.configPath);
-            ExportTo(Path.Combine(this.transPath));
+            CreatorMode.SetCreatorMode(this.amongUsPath, true);
+            ExportTo(this.amongUsPath);
         }
-        ExportTo(Path.Combine(IExporter.ExportDefaultPath, translaterPath));
+        ExportTo(Path.Combine(Directory.GetCurrentDirectory(), IExporter.ExportDefaultPath));
     }
     private void ExportTo(string path)
     {
@@ -108,48 +83,12 @@ public sealed class TranslationExporter : IExporter
 
         if (string.IsNullOrEmpty(directoryFolder)) { return; }
 
-        if (!Directory.Exists(directoryFolder))
-        {
-            Directory.CreateDirectory(directoryFolder);
-        }
-        bool isFileExist = File.Exists(path);
-
-        using StreamWriter transCsv = new StreamWriter(
-            path, isFileExist, new UTF8Encoding(true));
-
-        if (!isFileExist)
-        {
-            List<string> langList = new List<string>();
-
-            foreach (SupportedLangs enumValue in supportLnag.Keys)
-            {
-                langList.Add(enumValue.ToString());
-            }
-
-            transCsv.WriteLine(
-                string.Format(
-                    "{1}{0}{2}",
-                    comma,
-                    "TransKey",
-                    string.Join(comma, langList)));
-        }
+        using StreamWriter transCsv = CreatorMode.GetTranslationWriter(
+            directoryFolder);
 
         foreach (string line in this.writeLineData)
         {
             transCsv.WriteLine(line);
         }
-    }
-
-    private void ReplaceConfigValue(string cfgFile)
-    {
-        string text;
-        using (var cfg = new StreamReader(cfgFile, new UTF8Encoding(true)))
-        {
-            text = cfg.ReadToEnd();
-        }
-        text = text.Replace(creatorStr, replacedCreatorModeStr);
-
-        using var newCfg = new StreamWriter(cfgFile, false, new UTF8Encoding(true));
-        newCfg.Write(text);
     }
 }
