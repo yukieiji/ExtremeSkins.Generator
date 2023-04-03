@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExtremeSkins.Core\ExtremeSkins.Core\ExtremeSkins.Core.csproj" />
+    <ProjectReference Include="..\ExtremeSkins.Generator.Resource\ExtremeSkins.Generator.Resource.csproj" />
   </ItemGroup>
 
 </Project>

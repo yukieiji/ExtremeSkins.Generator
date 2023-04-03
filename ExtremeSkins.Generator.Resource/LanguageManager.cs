@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Markup;
 
+using SupportedLangs = ExtremeSkins.Core.CreatorMode.SupportedLangs;
+
 namespace ExtremeSkins.Generator.Resource;
 
 public static class LanguageManager
 {
     private const string DefaultLocale = "ja-JP";
     private static ResourceDictionary Main;
-    private static HashSet<string> supportLang => new HashSet<string>()
+    
+    public static readonly Dictionary<SupportedLangs, string> SupportLang = 
+        new Dictionary<SupportedLangs, string>()
     {
-        "ja-JP",
-        "zh-CN"
+        {SupportedLangs.Japanese, "ja-JP"},
+        {SupportedLangs.SChinese, "zh-CN"},
     };
 
     public static void Load(string locale)
     {
-        if (!supportLang.Contains(locale))
+        if (!SupportLang.ContainsValue(locale))
         {
             locale = DefaultLocale;
         }

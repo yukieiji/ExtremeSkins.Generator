@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Core.Interface;
 
+using LangMng = ExtremeSkins.Generator.Resource.LanguageManager;
 using SupportedLangs = ExtremeSkins.Core.CreatorMode.SupportedLangs;
 
 namespace ExtremeSkins.Generator.Core;
@@ -29,27 +31,6 @@ public sealed class TranslationExporter : IExporter
     private string amongUsPath = string.Empty;
     private List<string> writeLineData = new List<string>();
 
-    
-    private static Dictionary<SupportedLangs, string> supportLnag = new Dictionary<SupportedLangs, string>()
-    {
-        {SupportedLangs.English   , ""},
-        {SupportedLangs.Latam     , ""},
-        {SupportedLangs.Brazilian , ""},
-        {SupportedLangs.Portuguese, ""},
-        {SupportedLangs.Korean    , ""},
-        {SupportedLangs.Russian   , ""},
-        {SupportedLangs.Dutch     , ""},
-        {SupportedLangs.Filipino  , ""},
-        {SupportedLangs.French    , ""},
-        {SupportedLangs.German    , ""},
-        {SupportedLangs.Italian   , ""},
-        {SupportedLangs.Japanese  , "ja-JP"},
-        {SupportedLangs.Spanish   , ""},
-        {SupportedLangs.SChinese  , "zh-CN"},
-        {SupportedLangs.TChinese  , ""},
-        {SupportedLangs.Irish     , ""},
-    };
-
     public void AddTransData(Dictionary<string, string> exportData)
     {
         foreach (var (transKey, trans) in exportData)
@@ -57,10 +38,11 @@ public sealed class TranslationExporter : IExporter
             StringBuilder builder = new StringBuilder(13);
             builder.Append(transKey).Append(comma);
 
-            foreach (var local in supportLnag.Values)
+            foreach (var local in Enum.GetValues<SupportedLangs>())
             {
                 builder.Append(
-                    local == this.Locale ? trans : string.Empty).Append(comma);
+                    LangMng.SupportLang.TryGetValue(local, out string localStr) &&
+                    localStr == this.Locale ? trans : string.Empty).Append(comma);
             }
             this.writeLineData.Add(builder.ToString());
         }
@@ -75,16 +57,15 @@ public sealed class TranslationExporter : IExporter
             CreatorMode.SetCreatorMode(this.amongUsPath, true);
             ExportTo(this.amongUsPath);
         }
-        ExportTo(Path.Combine(Directory.GetCurrentDirectory(), IExporter.ExportDefaultPath));
+        ExportTo(Path.Combine(Directory.GetCurrentDirectory(), 
+            IExporter.ExportDefaultPath));
     }
     private void ExportTo(string path)
     {
-        string directoryFolder = Path.GetDirectoryName(path);
-
-        if (string.IsNullOrEmpty(directoryFolder)) { return; }
+        if (string.IsNullOrEmpty(path)) { return; }
 
         using StreamWriter transCsv = CreatorMode.GetTranslationWriter(
-            directoryFolder);
+            path);
 
         foreach (string line in this.writeLineData)
         {

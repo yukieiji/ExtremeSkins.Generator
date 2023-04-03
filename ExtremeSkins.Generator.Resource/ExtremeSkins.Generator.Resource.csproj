@@ -15,4 +15,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Language\*.xaml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExtremeSkins.Core\ExtremeSkins.Core\ExtremeSkins.Core.csproj" />
+  </ItemGroup>
 </Project>
