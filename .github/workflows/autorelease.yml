@@ -1,0 +1,55 @@
+name: AutoRelease
+
+on: 
+  workflow_dispatch:
+    inputs:
+      flutter_version:
+        description: 'version'
+        required: true
+        default: '99.99.99'
+
+jobs:
+  build_check:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: SetupNuget
+        uses: nuget/setup-nuget@v1
+      - name: RestoreNugetPackage
+        run: nuget restore ExtremeRoles.sln
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.x
+      - name: AddMsBuildToPATH
+        uses: microsoft/setup-msbuild@v1.1
+      - name: Install 7-Zip
+        run: |
+          Invoke-WebRequest https://www.7-zip.org/a/7z1900-x64.msi -OutFile 7z.msi
+          Start-Process msiexec -ArgumentList '/i','7z.msi','/quiet','/norestart' -Wait
+      - name: RunBuild_AllInOne
+        run: dotnet publish ExtremeSkins.Generator.sln -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_AllInOne.pubxml"
+      - name: RunBuild_Light
+        run: dotnet publish ExtremeSkins.Generator.sln -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_Light.pubxml"
+      - name: Compress_AllInOne
+        run: |
+          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Convertor-AllinOne.zip ExtremeSkins.Generator/bin/publish/AllinOne/*
+      - name: Compress_Light
+        run: |
+          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Convertor-Light.zip ExtremeSkins.Generator/bin/publish/Light/*
+      - name: CreateRelease
+        uses: softprops/action-gh-release@v1
+        with:
+          files:  |
+            ExtremeSkins.Convertor-AllinOne.zip
+            ExtremeSkins.Convertor-Light.zip
+          tag_name: ${{ github.event.inputs.version }}
+          name: 'ExtremeSkins.Generator ${{ github.event.inputs.version }}'
+          body: |
+            AutoRelease
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
