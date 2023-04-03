@@ -45,7 +45,7 @@ public sealed class TranslationExporter : IExporter
         {SupportedLangs.Italian   , ""},
         {SupportedLangs.Japanese  , "ja-JP"},
         {SupportedLangs.Spanish   , ""},
-        {SupportedLangs.SChinese  , ""},
+        {SupportedLangs.SChinese  , "zh-CN"},
         {SupportedLangs.TChinese  , ""},
         {SupportedLangs.Irish     , ""},
     };
