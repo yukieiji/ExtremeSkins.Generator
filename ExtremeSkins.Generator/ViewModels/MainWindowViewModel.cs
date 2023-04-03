@@ -8,7 +8,6 @@ using System.Windows;
 using System.IO;
 
 using ExtremeSkins.Core;
-using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Core.Interface;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
