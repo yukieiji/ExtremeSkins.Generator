@@ -46,7 +46,7 @@ public sealed class TranslationExporter : IExporter
         {SupportedLangs.Italian   , ""},
         {SupportedLangs.Japanese  , "ja-JP"},
         {SupportedLangs.Spanish   , ""},
-        {SupportedLangs.SChinese  , ""},
+        {SupportedLangs.SChinese  , "zh-CN"},
         {SupportedLangs.TChinese  , ""},
         {SupportedLangs.Irish     , ""},
     };
@@ -65,7 +65,7 @@ public sealed class TranslationExporter : IExporter
             CreatorMode.SetCreatorMode(this.amongUsPath, true);
             ExportTo(this.amongUsPath);
         }
-        ExportTo(Path.Combine(Directory.GetCurrentDirectory(), 
+        ExportTo(Path.Combine(Directory.GetCurrentDirectory(),
             IExporter.ExportDefaultPath));
     }
     private void ExportTo(string path)
