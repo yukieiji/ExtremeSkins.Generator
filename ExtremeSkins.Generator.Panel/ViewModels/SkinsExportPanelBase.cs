@@ -107,6 +107,12 @@ public abstract class SkinsExportPanelBase : BindableBase
         }
         isReplace = TryReplecString(ref replacedStr, '.') || isReplace;
         isReplace = TryReplecString(ref replacedStr, ' ') || isReplace;
+        isReplace = TryReplecString(ref replacedStr, '}') || isReplace;
+        isReplace = TryReplecString(ref replacedStr, ']') || isReplace;
+        isReplace = TryReplecString(ref replacedStr, ')') || isReplace;
+        isReplace = TryReplecString(ref replacedStr, '{', '_') || isReplace;
+        isReplace = TryReplecString(ref replacedStr, '[', '_') || isReplace;
+        isReplace = TryReplecString(ref replacedStr, '(', '_') || isReplace;
 
         return !isAscii || isReplace;
     }
@@ -117,7 +123,18 @@ public abstract class SkinsExportPanelBase : BindableBase
         if (replacedStr.Contains(c))
         {
             isReplace = true;
-            replacedStr = replacedStr.Replace(c.ToString(), "");
+            replacedStr = replacedStr.Trim(c);
+        }
+
+        return isReplace;
+    }
+    private static bool TryReplecString(ref string replacedStr, char c, char targetC)
+    {
+        bool isReplace = false;
+        if (replacedStr.Contains(c))
+        {
+            isReplace = true;
+            replacedStr = replacedStr.Replace(c, targetC);
         }
 
         return isReplace;
