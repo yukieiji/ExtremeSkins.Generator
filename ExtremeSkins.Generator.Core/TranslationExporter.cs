@@ -28,7 +28,7 @@ public sealed class TranslationExporter : IExporter
     private string amongUsPath = string.Empty;
     private Dictionary<string, string> transData = new Dictionary<string, string>();
 
-    
+
     private static Dictionary<SupportedLangs, string> supportLnag = new Dictionary<SupportedLangs, string>()
     {
         {SupportedLangs.English   , ""},
@@ -67,16 +67,13 @@ public sealed class TranslationExporter : IExporter
     }
     private void ExportTo(string path)
     {
-        string directoryFolder = Path.GetDirectoryName(path);
-
-        if (string.IsNullOrEmpty(directoryFolder)) { return; }
+        if (string.IsNullOrEmpty(path)) { return; }
 
         List<string> writeStr = new List<string>();
 
-        if (CreatorMode.IsExistTransFile(directoryFolder))
+        if (CreatorMode.IsExistTransFile(path))
         {
-            using (StreamReader csv = CreatorMode.GetTranslationReader(
-                directoryFolder))
+            using (StreamReader csv = CreatorMode.GetTranslationReader(path))
             {
                 csv.ReadLine();
                 while (!csv.EndOfStream)
@@ -104,8 +101,7 @@ public sealed class TranslationExporter : IExporter
             writeStr.Add(builder.ToString());
         }
 
-        using StreamWriter transCsv = CreatorMode.CreateTranslationWriter(
-            directoryFolder);
+        using StreamWriter transCsv = CreatorMode.CreateTranslationWriter(path);
 
         foreach (string line in writeStr)
         {
