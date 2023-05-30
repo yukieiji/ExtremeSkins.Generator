@@ -100,7 +100,7 @@ public abstract class SkinsExportPanelBase : BindableBase
         }
 
         bool isReplace = false;
-        char[] invalidch = Path.GetInvalidPathChars();
+        char[] invalidch = Path.GetInvalidFileNameChars();
         foreach (char c in invalidch)
         {
             isReplace = TryReplecString(ref replacedStr, c) || isReplace;
