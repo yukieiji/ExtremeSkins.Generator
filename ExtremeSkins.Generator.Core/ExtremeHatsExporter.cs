@@ -102,5 +102,5 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
     }
 
     private string getExportFolderPath(string targetPath) =>
-        Path.Combine(targetPath, this.info.Name);
+        Path.Combine(targetPath, $"{this.info.Name}_{this.info.Author}");
 }

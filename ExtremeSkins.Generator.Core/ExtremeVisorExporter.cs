@@ -105,5 +105,5 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
     }
 
     private string getExportFolderPath(string targetPath) =>
-        Path.Combine(targetPath, this.info.Name);
+        Path.Combine(targetPath, $"{this.info.Name}_{this.info.Author}");
 }
