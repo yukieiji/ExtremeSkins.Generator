@@ -43,6 +43,26 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
     private string imgName = string.Empty;
     private string imgFromPath = string.Empty;
 
+    private string defaultExportPath => Path.Combine(
+        IExporter.ExportDefaultPath, DataStructure.FolderName);
+
+    public SameSkinCheckResult CheckSameSkin()
+    {
+        if (!string.IsNullOrEmpty(this.amongUsPath))
+        {
+            string imgExNPath = getExportImgPath(this.amongUsPath);
+            if (File.Exists(imgExNPath))
+            {
+                return SameSkinCheckResult.ExistExS;
+            }
+        }
+        string imgPath = getExportImgPath(defaultExportPath);
+
+        return File.Exists(imgPath) ?
+            SameSkinCheckResult.ExistMyExportedSkin :
+            SameSkinCheckResult.No;
+    }
+
     public void AddImage(string imgName, string basePath)
     {
         this.imgName = imgName;
@@ -61,7 +81,7 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
 
     private void ExportTo(string targetPath)
     {
-        string exportFolder = Path.Combine(targetPath, this.author);
+        string exportFolder = getExportFolderPath(targetPath);
 
         if (!Directory.Exists(exportFolder))
         {
@@ -72,4 +92,10 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
 
         ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }
+
+    private string getExportFolderPath(string targetPath) =>
+        Path.Combine(targetPath, this.author);
+
+    private string getExportImgPath(string targetPath) =>
+        Path.Combine(targetPath, this.author, this.imgName);
 }
