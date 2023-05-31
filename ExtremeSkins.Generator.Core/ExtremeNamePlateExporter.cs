@@ -48,17 +48,18 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
 
     public SameSkinCheckResult CheckSameSkin()
     {
+        string imgPath = getExportImgPath(defaultExportPath);
+        bool isExported = File.Exists(imgPath);
         if (!string.IsNullOrEmpty(this.amongUsPath))
         {
             string imgExNPath = getExportImgPath(this.amongUsPath);
-            if (File.Exists(imgExNPath))
+            if (File.Exists(imgExNPath) && !isExported)
             {
                 return SameSkinCheckResult.ExistExS;
             }
         }
-        string imgPath = getExportImgPath(defaultExportPath);
 
-        return File.Exists(imgPath) ?
+        return isExported ?
             SameSkinCheckResult.ExistMyExportedSkin :
             SameSkinCheckResult.No;
     }

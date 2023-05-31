@@ -49,17 +49,18 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
 
     public SameSkinCheckResult CheckSameSkin()
     {
+        string imgPath = getExportFolderPath(defaultExportPath);
+        bool isExported = File.Exists(imgPath);
         if (!string.IsNullOrEmpty(this.amongUsPath))
         {
             string imgExNPath = getExportFolderPath(this.amongUsPath);
-            if (File.Exists(imgExNPath))
+            if (File.Exists(imgExNPath) && !isExported)
             {
                 return SameSkinCheckResult.ExistExS;
             }
         }
-        string imgPath = getExportFolderPath(defaultExportPath);
 
-        return File.Exists(imgPath) ?
+        return isExported ?
             SameSkinCheckResult.ExistMyExportedSkin :
             SameSkinCheckResult.No;
     }
