@@ -22,8 +22,8 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
         init
         {
             if (string.IsNullOrEmpty(value))
-            { 
-                return; 
+            {
+                return;
             }
             this.amongUsPath = Path.Combine(
                 value, DataStructure.FolderName);
@@ -44,6 +44,26 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
 
     private Dictionary<string, string> img = new Dictionary<string, string>();
 
+    private string defaultExportPath => Path.Combine(
+        IExporter.ExportDefaultPath, DataStructure.FolderName);
+
+    public SameSkinCheckResult CheckSameSkin()
+    {
+        if (!string.IsNullOrEmpty(this.amongUsPath))
+        {
+            string imgExNPath = getExportFolderPath(this.amongUsPath);
+            if (File.Exists(imgExNPath))
+            {
+                return SameSkinCheckResult.ExistExS;
+            }
+        }
+        string imgPath = getExportFolderPath(defaultExportPath);
+
+        return File.Exists(imgPath) ?
+            SameSkinCheckResult.ExistMyExportedSkin :
+            SameSkinCheckResult.No;
+    }
+
     public void AddImage(string imgName, string basePath)
     {
         this.img.Add(imgName, basePath);
@@ -55,13 +75,12 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
         {
             ExportTo(this.amongUsPath);
         }
-        ExportTo(Path.Combine(
-            IExporter.ExportDefaultPath, DataStructure.FolderName));
+        ExportTo(defaultExportPath);
     }
 
     private void ExportTo(string targetPath)
     {
-        string exportFolder = Path.Combine(targetPath, this.info.Name);
+        string exportFolder = getExportFolderPath(targetPath);
 
         int counter = 0;
         while (Directory.Exists(exportFolder))
@@ -81,4 +100,7 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
         InfoBase.ExportToJson(this.info, exportFolder);
         ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }
+
+    private string getExportFolderPath(string targetPath) =>
+        Path.Combine(targetPath, this.info.Name);
 }
