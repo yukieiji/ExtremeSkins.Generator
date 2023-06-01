@@ -70,7 +70,7 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
         this.imgFromPath = basePath;
     }
 
-    public void Export()
+    public void Export(bool _ = false)
     {
         if (!string.IsNullOrEmpty(this.amongUsPath))
         {

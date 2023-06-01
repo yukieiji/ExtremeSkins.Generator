@@ -56,7 +56,7 @@ public sealed class TranslationExporter : IExporter
         this.transData = exportData;
     }
 
-    public void Export()
+    public void Export(bool _ = false)
     {
         if (this.transData.Count <= 0) { return; }
 

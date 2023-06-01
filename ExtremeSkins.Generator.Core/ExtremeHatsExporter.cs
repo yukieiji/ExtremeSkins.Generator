@@ -70,24 +70,38 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
         this.img.Add(imgName, basePath);
     }
 
-    public void Export()
+    public void Export(bool isOverride)
     {
         if (!string.IsNullOrEmpty(this.amongUsPath))
         {
-            ExportTo(this.amongUsPath);
+            ExportTo(this.amongUsPath, isOverride);
         }
-        ExportTo(defaultExportPath);
+        ExportTo(defaultExportPath, isOverride);
     }
 
-    private void ExportTo(string targetPath)
+    private void ExportTo(string targetPath, bool isOverride)
     {
         string exportFolder = getExportFolderPath(targetPath);
 
         int counter = 0;
-        while (Directory.Exists(exportFolder))
+
+        bool isExist = Directory.Exists(exportFolder);
+
+        if (!isOverride && isExist)
         {
-            counter++;
-            exportFolder = $"{exportFolder}_{counter}";
+            return;
+        }
+        else if (isOverride && isExist)
+        {
+            ISkinExporter.DeleteDirectory(exportFolder);
+        }
+        else
+        {
+            while (Directory.Exists(exportFolder))
+            {
+                counter++;
+                exportFolder = $"{exportFolder}_{counter}";
+            }
         }
 
         Directory.CreateDirectory(exportFolder);

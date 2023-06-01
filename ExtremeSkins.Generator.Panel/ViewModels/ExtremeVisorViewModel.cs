@@ -9,6 +9,7 @@ using ExtremeSkins.Core.ExtremeVisor;
 using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
+using ExtremeSkins.Generator.Core.Interface;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
@@ -56,7 +57,7 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
         IEventAggregator ea,
         IDialogService dialogService,
         ICommonDialogService<FileDialogService.Result> comDlgService,
-        IWindowsDialogService windowsDialogService) : 
+        IWindowsDialogService windowsDialogService) :
             base(ea, dialogService, comDlgService, windowsDialogService)
     {
         this.SelectFileCommand = new DelegateCommand<string>(SetText);
@@ -113,17 +114,6 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
             skinName = asciiedSkinName;
         }
 
-        if (replacedStr.Count != 0)
-        {
-            var transExporter = new TranslationExporter()
-            {
-                Locale = (string)resource["CurLocale"],
-                AmongUsPath = this.AmongUsPath,
-            };
-            transExporter.AddTransData(replacedStr);
-            transExporter.Export();
-        }
-
         VisorInfo visorInfo = new VisorInfo(
 
             Name: skinName,
@@ -140,6 +130,54 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
             LicenseFile = this.licensePath,
         };
 
+        var sameSkinResult = exporter.CheckSameSkin();
+        bool isOverride = false;
+        switch (sameSkinResult)
+        {
+            case SameSkinCheckResult.No:
+                break;
+            case SameSkinCheckResult.ExistExS:
+                this.showMessageService.Show(
+                    new MessageShowService.ErrorMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["CannotExportSameSkin"],
+                    });
+                return;
+            case SameSkinCheckResult.ExistMyExportedSkin:
+                var result = this.showMessageService.Show(
+                    new MessageShowService.CheckMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["IsOverrideMessage"],
+                    });
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        isOverride = true;
+                        break;
+                    case MessageBoxResult.No:
+                        isOverride = false;
+                        break;
+                    default:
+                        return;
+                }
+                break;
+            default:
+                return;
+        }
+
+        if (replacedStr.Count != 0)
+        {
+            var transExporter = new TranslationExporter()
+            {
+                Locale = (string)resource["CurLocale"],
+                AmongUsPath = this.AmongUsPath,
+            };
+            transExporter.AddTransData(replacedStr);
+            transExporter.Export();
+        }
+
         exporter.AddImage(
             DataStructure.IdleImageName, this.ImagePath);
         if (visorInfo.LeftIdle)
@@ -150,8 +188,7 @@ public sealed class ExtremeVisorViewModel : SkinsExportPanelBase
 
         try
         {
-            exporter.Export();
-            
+            exporter.Export(isOverride);
             string messageKey =
                 string.IsNullOrEmpty(this.AmongUsPath) ?
                 "ExportSuccess" : "ExportSuccessWithInstall";

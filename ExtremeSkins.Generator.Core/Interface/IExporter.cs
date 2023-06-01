@@ -1,10 +1,10 @@
 ﻿namespace ExtremeSkins.Generator.Core.Interface;
 
-public interface IExporter 
+public interface IExporter
 {
     public string AmongUsPath { init; }
 
     public const string ExportDefaultPath = "outputs";
 
-    public void Export();
+    public void Export(bool isOverride);
 }
