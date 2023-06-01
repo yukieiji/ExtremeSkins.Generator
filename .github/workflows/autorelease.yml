@@ -1,12 +1,9 @@
 name: AutoRelease
 
 on: 
-  workflow_dispatch:
-    inputs:
-      flutter_version:
-        description: 'version'
-        required: true
-        default: '99.99.99'
+ push:
+    tags:
+      - "v*.*.*"
 
 jobs:
   build_check:
@@ -31,9 +28,9 @@ jobs:
           Invoke-WebRequest https://www.7-zip.org/a/7z1900-x64.msi -OutFile 7z.msi
           Start-Process msiexec -ArgumentList '/i','7z.msi','/quiet','/norestart' -Wait
       - name: RunBuild_AllInOne
-        run: dotnet publish ExtremeSkins.Generator.sln -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_AllInOne.pubxml"
+        run: dotnet publish ExtremeSkins.Generator\ExtremeSkins.Generator.csproj -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_AllInOne.pubxml"
       - name: RunBuild_Light
-        run: dotnet publish ExtremeSkins.Generator.sln -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_Light.pubxml"
+        run: dotnet publish ExtremeSkins.Generator\ExtremeSkins.Generator.csproj -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_Light.pubxml"
       - name: Compress_AllInOne
         run: |
           & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Convertor-AllinOne.zip ExtremeSkins.Generator/bin/publish/AllinOne/*
@@ -46,10 +43,7 @@ jobs:
           files:  |
             ExtremeSkins.Convertor-AllinOne.zip
             ExtremeSkins.Convertor-Light.zip
-          tag_name: ${{ github.event.inputs.version }}
           name: 'ExtremeSkins.Generator ${{ github.event.inputs.version }}'
           body: |
             AutoRelease
-          draft: false
-          prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
