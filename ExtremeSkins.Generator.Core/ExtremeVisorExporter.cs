@@ -52,11 +52,11 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
     public SameSkinCheckResult CheckSameSkin()
     {
         string imgPath = getExportFolderPath(defaultExportPath);
-        bool isExported = File.Exists(imgPath);
+        bool isExported = Directory.Exists(imgPath);
         if (!string.IsNullOrEmpty(this.amongUsPath))
         {
             string imgExNPath = getExportFolderPath(this.amongUsPath);
-            if (File.Exists(imgExNPath) && !isExported)
+            if (Directory.Exists(imgExNPath) && !isExported)
             {
                 return SameSkinCheckResult.ExistExS;
             }
@@ -89,21 +89,21 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
 
         bool isExist = Directory.Exists(exportFolder);
 
-        if (!isOverride && isExist)
-        {
-            return;
-        }
-        else if (isOverride && isExist)
+        if (isOverride && isExist)
         {
             ISkinExporter.DeleteDirectory(exportFolder);
         }
-        else
+        else if (!isOverride)
         {
             while (Directory.Exists(exportFolder))
             {
                 counter++;
                 exportFolder = $"{exportFolder}_{counter}";
             }
+        }
+        else
+        {
+            return;
         }
 
         Directory.CreateDirectory(exportFolder);
