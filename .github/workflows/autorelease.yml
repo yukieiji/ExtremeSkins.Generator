@@ -3,7 +3,7 @@ name: AutoRelease
 on: 
   workflow_dispatch:
     inputs:
-      flutter_version:
+      version:
         description: 'version'
         required: true
         default: '99.99.99'
@@ -44,9 +44,8 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ github.event.inputs.version }}"
+          automatic_release_tag: "v${{ github.event.inputs.version }}"
           title: "ExtremeSkins.Generator ${{ github.event.inputs.version }}"
           files: |
             ExtremeSkins.Convertor-AllinOne.zip
             ExtremeSkins.Convertor-Light.zip
-          name: 'ExtremeSkins.Generator ${{ github.event.inputs.version }}'
