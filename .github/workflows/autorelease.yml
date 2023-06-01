@@ -36,16 +36,16 @@ jobs:
         run: dotnet publish ExtremeSkins.Generator\ExtremeSkins.Generator.csproj -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_Light.pubxml"
       - name: Compress_AllInOne
         run: |
-          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Convertor-AllinOne.zip ExtremeSkins.Generator/bin/publish/AllinOne/*
+          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Generator-AllinOne.zip ExtremeSkins.Generator/bin/publish/AllinOne/*
       - name: Compress_Light
         run: |
-          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Convertor-Light.zip ExtremeSkins.Generator/bin/publish/Light/*
+          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Generator-Light.zip ExtremeSkins.Generator/bin/publish/Light/*
       - name: CreateRelease
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@v1
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{ github.event.inputs.version }}"
-          title: "ExtremeSkins.Generator ${{ github.event.inputs.version }}"
+          tag_name: "v${{ github.event.inputs.version }}"
+          name: "ExtremeSkins.Generator ${{ github.event.inputs.version }}"
+          body: "auto release"
           files: |
             ExtremeSkins.Convertor-AllinOne.zip
             ExtremeSkins.Convertor-Light.zip
