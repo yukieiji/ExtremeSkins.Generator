@@ -39,10 +39,10 @@ jobs:
         run: dotnet publish ExtremeSkins.Generator\ExtremeSkins.Generator.csproj -t:restore,build -p:RestorePackagesConfig=true -p:PublishProfile="Release_Light.pubxml"
       - name: Compress_AllInOne
         run: |
-          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Generator-AllinOne.zip ExtremeSkins.Generator/bin/publish/AllinOne/*
+          & 'C:\Program Files\7-Zip\7z.exe' a -tzip ExtremeSkins.Generator-AllinOne.zip D:/a/ExtremeSkins.Generator/ExtremeSkins.Generator/bin/publish/AllinOne/*
       - name: Compress_Light
         run: |
-          & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Generator-Light.zip ExtremeSkins.Generator/bin/publish/Light/*
+          & 'C:\Program Files\7-Zip\7z.exe' a -tzip ExtremeSkins.Generator-Light.zip D:/a/ExtremeSkins.Generator/ExtremeSkins.Generator/bin/publish/Light/*
       - name: CreateRelease
         uses: softprops/action-gh-release@v1
         with:
