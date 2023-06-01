@@ -8,6 +8,9 @@ on:
         required: true
         default: '99.99.99'
 
+permissions:
+  contents: write
+
 jobs:
   build_check:
     runs-on: windows-latest
@@ -47,5 +50,5 @@ jobs:
           name: "ExtremeSkins.Generator ${{ github.event.inputs.version }}"
           body: "auto release"
           files: |
-            ExtremeSkins.Convertor-AllinOne.zip
-            ExtremeSkins.Convertor-Light.zip
+            ExtremeSkins.Generator-AllinOne.zip
+            ExtremeSkins.Generator-Light.zip
