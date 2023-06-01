@@ -1,12 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
 
     <system:String x:Key="AmongUsPath">スキンをインストールするAmongUsのパス：</system:String>
     <system:String x:Key="ExportButton">エクスポート</system:String>
     <system:String x:Key="SelectFile">ファイルを選択する</system:String>
     <system:String x:Key="OpenExportedFolder">出力先のフォルダを開く</system:String>
-    
+
     <!-- ExtremeHat -->
     <system:String x:Key="ExH.EnterAuther">ハットの製作者名：</system:String>
     <system:String x:Key="ExH.EnterSkin">ハットの名前：</system:String>
@@ -33,7 +34,7 @@
     <system:String x:Key="ExN.EnterSkin">ネームプレートの名前：</system:String>
     <system:String x:Key="ExN.SelectFrontImage">ネームプレートの画像（必須）：</system:String>
     <system:String x:Key="ExN.SelectLicense">ネームプレートの利用規約等が記載されているテキストファイル</system:String>
-    
+
     <!-- C#プログラム内文字列 -->
     <system:String x:Key="AmongUsExeTitle">AmongUs.exeを選択する</system:String>
     <system:String x:Key="PngFileTitle">画像ファイルを選択する</system:String>
@@ -54,8 +55,10 @@
     <system:String x:Key="CannotEmptyAuther">製作者を無名に出来ません、追加して下さい</system:String>
     <system:String x:Key="CannotEmptySkin">スキン名を無名に出来ません、追加して下さい</system:String>
     <system:String x:Key="CannotEmptyFlontImage">ハットの正面画像は必須です、追加して下さい</system:String>
+    <system:String x:Key="IsOverrideMessage">同じスキンがすでに存在します。上書きしますか？</system:String>
+    <system:String x:Key="CannotExportSameSkin">同名のスキンがすでにExtremeSkinsで実装されています&#xa;別名に変更して下さい</system:String>
     <system:String x:Key="ExportError">出力時にエラーが発生しました</system:String>
     <system:String x:Key="ExportSuccess">スキンの出力に成功しました</system:String>
-    <system:String x:Key="ExportSuccessWithInstall">スキンの出力に成功しました、AmongUsを起動することでスキンを確認できます</system:String>
+    <system:String x:Key="ExportSuccessWithInstall">スキンの出力に成功しました&#xa;AmongUsを起動することでスキンを確認できます</system:String>
 
 </ResourceDictionary>
