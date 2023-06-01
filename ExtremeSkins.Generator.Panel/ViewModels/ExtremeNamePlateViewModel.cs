@@ -5,6 +5,7 @@ using Prism.Services.Dialogs;
 using System.Windows;
 
 using ExtremeSkins.Generator.Core;
+using ExtremeSkins.Generator.Core.Interface;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
         IEventAggregator ea,
         IDialogService dialogService,
         ICommonDialogService<FileDialogService.Result> comDlgService,
-        IWindowsDialogService windowsDialogService) : 
+        IWindowsDialogService windowsDialogService) :
             base(ea, dialogService, comDlgService, windowsDialogService)
     {
         this.SelectFileCommand = new DelegateCommand<string>(SetText);
@@ -90,6 +91,67 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
             replacedStr.Add(asciiedSkinName, skinName);
             skinName = asciiedSkinName;
         }
+        ExtremeNamePlateExporter exporter = new ExtremeNamePlateExporter()
+        {
+            Author = autherName,
+            AmongUsPath = this.AmongUsPath,
+            LicenseFile = this.licensePath,
+        };
+
+        exporter.AddImage($"{skinName}.png", this.ImagePath);
+
+        bool isOverride = false;
+
+        var sameSkinResult = exporter.CheckSameSkin();
+        switch (sameSkinResult)
+        {
+            case SameSkinCheckResult.No:
+                break;
+            case SameSkinCheckResult.ExistExS:
+                this.showMessageService.Show(
+                    new MessageShowService.ErrorMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["CannotExportSameSkin"],
+                    });
+                return;
+            case SameSkinCheckResult.ExistMyExportedSkin:
+                var result = this.showMessageService.Show(
+                    new MessageShowService.ErrorMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["IsOverrideMessage"],
+                    });
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        isOverride = true;
+                        break;
+                    case MessageBoxResult.No:
+                        isOverride = false;
+                        break;
+                    default:
+                        return;
+                }
+                break;
+            default:
+                return;
+        }
+
+        if (!isOverride)
+        {
+            int index = 0;
+            string newSkinName;
+            do
+            {
+                newSkinName = $"{skinName}_{index}";
+                exporter.AddImage($"{newSkinName}.png", this.ImagePath);
+                index++;
+            }
+            while (exporter.CheckSameSkin() == SameSkinCheckResult.No);
+
+            replacedStr[newSkinName] = this.SkinName;
+        }
 
         if (replacedStr.Count != 0)
         {
@@ -101,15 +163,6 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
             transExporter.AddTransData(replacedStr);
             transExporter.Export();
         }
-
-        ExtremeNamePlateExporter exporter = new ExtremeNamePlateExporter()
-        {
-            Author = autherName,
-            AmongUsPath = this.AmongUsPath,
-            LicenseFile = this.licensePath,
-        };
-
-        exporter.AddImage($"{skinName}.png", this.ImagePath);
 
         try
         {
