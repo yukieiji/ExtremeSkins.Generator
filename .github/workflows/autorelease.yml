@@ -1,6 +1,6 @@
 name: AutoRelease
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       version:
@@ -47,7 +47,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: "v${{ github.event.inputs.version }}"
-          name: "ExtremeSkins.Generator ${{ github.event.inputs.version }}"
+          name: "ExtremeSkins.Generator v${{ github.event.inputs.version }}"
           body: "auto release"
           files: |
             ExtremeSkins.Generator-AllinOne.zip
