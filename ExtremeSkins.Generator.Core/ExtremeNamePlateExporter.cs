@@ -89,7 +89,7 @@ public sealed class ExtremeNamePlateExporter : ISkinExporter
             Directory.CreateDirectory(exportFolder);
         }
 
-        File.Copy(this.imgFromPath, Path.Combine(exportFolder, this.imgName));
+        File.Copy(this.imgFromPath, Path.Combine(exportFolder, this.imgName), true);
 
         ISkinExporter.ExportLicense(this.licenseFile, exportFolder);
     }

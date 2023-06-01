@@ -100,8 +100,6 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
 
         exporter.AddImage($"{skinName}.png", this.ImagePath);
 
-        bool isOverride = false;
-
         var sameSkinResult = exporter.CheckSameSkin();
         switch (sameSkinResult)
         {
@@ -117,7 +115,7 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
                 return;
             case SameSkinCheckResult.ExistMyExportedSkin:
                 var result = this.showMessageService.Show(
-                    new MessageShowService.InfoMessageSetting()
+                    new MessageShowService.CheckMessageSetting()
                     {
                         Title = (string)resource["Error"],
                         Message = (string)resource["IsOverrideMessage"],
@@ -125,10 +123,18 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        isOverride = true;
                         break;
                     case MessageBoxResult.No:
-                        isOverride = false;
+                        int index = 0;
+                        string newSkinName;
+                        do
+                        {
+                            newSkinName = $"{skinName}_{index}";
+                            exporter.AddImage($"{newSkinName}.png", this.ImagePath);
+                            index++;
+                        }
+                        while (exporter.CheckSameSkin() != SameSkinCheckResult.No);
+                        replacedStr[newSkinName] = this.SkinName;
                         break;
                     default:
                         return;
@@ -136,21 +142,6 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
                 break;
             default:
                 return;
-        }
-
-        if (!isOverride)
-        {
-            int index = 0;
-            string newSkinName;
-            do
-            {
-                newSkinName = $"{skinName}_{index}";
-                exporter.AddImage($"{newSkinName}.png", this.ImagePath);
-                index++;
-            }
-            while (exporter.CheckSameSkin() == SameSkinCheckResult.No);
-
-            replacedStr[newSkinName] = this.SkinName;
         }
 
         if (replacedStr.Count != 0)
