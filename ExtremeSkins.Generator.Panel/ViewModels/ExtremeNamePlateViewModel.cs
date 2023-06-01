@@ -117,7 +117,7 @@ public sealed class ExtremeNamePlateViewModel : SkinsExportPanelBase
                 return;
             case SameSkinCheckResult.ExistMyExportedSkin:
                 var result = this.showMessageService.Show(
-                    new MessageShowService.ErrorMessageSetting()
+                    new MessageShowService.InfoMessageSetting()
                     {
                         Title = (string)resource["Error"],
                         Message = (string)resource["IsOverrideMessage"],
