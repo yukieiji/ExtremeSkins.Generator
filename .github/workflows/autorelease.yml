@@ -1,9 +1,12 @@
 name: AutoRelease
 
 on: 
- push:
-    tags:
-      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      flutter_version:
+        description: 'version'
+        required: true
+        default: '99.99.99'
 
 jobs:
   build_check:
@@ -38,12 +41,12 @@ jobs:
         run: |
           & 'C:\Program Files\7-Zip\7z.exe' a -r -tzip ExtremeSkins.Convertor-Light.zip ExtremeSkins.Generator/bin/publish/Light/*
       - name: CreateRelease
-        uses: softprops/action-gh-release@v1
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          files:  |
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ github.event.inputs.version }}"
+          title: "ExtremeSkins.Generator ${{ github.event.inputs.version }}"
+          files: |
             ExtremeSkins.Convertor-AllinOne.zip
             ExtremeSkins.Convertor-Light.zip
           name: 'ExtremeSkins.Generator ${{ github.event.inputs.version }}'
-          body: |
-            AutoRelease
-          token: ${{ secrets.GITHUB_TOKEN }}
