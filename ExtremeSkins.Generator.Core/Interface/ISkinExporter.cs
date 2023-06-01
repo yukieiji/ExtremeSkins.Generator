@@ -29,12 +29,14 @@ public interface ISkinExporter : IExporter
 
     protected static void ExportLicense(string licensePath, string exportFolder)
     {
-        if (string.IsNullOrEmpty(licensePath))
+        string targetPath = Path.Combine(exportFolder, License.FileName);
+
+        if (string.IsNullOrEmpty(licensePath) ||
+            licensePath == targetPath)
         {
             return;
         }
 
-        File.Copy(licensePath,
-            Path.Combine(exportFolder, License.FileName));
+        File.Copy(licensePath, targetPath, true);
     }
 }
