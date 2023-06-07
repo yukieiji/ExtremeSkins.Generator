@@ -1,16 +1,17 @@
 ﻿<Window x:Class="ExtremeSkins.Generator.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:prism="http://prismlibrary.com/" xmlns:viewmodels="clr-namespace:ExtremeSkins.Generator.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:prism="http://prismlibrary.com/" xmlns:viewmodels="clr-namespace:ExtremeSkins.Generator.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" 
+        Title="{Binding Title}"
         MinWidth="620" MinHeight="580"
         Height="720" Width="1280" >
     <Grid Margin="20,20,20,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!-- AmongUsPath -->
         <Grid Grid.Row="0" Margin="0,0,0,5">
@@ -33,16 +34,23 @@
                 <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeVisor" Content="ExtremeVisor" Width="128"/>
                 <RadioButton Command="{Binding RadioCheckCommand}" CommandParameter="ExtremeNamePlate" Content="ExtremeNamePlate"  Width="128"/>
             </StackPanel>
-            <Button  
+            <Button
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Content="{DynamicResource OpenExportedFolder}" 
-                Margin="0,0,0,0" 
+                Content="{DynamicResource OpenExportedFolder}"
+                Margin="0,0,0,0"
                 Width="256"
                 Command="{Binding OpenExportedFolderCommand}" />
         </Grid>
         <Grid Grid.Row="2" Margin="0,0,0,0">
             <ContentControl prism:RegionManager.RegionName="ContentRegion" />
         </Grid>
+        <Button
+            Grid.Row="3"
+            Content="{DynamicResource OpenExportedFolder}"
+            Margin="0,0,0,0"
+            Height="25"
+            Width="384"
+            Command="{Binding OpenExportedFolderCommand}" />
     </Grid>
 </Window>
