@@ -4,8 +4,11 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 
+using System;
 using System.Windows;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 
 using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Core.Interface;
@@ -28,6 +31,7 @@ public sealed class MainWindowViewModel : BindableBase
     private readonly IOpenExplorerService openExplorerService;
 
     public DelegateCommand OpenExportedFolderCommand { get; private set; }
+    public DelegateCommand ExportZipFolderCommand { get; private set; }
 
     public DelegateCommand<string> RadioCheckCommand { get; private set; }
 
@@ -60,6 +64,23 @@ public sealed class MainWindowViewModel : BindableBase
         this.OpenExportedFolderCommand = new DelegateCommand(OpenExportedFolder);
         this.RadioCheckCommand = new DelegateCommand<string>(ChangeExportTarget);
         this.SetAmongUsPathCommand = new DelegateCommand(SetAmongUsPath);
+
+        this.ExportZipFolderCommand = new DelegateCommand(ExportZipFile);
+    }
+
+    private void ExportZipFile()
+    {
+        if (!Directory.Exists(IExporter.ExportDefaultPath))
+        {
+            return;
+        }
+
+        string fileName = $"output_{DateTime.Now}.zip";
+
+        using (var zip = ZipFile.Open(fileName, ZipArchiveMode.Update))
+        {
+
+        }
     }
 
     private void ChangeExportTarget(string target)
@@ -99,9 +120,9 @@ public sealed class MainWindowViewModel : BindableBase
             Filter = "Among Us.exe |*.exe",
             Title = (string)resource["SetAmongUsPath"],
         };
-        
+
         var result = this.commonDialogService.ShowDialog(settings);
-        
+
         if (result.State != ICommonDialogResult.DialogShowState.Ok)
         {
             return;
