@@ -16,6 +16,10 @@ using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Event;
 
+using ExHData = ExtremeSkins.Core.ExtremeHats.DataStructure;
+using ExNData = ExtremeSkins.Core.ExtremeNamePlate.DataStructure;
+using ExVData = ExtremeSkins.Core.ExtremeHats.DataStructure;
+
 namespace ExtremeSkins.Generator.ViewModels;
 
 // TODO: 出力したフォルダを出せるようにする
@@ -70,17 +74,31 @@ public sealed class MainWindowViewModel : BindableBase
 
     private void ExportZipFile()
     {
-        if (!Directory.Exists(IExporter.ExportDefaultPath))
+        string exportFolder = IExporter.ExportDefaultPath;
+        if (!Directory.Exists(exportFolder))
         {
             return;
         }
 
-        string fileName = $"output_{DateTime.Now}.zip";
+        string fileName = $"output_{DateTime.Now.ToString("yyyy-MM-ddTHH-mm-ss")}.zip";
 
-        using (var zip = ZipFile.Open(fileName, ZipArchiveMode.Update))
+        using var zip = ZipFile.Open(fileName, ZipArchiveMode.Update);
+
+        string creatorModePath = CreatorMode.CreatorModeFolder;
+        string creatorModeFolderPath = Path.Combine(exportFolder, creatorModePath);
+
+        if (Directory.Exists(creatorModeFolderPath))
         {
-
+            string folderPath = $"{creatorModePath}/";
+            string csvFileName = CreatorMode.TranslationCsvFile;
+            zip.CreateEntry(folderPath);
+            zip.CreateEntryFromFile(
+                Path.Combine(creatorModeFolderPath, csvFileName),
+                $"{folderPath}{csvFileName}");
         }
+        addRecursivelyAllFolder(zip, ExHData.FolderName);
+        addRecursivelyAllFolder(zip, ExVData.FolderName);
+        addRecursivelyAllFolder(zip, ExNData.FolderName);
     }
 
     private void ChangeExportTarget(string target)
@@ -159,5 +177,31 @@ public sealed class MainWindowViewModel : BindableBase
         }
 
         this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.amongUsFolderPath);
+    }
+    private static void addRecursivelyAllFolder(ZipArchive zip, string folderName)
+    {
+        string exportFolder = IExporter.ExportDefaultPath;
+        string folderPath = Path.Combine(exportFolder, folderName);
+        if (!Directory.Exists(folderPath))
+        {
+            return;
+        }
+
+        string zipFolderPath = $"{folderPath}/";
+        zip.CreateEntry(zipFolderPath);
+
+        var skinDirInfo = new DirectoryInfo(folderPath);
+        foreach (var dirInfo in skinDirInfo.GetDirectories())
+        {
+            string name = dirInfo.Name;
+            string namePath = $"{zipFolderPath}{name}";
+
+            foreach (var file in dirInfo.GetFiles())
+            {
+                zip.CreateEntryFromFile(
+                    file.FullName,
+                    $"{namePath}/{file.Name}");
+            }
+        }
     }
 }
