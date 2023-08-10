@@ -19,6 +19,7 @@ using ExtremeSkins.Generator.Event;
 using ExHData = ExtremeSkins.Core.ExtremeHats.DataStructure;
 using ExNData = ExtremeSkins.Core.ExtremeNamePlate.DataStructure;
 using ExVData = ExtremeSkins.Core.ExtremeHats.DataStructure;
+using ExtremeSkins.Generator.Models;
 
 namespace ExtremeSkins.Generator.ViewModels;
 
@@ -33,6 +34,7 @@ public sealed class MainWindowViewModel : BindableBase
     private readonly ICommonDialogService<FileDialogService.Result> commonDialogService;
     private readonly IWindowsDialogService windowDlgService;
     private readonly IOpenExplorerService openExplorerService;
+    private readonly IMainWindowModel model;
 
     public DelegateCommand OpenExportedFolderCommand { get; private set; }
     public DelegateCommand ExportZipFolderCommand { get; private set; }
@@ -50,13 +52,14 @@ public sealed class MainWindowViewModel : BindableBase
     public DelegateCommand SetAmongUsPathCommand { get; private set; }
 
     public MainWindowViewModel(
+        IMainWindowModel model,
         IEventAggregator ea,
         IRegionManager regionManager,
-        IDialogService dialogService,
         ICommonDialogService<FileDialogService.Result> comDlgService,
         IWindowsDialogService windowDlgService,
         IOpenExplorerService openExplorerService)
     {
+        this.model = model;
         this.ea = ea;
         this.ea.GetEvent<AmongUsPathGetEvent>().Subscribe(GetAmongUsPath);
 
@@ -74,31 +77,27 @@ public sealed class MainWindowViewModel : BindableBase
 
     private void ExportZipFile()
     {
-        string exportFolder = IExporter.ExportDefaultPath;
-        if (!Directory.Exists(exportFolder))
+        var resource = Application.Current.MainWindow.Resources;
+
+        bool result = this.model.ExportToZip();
+        if (result)
         {
-            return;
+            this.windowDlgService.Show(
+                new MessageShowService.ErrorMessageSetting()
+                {
+                    Title = (string)resource["Error"],
+                    Message = (string)resource["CannotFindExS"],
+                });
         }
-
-        string fileName = $"output_{DateTime.Now.ToString("yyyy-MM-ddTHH-mm-ss")}.zip";
-
-        using var zip = ZipFile.Open(fileName, ZipArchiveMode.Update);
-
-        string creatorModePath = CreatorMode.CreatorModeFolder;
-        string creatorModeFolderPath = Path.Combine(exportFolder, creatorModePath);
-
-        if (Directory.Exists(creatorModeFolderPath))
+        else
         {
-            string folderPath = $"{creatorModePath}/";
-            string csvFileName = CreatorMode.TranslationCsvFile;
-            zip.CreateEntry(folderPath);
-            zip.CreateEntryFromFile(
-                Path.Combine(creatorModeFolderPath, csvFileName),
-                $"{folderPath}{csvFileName}");
+            this.windowDlgService.Show(
+                new MessageShowService.InfoMessageSetting()
+                {
+                    Title = (string)resource["Error"],
+                    Message = (string)resource["CannotFindExS"],
+                });
         }
-        addRecursivelyAllFolder(zip, ExHData.FolderName);
-        addRecursivelyAllFolder(zip, ExVData.FolderName);
-        addRecursivelyAllFolder(zip, ExNData.FolderName);
     }
 
     private void ChangeExportTarget(string target)
@@ -177,31 +176,5 @@ public sealed class MainWindowViewModel : BindableBase
         }
 
         this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.amongUsFolderPath);
-    }
-    private static void addRecursivelyAllFolder(ZipArchive zip, string folderName)
-    {
-        string exportFolder = IExporter.ExportDefaultPath;
-        string folderPath = Path.Combine(exportFolder, folderName);
-        if (!Directory.Exists(folderPath))
-        {
-            return;
-        }
-
-        string zipFolderPath = $"{folderPath}/";
-        zip.CreateEntry(zipFolderPath);
-
-        var skinDirInfo = new DirectoryInfo(folderPath);
-        foreach (var dirInfo in skinDirInfo.GetDirectories())
-        {
-            string name = dirInfo.Name;
-            string namePath = $"{zipFolderPath}{name}";
-
-            foreach (var file in dirInfo.GetFiles())
-            {
-                zip.CreateEntryFromFile(
-                    file.FullName,
-                    $"{namePath}/{file.Name}");
-            }
-        }
     }
 }

@@ -5,6 +5,7 @@ using System.Windows;
 using ExtremeSkins.Generator.Views;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
+using ExtremeSkins.Generator.Models;
 
 namespace ExtremeSkins.Generator;
 
@@ -20,12 +21,10 @@ public sealed partial class App
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        containerRegistry.RegisterSingleton<
-            ICommonDialogService<FileDialogService.Result>, FileDialogService>();
-        containerRegistry.RegisterSingleton<
-            IWindowsDialogService, MessageShowService>();
-        containerRegistry.RegisterSingleton<
-            IOpenExplorerService, OpenExplorerService>();
+        containerRegistry.RegisterSingleton<ICommonDialogService<FileDialogService.Result>, FileDialogService>();
+        containerRegistry.RegisterSingleton<IWindowsDialogService, MessageShowService>();
+        containerRegistry.RegisterSingleton<IOpenExplorerService, OpenExplorerService>();
+        containerRegistry.RegisterSingleton<IMainWindowModel, MainWindowModel>();
     }
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
     {
