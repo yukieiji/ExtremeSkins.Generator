@@ -14,6 +14,7 @@
   <ItemGroup>
     <PackageReference Include="AnyAscii" Version="0.3.2" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="ReactiveProperty" Version="9.3.0" />
   </ItemGroup>
   
   <ItemGroup>
