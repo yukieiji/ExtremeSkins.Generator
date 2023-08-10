@@ -2,23 +2,15 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using Prism.Services.Dialogs;
 
-using System;
 using System.Windows;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
 
 using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Core.Interface;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Event;
-
-using ExHData = ExtremeSkins.Core.ExtremeHats.DataStructure;
-using ExNData = ExtremeSkins.Core.ExtremeNamePlate.DataStructure;
-using ExVData = ExtremeSkins.Core.ExtremeHats.DataStructure;
 using ExtremeSkins.Generator.Models;
 
 namespace ExtremeSkins.Generator.ViewModels;
