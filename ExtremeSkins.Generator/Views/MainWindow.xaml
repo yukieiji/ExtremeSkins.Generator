@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="{DynamicResource AmongUsPath}" Margin="0,0,0,5"  />
-                <TextBox Grid.Column="1" Text="{Binding AmongUsPathText}" Margin="0,0,5,0" IsReadOnly="True"  />
+                <TextBox Grid.Column="1" Text="{Binding AmongUsPathText.Value}" Margin="0,0,5,0" IsReadOnly="True"  />
                 <Button Grid.Column="2" Content="{DynamicResource SelectFile}" Width="128" Command="{Binding SetAmongUsPathCommand}" />
             </Grid>
             <Grid Grid.Row="1" Margin="2.5,0,0,10">

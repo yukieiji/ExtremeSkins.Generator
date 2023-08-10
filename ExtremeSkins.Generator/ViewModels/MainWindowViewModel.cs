@@ -1,10 +1,15 @@
 ﻿using Prism.Commands;
 using Prism.Events;
+using Prism.Navigation;
 using Prism.Mvvm;
 using Prism.Regions;
 
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
+
 using System.Windows;
 using System.IO;
+using System.Reactive.Disposables;
 
 using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Core.Interface;
@@ -16,7 +21,7 @@ using ExtremeSkins.Generator.Models;
 namespace ExtremeSkins.Generator.ViewModels;
 
 // TODO: 出力したフォルダを出せるようにする
-public sealed class MainWindowViewModel : BindableBase
+public sealed class MainWindowViewModel : BindableBase, IDestructible
 {
     public string Title => "ExtremeSkins.Generator";
 
@@ -33,15 +38,12 @@ public sealed class MainWindowViewModel : BindableBase
 
     public DelegateCommand<string> RadioCheckCommand { get; private set; }
 
-    public string AmongUsPathText
-    {
-        get { return amongUsPathText; }
-        set { SetProperty(ref amongUsPathText, value); }
-    }
-    private string amongUsPathText = string.Empty;
+    public ReactiveProperty<string> AmongUsPathText { get; }
     private string amongUsFolderPath = string.Empty;
 
     public DelegateCommand SetAmongUsPathCommand { get; private set; }
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public MainWindowViewModel(
         IMainWindowModel model,
@@ -65,6 +67,13 @@ public sealed class MainWindowViewModel : BindableBase
         this.SetAmongUsPathCommand = new DelegateCommand(SetAmongUsPath);
 
         this.ExportZipFolderCommand = new DelegateCommand(ExportZipFile);
+
+        this.AmongUsPathText = new ReactiveProperty<string>().AddTo(this.disposables);
+    }
+
+    public void Destroy()
+    {
+        this.disposables.Dispose();
     }
 
     private void ExportZipFile()
@@ -137,8 +146,8 @@ public sealed class MainWindowViewModel : BindableBase
             return;
         }
 
-        this.AmongUsPathText = result.FileName;
-        this.amongUsFolderPath = this.AmongUsPathText;
+        this.AmongUsPathText.Value = result.FileName;
+        this.amongUsFolderPath = this.AmongUsPathText.Value;
         if (Path.HasExtension(this.amongUsFolderPath))
         {
             this.amongUsFolderPath = Path.GetDirectoryName(this.amongUsFolderPath);
