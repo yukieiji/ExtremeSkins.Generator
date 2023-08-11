@@ -21,7 +21,7 @@ public sealed class PanelModule : IModule
         containerRegistry
             .RegisterSingleton<ICommonDialogService<FileDialogService.Result>, FileDialogService>()
             .RegisterSingleton<IWindowsDialogService, MessageShowService>()
-            .Register<IFileListItem, FileListItem>();
+            .Register<IFileListItemViewModel, FileListItemViewModel>();
 
         containerRegistry.RegisterForNavigation<ExtremeHat>();
         containerRegistry.RegisterForNavigation<ExtremeVisor>();

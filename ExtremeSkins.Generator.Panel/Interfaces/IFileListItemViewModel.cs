@@ -5,9 +5,9 @@ using System;
 
 namespace ExtremeSkins.Generator.Panel.Interfaces;
 
-public interface IFileListItem : IDisposable
+public interface IFileListItemViewModel : IDisposable
 {
     public ReactivePropertySlim<string> FilePath { get; }
 
-    public DelegateCommand RemoveSelf { get; }
+    public DelegateCommand RemoveSelf { get; set; }
 }

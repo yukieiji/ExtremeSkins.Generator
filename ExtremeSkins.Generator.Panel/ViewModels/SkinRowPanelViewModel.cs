@@ -24,16 +24,16 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
 {
     public ReactivePropertySlim<string> ImgPath { get; }
     public ReactivePropertySlim<bool> IsAnimation { get; }
+    public ReactiveCollection<IFileListItemViewModel> FileList { get; } = new ReactiveCollection<IFileListItemViewModel>();
 
     [RegularExpression("[0-9]+", ErrorMessage = "数値を入力して下さい")]
     [Range(1, 300, ErrorMessage = "1～300までの整数の値を入力してください")]
     public ReactiveProperty<int> FrameCount { get; }
 
+
     public DelegateCommand SelectFileCommand { get; }
     public DelegateCommand AddAnimationFileCommand { get; }
     public DelegateCommand RemoveFileCommand { get; }
-
-    public ReactiveCollection<IFileListItem> FileList { get; } = new ReactiveCollection<IFileListItem>();
 
     private readonly ICommonDialogService<FileDialogService.Result> fileDialogService;
     private readonly IContainerProvider provider;
@@ -51,11 +51,12 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
         this.AddAnimationFileCommand = new DelegateCommand(this.AddFileItem);
         this.RemoveFileCommand = new DelegateCommand(() => this.FileList.Clear());
 
-        this.ImgPath     = new ReactivePropertySlim<string>("").AddTo(this.disposables);
-        this.IsAnimation = new ReactivePropertySlim<bool>(false).AddTo(this.disposables);
+        this.ImgPath = new ReactivePropertySlim<string>()
+            .AddTo(this.disposables);
+        this.IsAnimation = new ReactivePropertySlim<bool>()
+            .AddTo(this.disposables);
 
-        this.FrameCount  = new ReactiveProperty<int>(1)
-            .SetValidateAttribute(() => this.FrameCount)
+        this.FrameCount = new ReactiveProperty<int>()
             .AddTo(this.disposables);
     }
 
@@ -71,8 +72,9 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
         {
             return;
         }
-        var item = this.provider.Resolve<IFileListItem>();
+        var item = this.provider.Resolve<IFileListItemViewModel>();
         item.FilePath.Value = newImg;
+        item.RemoveSelf = new DelegateCommand(() => this.FileList.Remove(item));
         this.FileList.Add(item);
     }
 
