@@ -13,16 +13,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ExtremeSkins.Generator.Panel.Views
+namespace ExtremeSkins.Generator.Panel.Views;
+
+/// <summary>
+/// SkinRowPanel.xaml の相互作用ロジック
+/// </summary>
+public partial class SkinRowPanel : UserControl
 {
-    /// <summary>
-    /// SkinRowPanel.xaml の相互作用ロジック
-    /// </summary>
-    public partial class SkinRowPanel : UserControl
+
+    public static readonly DependencyProperty TitleTextProperty = DependencyProperty.Register(
+        "TitleText", typeof(string), typeof(SkinRowPanel), new PropertyMetadata(default(string)));
+
+    public string TitleText
     {
-        public SkinRowPanel()
-        {
-            InitializeComponent();
-        }
+        get { return (string)GetValue(TitleTextProperty); }
+        set { SetValue(TitleTextProperty, value); }
+    }
+
+    public SkinRowPanel()
+    {
+        InitializeComponent();
     }
 }

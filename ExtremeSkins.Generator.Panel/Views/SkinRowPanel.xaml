@@ -4,7 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ExtremeSkins.Generator.Panel.Views"
-             mc:Ignorable="d" >
+             mc:Ignorable="d"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,7 +25,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Column="0"
-                Text="{Binding TitleName.Value}"
+                Text="{Binding TitleText, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 Margin="0,0,0,5" />
             <TextBox
                 Grid.Column="1"
@@ -43,20 +50,24 @@
                 Text="IsAnimation"
                 Margin="0,0,0,5" />
             <CheckBox
+                x:Name="EnableAnimation"
                 IsChecked="{Binding IsAnimation.Value}"
                 Grid.Column="1"
                 />
-            <Grid Grid.Column="2" Margin="20, 10, 10, 5">
+            <Grid
+                Grid.Column="2"
+                Margin="20, 10, 10, 5"
+                Visibility="{Binding Path=IsChecked, ElementName=EnableAnimation, Converter={StaticResource BoolVisibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32" />
                     <RowDefinition Height="32" />
                     <RowDefinition Height="32" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" MinHeight="32" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="5, 2.5, 2.5, 5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="128" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="64" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
                         Grid.Column="0"
