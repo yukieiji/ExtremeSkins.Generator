@@ -11,7 +11,7 @@ public interface ISkinRowViewModel : IDestructible
     public ReactivePropertySlim<string> ImgPath { get; }
     public ReactivePropertySlim<bool> IsAnimation { get; }
 
-    public ReactiveProperty<int> FrameCount { get; }
+    public ReactiveProperty<uint> FrameCount { get; }
 
     public ReadOnlyReactiveCollection<IFileListItemViewModel> FileList { get; }
 }

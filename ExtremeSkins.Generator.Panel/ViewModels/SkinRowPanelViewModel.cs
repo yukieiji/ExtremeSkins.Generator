@@ -27,7 +27,7 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
 
     [RegularExpression("[0-9]+", ErrorMessage = "数値を入力して下さい")]
     [Range(1, 300, ErrorMessage = "1～300までの整数の値を入力してください")]
-    public ReactiveProperty<int> FrameCount { get; }
+    public ReactiveProperty<uint> FrameCount { get; }
 
     public DelegateCommand<string> RadioCheckCommand { get; }
     public DelegateCommand SelectFileCommand { get; }

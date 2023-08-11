@@ -1,6 +1,8 @@
 ﻿using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
+using System;
+using System.Collections.Generic;
 using System.Reactive.Disposables;
 
 using ExtremeSkins.Generator.Panel.Interfaces;
@@ -16,9 +18,9 @@ public sealed class FileListItemViewModel : IFileListItemViewModel
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    public FileListItemViewModel(SkinRowModel model, SkinRowModel.FilePath fileData)
+    public FileListItemViewModel(SkinRowModel model, KeyValuePair<Guid, string> fileData)
     {
-        this.FilePath = new ReactivePropertySlim<string>(fileData.Path).AddTo(this.disposables);
+        this.FilePath = new ReactivePropertySlim<string>(fileData.Value).AddTo(this.disposables);
         this.RemoveSelf = new DelegateCommand(() => model.RemoveFile(fileData));
     }
 

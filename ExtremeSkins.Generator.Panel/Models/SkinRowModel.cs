@@ -4,21 +4,20 @@ using Reactive.Bindings;
 using System;
 using ExtremeSkins.Core;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
 public sealed class SkinRowModel : BindableBase
 {
-    public sealed record FilePath(string Path, Guid id);
-
     public ReactivePropertySlim<string> ImgPath { get; set; }
     public ReactivePropertySlim<bool> IsAnimation { get; set;  }
 
     public ReactiveProperty<uint> FrameCount { get; set; }
     public AnimationInfo.ImageSelection AnimationType { get; set; } = AnimationInfo.ImageSelection.Sequential;
 
-    public string[] Files => FileList.Select(x => x.Path).ToArray();
-    public ReactiveCollection<FilePath> FileList { get; } = new ReactiveCollection<FilePath>();
+    public string[] Files => FileList.Select(x => x.Value).ToArray();
+    public ReactiveCollection<KeyValuePair<Guid, string>> FileList { get; } = new ReactiveCollection<KeyValuePair<Guid, string>>();
 
     public SkinRowModel()
     {
@@ -33,10 +32,10 @@ public sealed class SkinRowModel : BindableBase
         {
             return;
         }
-        this.FileList.Add(new FilePath(path, Guid.NewGuid()));
+        this.FileList.Add(new (Guid.NewGuid(), path));
     }
 
-    public void RemoveFile(FilePath file)
+    public void RemoveFile(KeyValuePair<Guid, string> file)
     {
         this.FileList.Remove(file);
     }
