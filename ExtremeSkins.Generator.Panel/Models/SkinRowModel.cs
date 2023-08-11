@@ -1,16 +1,8 @@
-﻿using ExtremeSkins.Core;
-using ExtremeSkins.Generator.Panel.Interfaces;
-using Prism.Commands;
-using Prism.Ioc;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Reactive.Bindings;
+
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+using ExtremeSkins.Core;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
@@ -26,16 +18,11 @@ public sealed class SkinRowModel : BindableBase
 
     public ReactiveCollection<FilePath> FileList { get; } = new ReactiveCollection<FilePath>();
 
-
-    private readonly IContainerProvider provider;
-
-    public SkinRowModel(IContainerProvider provider)
+    public SkinRowModel()
     {
         this.ImgPath = new ReactivePropertySlim<string>("");
         this.IsAnimation = new ReactivePropertySlim<bool>(false);
         this.FrameCount = new ReactiveProperty<int>(1);
-
-        this.provider = provider;
     }
 
     public void AddFile(string path)
