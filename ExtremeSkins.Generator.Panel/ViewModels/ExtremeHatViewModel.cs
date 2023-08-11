@@ -4,12 +4,17 @@ using Prism.Services.Dialogs;
 
 using System.Collections.Generic;
 using System.Windows;
+using System.Reactive.Disposables;
 
 using ExtremeSkins.Core.ExtremeHats;
 using ExtremeSkins.Generator.Core;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Core.Interface;
+using ExtremeSkins.Generator.Panel.Interfaces;
+using System.Collections.ObjectModel;
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
@@ -73,14 +78,22 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
     }
     private bool isShader = false;
 
+    public ReadOnlyObservableCollection<SkinRowPanelViewModel> Rows { get; }
+    private readonly IExtremeHatModel model;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public ExtremeHatViewModel(
+        IExtremeHatModel model,
         IEventAggregator ea,
         IDialogService dialogService,
         ICommonDialogService<FileDialogService.Result> comDlgService,
         IWindowsDialogService windowsDialogService) :
             base(ea, dialogService, comDlgService, windowsDialogService)
     {
+        this.model = model;
+        this.Rows = model.ImgRows
+            .ToReadOnlyReactiveCollection(x => new SkinRowPanelViewModel(x.Value, comDlgService))
+            .AddTo(this.disposables);
         this.SelectFileCommand = new DelegateCommand<string>(SetText);
     }
 

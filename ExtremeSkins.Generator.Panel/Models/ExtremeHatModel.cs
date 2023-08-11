@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,24 +16,30 @@ namespace ExtremeSkins.Generator.Panel.Models;
 
 public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
 {
-    public SkinRowModel FrontRow { get; set; }
-    public SkinRowModel FrontFlipRow { get; set; }
-
-    public SkinRowModel BackRow { get; set; }
-    public SkinRowModel BackFlipRow { get; set; }
-
-    public SkinRowModel ClimbRow { get; set; }
-
     public ReactivePropertySlim<bool> IsBounce { get; set; }
 
     public ReactivePropertySlim<bool> IsShader { get; set; }
 
     public ReactivePropertySlim<string> LicencePath { get; set; }
 
+    public ObservableCollection<KeyValuePair<string, SkinRowModel>> ImgRows { get; set; }
+
+    public ExtremeHatModel()
+    {
+        ImgRows = new ObservableCollection<KeyValuePair<string, SkinRowModel>>()
+        {
+            new KeyValuePair<string, SkinRowModel>("ExH.SelectFrontImage", new SkinRowModel()),
+            new KeyValuePair<string, SkinRowModel>("ExH.SelectFrontFlipImage", new SkinRowModel()),
+            new KeyValuePair<string, SkinRowModel>("ExH.SelectBackImage", new SkinRowModel()),
+            new KeyValuePair<string, SkinRowModel>("ExH.SelectBackFlipImage", new SkinRowModel()),
+            new KeyValuePair<string, SkinRowModel>("ExH.SelectClimbImage", new SkinRowModel()),
+        };
+    }
+
     public override ExportResult Export()
     {
         return ExportResult.Success;
-
+    }
         /*
         if (string.IsNullOrEmpty(this.AutherName))
         {
@@ -55,7 +62,6 @@ public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
                 });
             return;
         }
-        */
 
         if (string.IsNullOrEmpty(this.FrontRow.ImgPath.Value))
         {
@@ -64,7 +70,7 @@ public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
 
         Dictionary<string, string> replacedStr = new Dictionary<string, string>();
 
-        /*
+
         string autherName = this.AutherName;
         if (TryReplaceAscii(autherName, out string asciiedAutherName))
         {
@@ -77,7 +83,6 @@ public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
             replacedStr.Add(asciiedSkinName, skinName);
             skinName = asciiedSkinName;
         }
-        */
 
         HatInfo hatInfo = new HatInfo(
             Name: string.Empty,
@@ -100,7 +105,7 @@ public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
         /*
         var sameSkinResult = exporter.CheckSameSkin();
         bool isOverride = false;
-        */
+
     }
 
     private void createExporter()
@@ -143,4 +148,5 @@ public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
                 new AnimationInfo(
                     rowModel.Files, frameCount, rowModel.AnimationType) : null;
     }
+    */
 }
