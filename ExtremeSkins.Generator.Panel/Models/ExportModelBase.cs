@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
-public sealed class ExtremeHatsModel : BindableBase
+public abstract class ExportModelBase : BindableBase
 {
+    public enum ExportResult
+    {
+        Success,
+        FrontImgMissing
+    }
 
+    public abstract ExportResult Export();
 }

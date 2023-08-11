@@ -3,6 +3,7 @@ using Reactive.Bindings;
 
 using System;
 using ExtremeSkins.Core;
+using System.Linq;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
@@ -13,16 +14,17 @@ public sealed class SkinRowModel : BindableBase
     public ReactivePropertySlim<string> ImgPath { get; set; }
     public ReactivePropertySlim<bool> IsAnimation { get; set;  }
 
-    public ReactiveProperty<int> FrameCount { get; set; }
+    public ReactiveProperty<uint> FrameCount { get; set; }
     public AnimationInfo.ImageSelection AnimationType { get; set; } = AnimationInfo.ImageSelection.Sequential;
 
+    public string[] Files => FileList.Select(x => x.Path).ToArray();
     public ReactiveCollection<FilePath> FileList { get; } = new ReactiveCollection<FilePath>();
 
     public SkinRowModel()
     {
         this.ImgPath = new ReactivePropertySlim<string>("");
         this.IsAnimation = new ReactivePropertySlim<bool>(false);
-        this.FrameCount = new ReactiveProperty<int>(1);
+        this.FrameCount = new ReactiveProperty<uint>(1);
     }
 
     public void AddFile(string path)

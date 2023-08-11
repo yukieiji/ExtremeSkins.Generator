@@ -6,6 +6,7 @@ using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Panel.Interfaces;
 using ExtremeSkins.Generator.Panel.ViewModels;
+using ExtremeSkins.Generator.Panel.Models;
 
 namespace ExtremeSkins.Generator.Panel;
 
@@ -19,6 +20,7 @@ public sealed class PanelModule : IModule
     public void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry
+            .RegisterSingleton<IExtremeHatModel, ExtremeHatModel>()
             .RegisterSingleton<ICommonDialogService<FileDialogService.Result>, FileDialogService>()
             .RegisterSingleton<IWindowsDialogService, MessageShowService>()
             .Register<IFileListItemViewModel, FileListItemViewModel>();
