@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ExtremeSkins.Generator.Panel.Views"
+             xmlns:exs="clr-namespace:ExtremeSkins.Generator.Panel.ViewModels"
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -87,6 +88,7 @@
                         Grid.Column="0"
                         Command="{Binding RadioCheckCommand}"
                         CommandParameter="Sequential"
+                        IsChecked="True"
                         Content="Sequential"/>
                     <RadioButton
                         Grid.Column="1"
@@ -102,20 +104,40 @@
                     <Button
                         Margin="5, 0, 5, 0"
                         Grid.Column="0"
-                        Command="{Binding ListBoxCommand}"
+                        Command="{Binding AddAnimationFileCommand}"
                         CommandParameter="Add"
                         Content="Add"/>
                     <Button
                         Margin="5, 0, 5, 0"
                         Grid.Column="1"
-                        Command="{Binding ListBoxCommand}"
+                        Command="{Binding RemoveFileCommand}"
                         CommandParameter="Clear"
                         Content="Clear"/>
                 </Grid>
                 <ListBox
                     Grid.Row="3"
-                    VirtualizingPanel.IsVirtualizing="True"
-					VirtualizingPanel.ScrollUnit="Pixel"/>
+                    ItemsSource="{Binding FileList}"
+                    HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="exs:FileListItem">
+                            <Grid Margin="5" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="128" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    Grid.Column="0"
+                                    Text="{Binding FilePath.Value}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Name="ClearBt"
+                                    Content="Clear"
+                                    Height="25"
+                                    Command="{Binding RemoveSelf}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </Grid>
     </Grid>

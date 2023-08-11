@@ -57,12 +57,104 @@
 
         <!-- 後ろレイヤーのフリップ画像 -->
         <Grid Grid.Row="5" Margin="0,0,0,10">
-            <exs:SkinRowPanel TitleText="{DynamicResource ExH.SelectBackFlipImage}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="256" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="{DynamicResource ExH.SelectBackFlipImage}"
+                        Margin="0,0,0,5" />
+                    <TextBox
+                        Grid.Column="1"
+                        IsReadOnly="True"
+                        Text="{Binding BackFlipImagePath}"
+                        Margin="0,0,5,0" />
+                    <Button
+                        Grid.Column="2"
+                        Content="{DynamicResource SelectFile}"
+                        Width="128"
+                        Command="{Binding SelectFileCommand}"
+                        CommandParameter="BackFlip" />
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="30,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="128" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="IsAnimation"
+                        Margin="0,0,0,5" />
+                    <CheckBox
+                        IsChecked="{Binding IsShader}"
+                        Grid.Column="1"
+                        />
+                    <ContentControl
+                        Grid.Column="2"
+                        prism:RegionManager.RegionName="BackFlipAnimation" />
+                </Grid>
+            </Grid>
         </Grid>
 
         <!-- 登ってる時の後ろ画像 -->
         <Grid Grid.Row="6" Margin="0,0,0,10">
-            <exs:SkinRowPanel TitleText="{DynamicResource ExH.SelectClimbImage}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="256" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="{DynamicResource ExH.SelectClimbImage}"
+                        Margin="0,0,0,5" />
+                    <TextBox
+                        Grid.Column="1"
+                        IsReadOnly="True"
+                        Text="{Binding ClimbImagePath}"
+                        Margin="0,0,5,0" />
+                    <Button
+                        Grid.Column="2"
+                        Content="{DynamicResource SelectFile}"
+                        Width="128"
+                        Command="{Binding SelectFileCommand}"
+                        CommandParameter="Climb" />
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="30,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="128" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="IsAnimation"
+                        Margin="0,0,0,5" />
+                    <CheckBox
+                        IsChecked="{Binding IsShader}"
+                        Grid.Column="1"
+                        />
+                    <ContentControl
+                        Grid.Column="2"
+                        prism:RegionManager.RegionName="ClimbAnimation" />
+                </Grid>
+            </Grid>
         </Grid>
 
         <!-- バウンスするか -->

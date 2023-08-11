@@ -20,7 +20,7 @@ using ExtremeSkins.Generator.Panel.Interfaces;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
-public sealed class SkinRowPanelViewModel : BindableBase, IDestructible
+public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
 {
     public ReactivePropertySlim<string> ImgPath { get; }
     public ReactivePropertySlim<bool> IsAnimation { get; }
@@ -29,8 +29,11 @@ public sealed class SkinRowPanelViewModel : BindableBase, IDestructible
     [Range(1, 300, ErrorMessage = "1～300までの整数の値を入力してください")]
     public ReactiveProperty<int> FrameCount { get; }
 
-    public DelegateCommand SelectFileCommand { get; private set; }
-    public ReactiveCollection<IFileListItem> FileList { get; }
+    public DelegateCommand SelectFileCommand { get; }
+    public DelegateCommand AddAnimationFileCommand { get; }
+    public DelegateCommand RemoveFileCommand { get; }
+
+    public ReactiveCollection<IFileListItem> FileList { get; } = new ReactiveCollection<IFileListItem>();
 
     private readonly ICommonDialogService<FileDialogService.Result> fileDialogService;
     private readonly IContainerProvider provider;
@@ -43,7 +46,10 @@ public sealed class SkinRowPanelViewModel : BindableBase, IDestructible
     {
         this.provider = provider;
         this.fileDialogService = comDlgService;
+
         this.SelectFileCommand = new DelegateCommand(this.SelectFile);
+        this.AddAnimationFileCommand = new DelegateCommand(this.AddFileItem);
+        this.RemoveFileCommand = new DelegateCommand(() => this.FileList.Clear());
 
         this.ImgPath     = new ReactivePropertySlim<string>("").AddTo(this.disposables);
         this.IsAnimation = new ReactivePropertySlim<bool>(false).AddTo(this.disposables);
@@ -65,7 +71,9 @@ public sealed class SkinRowPanelViewModel : BindableBase, IDestructible
         {
             return;
         }
-
+        var item = this.provider.Resolve<IFileListItem>();
+        item.FilePath.Value = newImg;
+        this.FileList.Add(item);
     }
 
     private void SelectFile()

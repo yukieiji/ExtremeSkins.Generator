@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prism.Commands;
+using Reactive.Bindings;
+
+using System;
 
 namespace ExtremeSkins.Generator.Panel.Interfaces;
 
-public interface IFileListItem
+public interface IFileListItem : IDisposable
 {
+    public ReactivePropertySlim<string> FilePath { get; }
+
+    public DelegateCommand RemoveSelf { get; }
 }
