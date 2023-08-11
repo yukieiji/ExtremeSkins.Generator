@@ -50,7 +50,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="exs:SkinRowPanel">
-                        <exs:SkinRowPanel TitleText="{DynamicResource ExH.SelectBackImage}" />
+                        <exs:SkinRowPanel />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
