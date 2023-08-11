@@ -9,5 +9,5 @@ public interface IFileListItemViewModel : IDisposable
 {
     public ReactivePropertySlim<string> FilePath { get; }
 
-    public DelegateCommand RemoveSelf { get; set; }
+    public DelegateCommand RemoveSelf { get; }
 }

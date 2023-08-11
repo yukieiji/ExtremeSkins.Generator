@@ -5,19 +5,21 @@ using System.Reactive.Disposables;
 
 using ExtremeSkins.Generator.Panel.Interfaces;
 using Prism.Commands;
+using ExtremeSkins.Generator.Panel.Models;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
 public sealed class FileListItemViewModel : IFileListItemViewModel
 {
     public ReactivePropertySlim<string> FilePath { get; }
-    public DelegateCommand RemoveSelf { get; set; }
+    public DelegateCommand RemoveSelf { get; }
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    public FileListItemViewModel()
+    public FileListItemViewModel(SkinRowModel model, SkinRowModel.FilePath fileData)
     {
-        this.FilePath = new ReactivePropertySlim<string>().AddTo(this.disposables);
+        this.FilePath = new ReactivePropertySlim<string>(fileData.Path).AddTo(this.disposables);
+        this.RemoveSelf = new DelegateCommand(() => model.RemoveFile(fileData));
     }
 
     public void Dispose()

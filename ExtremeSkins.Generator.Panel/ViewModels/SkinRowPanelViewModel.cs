@@ -15,6 +15,7 @@ using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Panel.Interfaces;
+using ExtremeSkins.Generator.Panel.Models;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
@@ -22,12 +23,11 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
 {
     public ReactivePropertySlim<string> ImgPath { get; }
     public ReactivePropertySlim<bool> IsAnimation { get; }
-    public ReactiveCollection<IFileListItemViewModel> FileList { get; } = new ReactiveCollection<IFileListItemViewModel>();
+    public ReadOnlyReactiveCollection<IFileListItemViewModel> FileList { get; }
 
     [RegularExpression("[0-9]+", ErrorMessage = "数値を入力して下さい")]
     [Range(1, 300, ErrorMessage = "1～300までの整数の値を入力してください")]
     public ReactiveProperty<int> FrameCount { get; }
-    public AnimationInfo.ImageSelection AnimationType { get; private set; } = AnimationInfo.ImageSelection.Sequential;
 
     public DelegateCommand<string> RadioCheckCommand { get; }
     public DelegateCommand SelectFileCommand { get; }
@@ -35,28 +35,37 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
     public DelegateCommand RemoveFileCommand { get; }
 
     private readonly ICommonDialogService<FileDialogService.Result> fileDialogService;
-    private readonly IContainerProvider provider;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
+    private readonly SkinRowModel model;
+
     public SkinRowPanelViewModel(
-        IContainerProvider provider,
+        SkinRowModel model,
         ICommonDialogService<FileDialogService.Result> comDlgService)
     {
-        this.provider = provider;
         this.fileDialogService = comDlgService;
+        this.model = model;
 
         this.SelectFileCommand = new DelegateCommand(this.SelectFile);
         this.AddAnimationFileCommand = new DelegateCommand(this.AddFileItem);
-        this.RemoveFileCommand = new DelegateCommand(() => this.FileList.Clear());
-        this.RadioCheckCommand = new DelegateCommand<string>(this.RadioCheck);
+        this.RemoveFileCommand = new DelegateCommand(this.model.ClearFileList);
+        this.RadioCheckCommand = new DelegateCommand<string>(this.model.ChangeImageSelection);
 
-        this.ImgPath = new ReactivePropertySlim<string>()
+        this.ImgPath = this.model.ImgPath
+            .ToReactivePropertySlimAsSynchronized(x => x.Value)
             .AddTo(this.disposables);
-        this.IsAnimation = new ReactivePropertySlim<bool>()
+        this.IsAnimation = this.model.IsAnimation
+            .ToReactivePropertySlimAsSynchronized(x => x.Value)
             .AddTo(this.disposables);
 
-        this.FrameCount = new ReactiveProperty<int>(1)
+        this.FrameCount = model.FrameCount
+            .ToReactivePropertyAsSynchronized(
+                x => x.Value,
+                ignoreValidationErrorValue: true)
+            .AddTo(this.disposables);
+        this.FileList = this.model.FileList
+            .ToReadOnlyReactiveCollection(x => (IFileListItemViewModel)new FileListItemViewModel(model, x))
             .AddTo(this.disposables);
     }
 
@@ -68,14 +77,7 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
     private void AddFileItem()
     {
         string newImg = OpenFileSelectDialog();
-        if (string.IsNullOrEmpty(newImg))
-        {
-            return;
-        }
-        var item = this.provider.Resolve<IFileListItemViewModel>();
-        item.FilePath.Value = newImg;
-        item.RemoveSelf = new DelegateCommand(() => this.FileList.Remove(item));
-        this.FileList.Add(item);
+        this.model.AddFile(newImg);
     }
 
     private void SelectFile()
@@ -97,25 +99,5 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
         var result = this.fileDialogService.ShowDialog(settings);
 
         return result.FileName;
-    }
-
-    private void RadioCheck(string parameter)
-    {
-        if (string.IsNullOrEmpty(parameter))
-        {
-            return;
-        }
-
-        switch (parameter)
-        {
-            case "Sequential":
-                this.AnimationType = AnimationInfo.ImageSelection.Sequential;
-                break;
-            case "Random":
-                this.AnimationType = AnimationInfo.ImageSelection.Random;
-                break;
-            default:
-                break;
-        }
     }
 }
