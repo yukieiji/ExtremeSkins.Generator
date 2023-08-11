@@ -18,12 +18,12 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Column="0"
-                Text="SelectImage"
+                Text="{Binding TitleName.Value}"
                 Margin="0,0,0,5" />
             <TextBox
                 Grid.Column="1"
                 IsReadOnly="True"
-                Text="{Binding ImagePath}"
+                Text="{Binding ImgPath.Value}"
                 Margin="0,0,5,0" />
             <Button
                 Grid.Column="2"
@@ -43,7 +43,7 @@
                 Text="IsAnimation"
                 Margin="0,0,0,5" />
             <CheckBox
-                IsChecked="{Binding IsAnimation}"
+                IsChecked="{Binding IsAnimation.Value}"
                 Grid.Column="1"
                 />
             <Grid Grid.Column="2" Margin="20, 10, 10, 5">
@@ -64,7 +64,7 @@
                         Margin="0,0,0,5" />
                     <TextBox
                         Grid.Column="1"
-                        Text="{Binding ImagePath}"
+                        Text="{Binding FrameCount.Value}"
                         Margin="0,0,5,0" />
                 </Grid>
                 <Grid Grid.Row="1" Margin="5, 2.5, 2.5, 5">
