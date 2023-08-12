@@ -8,7 +8,6 @@ using Reactive.Bindings.Extensions;
 
 using System.Reactive.Disposables;
 
-using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Panel.Interfaces;
 

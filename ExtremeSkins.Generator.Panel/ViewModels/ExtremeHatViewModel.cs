@@ -1,6 +1,4 @@
-﻿using Prism.Events;
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 
 using Reactive.Bindings;
