@@ -11,7 +11,6 @@ using System.Windows;
 
 using System.Reactive.Disposables;
 
-using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Panel.Interfaces;
@@ -46,9 +45,12 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
         SkinRowModel model,
         ICommonDialogService<FileDialogService.Result> comDlgService)
     {
+
+        var resource = Application.Current.MainWindow.Resources;
+
         this.fileDialogService = comDlgService;
         this.model = model;
-        this.RowName = model.RowName;
+        this.RowName = (string)resource[model.RowName];
 
         this.SelectFileCommand = new DelegateCommand(this.SelectFile);
         this.AddAnimationFileCommand = new DelegateCommand(this.AddFileItem);
@@ -96,7 +98,7 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
         var settings = new FileDialogService.Setting
         {
             Filter = $"{fileFilter}(*.png)|*.png",
-            Title = (string)resource[$"PngTitle"],
+            Title = (string)resource["PngTitle"],
         };
 
         var result = this.fileDialogService.ShowDialog(settings);
