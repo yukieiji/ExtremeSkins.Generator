@@ -1,7 +1,5 @@
-﻿using System.Windows;
-
+﻿
 using Prism.Commands;
-using Prism.Events;
 using Prism.Navigation;
 using Prism.Mvvm;
 
@@ -10,7 +8,6 @@ using Reactive.Bindings.Extensions;
 
 using System.Reactive.Disposables;
 
-using ExtremeSkins.Generator.Event;
 using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Panel.Interfaces;
@@ -26,31 +23,23 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
 
     protected CompositeDisposable Disposables = new CompositeDisposable();
 
-    protected readonly IWindowsDialogService showMessageService;
-
-    private IEventAggregator ea;
-
-    protected string AmongUsPath = string.Empty;
+    protected readonly IWindowsDialogService ShowMessageService;
+    private IExportModel model;
 
     public NewSkinsExportPanelBase(
         IExportModel model,
-        IEventAggregator ea,
-        ICommonDialogService<FileDialogService.Result> comDlgService,
         IWindowsDialogService windowsDialogService)
     {
-        this.ea = ea;
 
-        this.ea.GetEvent<AmongUsPathSetEvent>().Subscribe(SetAmongUsPath);
-        this.ea.GetEvent<AmongUsPathGetEvent>().Publish();
-
-        this.SkinName = model.SkinName
+        this.model = model;
+        this.SkinName = this.model.SkinName
             .ToReactivePropertySlimAsSynchronized(x => x.Value)
             .AddTo(this.Disposables);
-        this.AutherName = model.AutherName
+        this.AutherName = this.model.AutherName
             .ToReactivePropertySlimAsSynchronized(x => x.Value)
             .AddTo(this.Disposables);
 
-        this.showMessageService = windowsDialogService;
+        this.ShowMessageService = windowsDialogService;
         this.ExportButtonCommand = new DelegateCommand(Export);
     }
 
@@ -60,10 +49,4 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
     {
         this.Disposables.Dispose();
     }
-
-    private void SetAmongUsPath(string path)
-    {
-        this.AmongUsPath = path;
-    }
-
 }

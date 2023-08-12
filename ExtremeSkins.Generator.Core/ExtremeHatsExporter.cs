@@ -42,7 +42,8 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
     private string licenseFile = string.Empty;
     private HatInfo info = new HatInfo(string.Empty, string.Empty, false, false);
 
-    private Dictionary<string, string> img = new Dictionary<string, string>();
+    private List<(string, string)> img = new List<(string, string)>();
+    private List<string> newFolder = new List<string>();
 
     private string defaultExportPath => Path.Combine(
         IExporter.ExportDefaultPath, DataStructure.FolderName);
@@ -67,7 +68,12 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
 
     public void AddImage(string imgName, string basePath)
     {
-        this.img.Add(imgName, basePath);
+        this.img.Add((imgName, basePath));
+    }
+
+    public void AddFolder(string newFolder)
+    {
+        this.newFolder.Add(newFolder);
     }
 
     public void Export(bool isOverride)
@@ -105,6 +111,10 @@ public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
         }
 
         Directory.CreateDirectory(exportFolder);
+        foreach (string newFolder in this.newFolder)
+        {
+            Directory.CreateDirectory(Path.Combine(exportFolder, newFolder));
+        }
 
         foreach (var (imgName, copyFromPath) in this.img)
         {
