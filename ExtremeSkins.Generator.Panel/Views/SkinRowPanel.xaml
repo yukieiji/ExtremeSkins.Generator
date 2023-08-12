@@ -61,7 +61,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="28" />
                 <RowDefinition Height="32" />
-                <RowDefinition Height="40" />
+                <RowDefinition Height="32" />
                 <RowDefinition Height="*" MinHeight="32" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Margin="5, 2.5, 2.5, 5">
@@ -106,13 +106,13 @@
                     <ColumnDefinition Width="128" />
                 </Grid.ColumnDefinitions>
                 <Button
-                    Margin="5, 0, 5, 0"
+                    Margin="5, 0, 0, 0"
                     Grid.Column="0"
                     Command="{Binding AddAnimationFileCommand}"
                     CommandParameter="Add"
                     Content="{DynamicResource AddFile}"/>
                 <Button
-                    Margin="5, 0, 5, 0"
+                    Margin="5, 0, 0, 0"
                     Grid.Column="1"
                     Command="{Binding RemoveFileCommand}"
                     CommandParameter="Clear"
