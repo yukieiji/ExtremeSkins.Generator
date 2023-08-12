@@ -19,12 +19,6 @@ namespace ExtremeSkins.Generator.Panel.ViewModels;
 
 public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
 {
-    public enum DialogType
-    {
-        Png,
-        Text,
-    }
-
     public ReactivePropertySlim<string> SkinName { get; set; }
     public ReactivePropertySlim<string> AutherName { get; set; }
 
@@ -35,7 +29,6 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
     protected readonly IWindowsDialogService showMessageService;
 
     private IEventAggregator ea;
-    private readonly ICommonDialogService<FileDialogService.Result> fileDialogService;
 
     protected string AmongUsPath = string.Empty;
 
@@ -58,7 +51,6 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
             .AddTo(this.Disposables);
 
         this.showMessageService = windowsDialogService;
-        this.fileDialogService = comDlgService;
         this.ExportButtonCommand = new DelegateCommand(Export);
     }
 
@@ -67,27 +59,6 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
     public void Destroy()
     {
         this.Disposables.Dispose();
-    }
-
-    protected string OpenDialogAndGetText(DialogType type)
-    {
-        var resource = Application.Current.MainWindow.Resources;
-
-        string fileFilter = (string)resource[$"{type}Filter"];
-        var settings = new FileDialogService.Setting
-        {
-            Filter = string.Format(type switch
-            {
-                DialogType.Png => "{0}(*.png)|*.png",
-                DialogType.Text => "{0}(*.txt;*.md)|*.txt;*.md",
-                _ => "Unknown",
-            }, fileFilter),
-            Title = (string)resource[$"{type}Title"],
-        };
-
-        var result = this.fileDialogService.ShowDialog(settings);
-
-        return result.FileName;
     }
 
     private void SetAmongUsPath(string path)
