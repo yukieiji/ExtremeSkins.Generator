@@ -68,7 +68,7 @@ public sealed class MainWindowViewModel : BindableBase, IDestructible
 
         this.ExportZipFolderCommand = new DelegateCommand(ExportZipFile);
 
-        this.AmongUsPathText = model.AmongUsPathContainer.AmongUsPath
+        this.AmongUsPathText = model.AmongUsPathContainer.AmongUsExePath
             .ToReactivePropertySlimAsSynchronized(x => x.Value)
             .AddTo(this.disposables);
     }
@@ -154,8 +154,7 @@ public sealed class MainWindowViewModel : BindableBase, IDestructible
             return;
         }
 
-        this.AmongUsPathText.Value = result.FileName;
-        this.amongUsFolderPath = this.AmongUsPathText.Value;
+        this.amongUsFolderPath = result.FileName;
         if (Path.HasExtension(this.amongUsFolderPath))
         {
             this.amongUsFolderPath = Path.GetDirectoryName(this.amongUsFolderPath);
@@ -183,7 +182,7 @@ public sealed class MainWindowViewModel : BindableBase, IDestructible
                 });
             return;
         }
-
+        this.AmongUsPathText.Value = result.FileName;
         this.ea.GetEvent<AmongUsPathSetEvent>().Publish(this.amongUsFolderPath);
     }
 }

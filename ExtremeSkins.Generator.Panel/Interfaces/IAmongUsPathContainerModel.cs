@@ -4,5 +4,7 @@ namespace ExtremeSkins.Generator.Panel.Interfaces;
 
 public interface IAmongUsPathContainerModel
 {
-    public ReactivePropertySlim<string> AmongUsPath { get; }
+    public ReactivePropertySlim<string> AmongUsExePath { get; }
+
+    public string AmongUsFolderPath { get; }
 }

@@ -153,7 +153,7 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
             Animation: hatAnimation
         );
 
-        string amongUsPath = this.AmongUsPathContainer.AmongUsPath.Value;
+        string amongUsPath = this.AmongUsPathContainer.AmongUsFolderPath;
 
         this.exporter = new ExtremeHatsExporter()
         {

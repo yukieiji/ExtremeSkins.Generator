@@ -107,7 +107,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
         if (string.IsNullOrEmpty(errorMessage))
         {
             string messageKey =
-                string.IsNullOrEmpty(this.model.AmongUsPathContainer.AmongUsPath.Value) ?
+                string.IsNullOrEmpty(this.model.AmongUsPathContainer.AmongUsFolderPath) ?
                 "ExportSuccess" : "ExportSuccessWithInstall";
 
             this.ShowMessageService.Show(
