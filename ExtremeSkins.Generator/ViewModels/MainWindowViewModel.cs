@@ -68,7 +68,9 @@ public sealed class MainWindowViewModel : BindableBase, IDestructible
 
         this.ExportZipFolderCommand = new DelegateCommand(ExportZipFile);
 
-        this.AmongUsPathText = new ReactivePropertySlim<string>().AddTo(this.disposables);
+        this.AmongUsPathText = model.AmongUsPathContainer.AmongUsPath
+            .ToReactivePropertySlimAsSynchronized(x => x.Value)
+            .AddTo(this.disposables);
     }
 
     public void Destroy()

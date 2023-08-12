@@ -4,6 +4,7 @@ using System.IO;
 
 using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Core.Interface;
+using ExtremeSkins.Generator.Panel.Interfaces;
 
 using ExHData = ExtremeSkins.Core.ExtremeHats.DataStructure;
 using ExNData = ExtremeSkins.Core.ExtremeNamePlate.DataStructure;
@@ -13,6 +14,13 @@ namespace ExtremeSkins.Generator.Models;
 
 public sealed class MainWindowModel : IMainWindowModel
 {
+    public IAmongUsPathContainerModel AmongUsPathContainer { get; }
+
+    public MainWindowModel(IAmongUsPathContainerModel amongUsPathContainer)
+    {
+        AmongUsPathContainer = amongUsPathContainer;
+    }
+
     public bool ExportToZip()
     {
         string exportFolder = IExporter.ExportDefaultPath;

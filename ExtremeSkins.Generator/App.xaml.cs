@@ -7,6 +7,9 @@ using ExtremeSkins.Generator.Service;
 using ExtremeSkins.Generator.Service.Interface;
 using ExtremeSkins.Generator.Models;
 
+using ExtremeSkins.Generator.Panel.Interfaces;
+using ExtremeSkins.Generator.Panel.Models;
+
 namespace ExtremeSkins.Generator;
 
 /// <summary>
@@ -24,6 +27,7 @@ public sealed partial class App
         containerRegistry.RegisterSingleton<ICommonDialogService<FileDialogService.Result>, FileDialogService>();
         containerRegistry.RegisterSingleton<IWindowsDialogService, MessageShowService>();
         containerRegistry.RegisterSingleton<IOpenExplorerService, OpenExplorerService>();
+        containerRegistry.RegisterSingleton<IAmongUsPathContainerModel, AmongUsPathContainerModel>();
         containerRegistry.RegisterSingleton<IMainWindowModel, MainWindowModel>();
     }
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

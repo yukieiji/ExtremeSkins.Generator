@@ -9,8 +9,7 @@ namespace ExtremeSkins.Generator.Panel.Models;
 
 public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
 {
-    public string AmongUsPath { private get; set; }
-
+    public IAmongUsPathContainerModel AmongUsPathContainer { get; }
     public ReactivePropertySlim<string> SkinName { get; }
     public ReactivePropertySlim<string> AutherName { get; }
     public ReactivePropertySlim<bool> IsBounce { get; }
@@ -18,9 +17,9 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
     public ReactivePropertySlim<string> LicencePath { get; }
     public ObservableCollection<SkinRowModel> ImgRows { get; }
 
-    public ExtremeHatModel()
+    public ExtremeHatModel(IAmongUsPathContainerModel model)
     {
-        this.AmongUsPath = string.Empty;
+        this.AmongUsPathContainer = model;
         this.SkinName = new ReactivePropertySlim<string>("");
         this.AutherName = new ReactivePropertySlim<string>("");
         this.LicencePath = new ReactivePropertySlim<string>("");

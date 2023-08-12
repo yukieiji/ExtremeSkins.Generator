@@ -9,7 +9,7 @@ public interface IExportModel
         FrontImgMissing
     }
 
-    public string AmongUsPath { set; }
+    public IAmongUsPathContainerModel AmongUsPathContainer { get; }
 
     public ReactivePropertySlim<string> SkinName { get; }
     public ReactivePropertySlim<string> AutherName { get; }

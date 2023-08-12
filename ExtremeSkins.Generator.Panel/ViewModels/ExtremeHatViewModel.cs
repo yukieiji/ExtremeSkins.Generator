@@ -30,6 +30,6 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
 
     protected override void Export()
     {
-        throw new System.NotImplementedException();
+        this.model.Export();
     }
 }
