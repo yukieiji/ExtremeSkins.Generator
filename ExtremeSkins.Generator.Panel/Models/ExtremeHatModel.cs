@@ -1,31 +1,33 @@
-﻿using ExtremeSkins.Core;
-using ExtremeSkins.Core.ExtremeHats;
-using ExtremeSkins.Generator.Core;
-using ExtremeSkins.Generator.Panel.Interfaces;
-using ExtremeSkins.Generator.Service;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
+
 using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ExtremeSkins.Generator.Panel.Interfaces;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
 public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
 {
-    public ReactivePropertySlim<bool> IsBounce { get; set; }
+    public string AmongUsPath { private get; set; }
 
-    public ReactivePropertySlim<bool> IsShader { get; set; }
-
-    public ReactivePropertySlim<string> LicencePath { get; set; }
-
-    public ObservableCollection<SkinRowModel> ImgRows { get; set; }
+    public ReactivePropertySlim<string> SkinName { get; }
+    public ReactivePropertySlim<string> AutherName { get; }
+    public ReactivePropertySlim<bool> IsBounce { get; }
+    public ReactivePropertySlim<bool> IsShader { get; }
+    public ReactivePropertySlim<string> LicencePath { get; }
+    public ObservableCollection<SkinRowModel> ImgRows { get; }
 
     public ExtremeHatModel()
     {
+        this.AmongUsPath = string.Empty;
+        this.SkinName = new ReactivePropertySlim<string>("");
+        this.AutherName = new ReactivePropertySlim<string>("");
+        this.LicencePath = new ReactivePropertySlim<string>("");
+        this.IsBounce = new ReactivePropertySlim<bool>(false);
+        this.IsShader = new ReactivePropertySlim<bool>(false);
+
+
         ImgRows = new ObservableCollection<SkinRowModel>()
         {
             new SkinRowModel("ExH.SelectFrontImage"),

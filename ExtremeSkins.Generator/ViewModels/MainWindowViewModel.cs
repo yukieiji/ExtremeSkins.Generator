@@ -38,7 +38,7 @@ public sealed class MainWindowViewModel : BindableBase, IDestructible
 
     public DelegateCommand<string> RadioCheckCommand { get; private set; }
 
-    public ReactiveProperty<string> AmongUsPathText { get; }
+    public ReactivePropertySlim<string> AmongUsPathText { get; }
     private string amongUsFolderPath = string.Empty;
 
     public DelegateCommand SetAmongUsPathCommand { get; private set; }
@@ -68,7 +68,7 @@ public sealed class MainWindowViewModel : BindableBase, IDestructible
 
         this.ExportZipFolderCommand = new DelegateCommand(ExportZipFile);
 
-        this.AmongUsPathText = new ReactiveProperty<string>().AddTo(this.disposables);
+        this.AmongUsPathText = new ReactivePropertySlim<string>().AddTo(this.disposables);
     }
 
     public void Destroy()

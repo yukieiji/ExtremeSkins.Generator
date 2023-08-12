@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Reactive.Bindings;
 namespace ExtremeSkins.Generator.Panel.Interfaces;
 
 public interface IExportModel
@@ -13,6 +8,11 @@ public interface IExportModel
         Success,
         FrontImgMissing
     }
+
+    public string AmongUsPath { set; }
+
+    public ReactivePropertySlim<string> SkinName { get; }
+    public ReactivePropertySlim<string> AutherName { get; }
 
     public ExportResult Export();
 }
