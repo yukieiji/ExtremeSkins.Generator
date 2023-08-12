@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
-public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
+public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
 {
     public ReactivePropertySlim<bool> IsBounce { get; set; }
 
@@ -22,131 +22,132 @@ public sealed class ExtremeHatModel : ExportModelBase, IExtremeHatModel
 
     public ReactivePropertySlim<string> LicencePath { get; set; }
 
-    public ObservableCollection<KeyValuePair<string, SkinRowModel>> ImgRows { get; set; }
+    public ObservableCollection<SkinRowModel> ImgRows { get; set; }
 
     public ExtremeHatModel()
     {
-        ImgRows = new ObservableCollection<KeyValuePair<string, SkinRowModel>>()
+        ImgRows = new ObservableCollection<SkinRowModel>()
         {
-            new KeyValuePair<string, SkinRowModel>("ExH.SelectFrontImage", new SkinRowModel()),
-            new KeyValuePair<string, SkinRowModel>("ExH.SelectFrontFlipImage", new SkinRowModel()),
-            new KeyValuePair<string, SkinRowModel>("ExH.SelectBackImage", new SkinRowModel()),
-            new KeyValuePair<string, SkinRowModel>("ExH.SelectBackFlipImage", new SkinRowModel()),
-            new KeyValuePair<string, SkinRowModel>("ExH.SelectClimbImage", new SkinRowModel()),
+            new SkinRowModel("ExH.SelectFrontImage"),
+            new SkinRowModel("ExH.SelectFrontFlipImage"),
+            new SkinRowModel("ExH.SelectBackImage"),
+            new SkinRowModel("ExH.SelectBackFlipImage"),
+            new SkinRowModel("ExH.SelectClimbImage"),
         };
     }
 
-    public override ExportResult Export()
+    public IExportModel.ExportResult Export()
     {
-        return ExportResult.Success;
-    }
-        /*
-        if (string.IsNullOrEmpty(this.AutherName))
-        {
-            this.showMessageService.Show(
-                new MessageShowService.ErrorMessageSetting()
-                {
-                    Title = (string)resource["Error"],
-                    Message = (string)resource["CannotEmptyAuther"],
-                });
-            return;
-        }
-
-        else if (string.IsNullOrEmpty(this.SkinName))
-        {
-            this.showMessageService.Show(
-                new MessageShowService.ErrorMessageSetting()
-                {
-                    Title = (string)resource["Error"],
-                    Message = (string)resource["CannotEmptySkin"],
-                });
-            return;
-        }
-
-        if (string.IsNullOrEmpty(this.FrontRow.ImgPath.Value))
-        {
-            return ExportResult.FrontImgMissing;
-        }
-
-        Dictionary<string, string> replacedStr = new Dictionary<string, string>();
-
-
-        string autherName = this.AutherName;
-        if (TryReplaceAscii(autherName, out string asciiedAutherName))
-        {
-            replacedStr.Add(asciiedAutherName, autherName);
-            autherName = asciiedAutherName;
-        }
-        string skinName = this.SkinName;
-        if (TryReplaceAscii(skinName, out string asciiedSkinName))
-        {
-            replacedStr.Add(asciiedSkinName, skinName);
-            skinName = asciiedSkinName;
-        }
-
-        HatInfo hatInfo = new HatInfo(
-            Name: string.Empty,
-            Author: string.Empty,
-            Bound: this.IsBounce.Value,
-            Shader: this.IsShader.Value,
-            Climb: !string.IsNullOrEmpty(this.ClimbRow.ImgPath.Value),
-            FrontFlip: !string.IsNullOrEmpty(this.FrontFlipRow.ImgPath.Value),
-            Back: !string.IsNullOrEmpty(this.BackRow.ImgPath.Value),
-            BackFlip: !string.IsNullOrEmpty(this.BackFlipRow.ImgPath.Value)
-        );
-        /*
-        ExtremeHatsExporter exporter = new ExtremeHatsExporter()
-        {
-            Info = hatInfo,
-            AmongUsPath = this.AmongUsPath,
-            LicenseFile = this.licensePath,
-        };
-        */
-        /*
-        var sameSkinResult = exporter.CheckSameSkin();
-        bool isOverride = false;
-
+        return IExportModel.ExportResult.Success;
     }
 
-    private void createExporter()
-    {
-        var frontAnimation = crateAnimationInfo(FrontRow);
-        var frontFlipAnimation = crateAnimationInfo(FrontFlipRow);
-        var backAnimation = crateAnimationInfo(BackRow);
-        var backFlipAnimation = crateAnimationInfo(BackFlipRow);
-        var climbAnimation = crateAnimationInfo(ClimbRow);
+    /*
+if (string.IsNullOrEmpty(this.AutherName))
+{
+   this.showMessageService.Show(
+       new MessageShowService.ErrorMessageSetting()
+       {
+           Title = (string)resource["Error"],
+           Message = (string)resource["CannotEmptyAuther"],
+       });
+   return;
+}
 
-        var hatAnimation =
-            frontAnimation == null &&
-            frontFlipAnimation == null &&
-            backAnimation == null &&
-            backFlipAnimation == null &&
-            climbAnimation == null ?
-            null : new HatAnimation(frontAnimation, frontFlipAnimation, backAnimation, backFlipAnimation, climbAnimation);
+else if (string.IsNullOrEmpty(this.SkinName))
+{
+   this.showMessageService.Show(
+       new MessageShowService.ErrorMessageSetting()
+       {
+           Title = (string)resource["Error"],
+           Message = (string)resource["CannotEmptySkin"],
+       });
+   return;
+}
 
-        HatInfo hatInfo = new HatInfo(
-            Name: string.Empty,
-            Author: string.Empty,
-            Bound: this.IsBounce.Value,
-            Shader: this.IsShader.Value,
-            Climb: !string.IsNullOrEmpty(this.ClimbRow.ImgPath.Value),
-            FrontFlip: !string.IsNullOrEmpty(this.FrontFlipRow.ImgPath.Value),
-            Back: !string.IsNullOrEmpty(this.BackRow.ImgPath.Value),
-            BackFlip: !string.IsNullOrEmpty(this.BackFlipRow.ImgPath.Value),
-            Animation: hatAnimation
-        );
-    }
+if (string.IsNullOrEmpty(this.FrontRow.ImgPath.Value))
+{
+   return ExportResult.FrontImgMissing;
+}
 
-    private static AnimationInfo? crateAnimationInfo(SkinRowModel rowModel)
-    {
-        uint frameCount = rowModel.FrameCount.Value;
+Dictionary<string, string> replacedStr = new Dictionary<string, string>();
 
-        return
-            rowModel.IsAnimation.Value &&
-            rowModel.FileList.Count > 0 &&
-            1 <= frameCount && frameCount <= 300 ?
-                new AnimationInfo(
-                    rowModel.Files, frameCount, rowModel.AnimationType) : null;
-    }
-    */
+
+string autherName = this.AutherName;
+if (TryReplaceAscii(autherName, out string asciiedAutherName))
+{
+   replacedStr.Add(asciiedAutherName, autherName);
+   autherName = asciiedAutherName;
+}
+string skinName = this.SkinName;
+if (TryReplaceAscii(skinName, out string asciiedSkinName))
+{
+   replacedStr.Add(asciiedSkinName, skinName);
+   skinName = asciiedSkinName;
+}
+
+HatInfo hatInfo = new HatInfo(
+   Name: string.Empty,
+   Author: string.Empty,
+   Bound: this.IsBounce.Value,
+   Shader: this.IsShader.Value,
+   Climb: !string.IsNullOrEmpty(this.ClimbRow.ImgPath.Value),
+   FrontFlip: !string.IsNullOrEmpty(this.FrontFlipRow.ImgPath.Value),
+   Back: !string.IsNullOrEmpty(this.BackRow.ImgPath.Value),
+   BackFlip: !string.IsNullOrEmpty(this.BackFlipRow.ImgPath.Value)
+);
+/*
+ExtremeHatsExporter exporter = new ExtremeHatsExporter()
+{
+   Info = hatInfo,
+   AmongUsPath = this.AmongUsPath,
+   LicenseFile = this.licensePath,
+};
+*/
+    /*
+    var sameSkinResult = exporter.CheckSameSkin();
+    bool isOverride = false;
+
+}
+
+private void createExporter()
+{
+    var frontAnimation = crateAnimationInfo(FrontRow);
+    var frontFlipAnimation = crateAnimationInfo(FrontFlipRow);
+    var backAnimation = crateAnimationInfo(BackRow);
+    var backFlipAnimation = crateAnimationInfo(BackFlipRow);
+    var climbAnimation = crateAnimationInfo(ClimbRow);
+
+    var hatAnimation =
+        frontAnimation == null &&
+        frontFlipAnimation == null &&
+        backAnimation == null &&
+        backFlipAnimation == null &&
+        climbAnimation == null ?
+        null : new HatAnimation(frontAnimation, frontFlipAnimation, backAnimation, backFlipAnimation, climbAnimation);
+
+    HatInfo hatInfo = new HatInfo(
+        Name: string.Empty,
+        Author: string.Empty,
+        Bound: this.IsBounce.Value,
+        Shader: this.IsShader.Value,
+        Climb: !string.IsNullOrEmpty(this.ClimbRow.ImgPath.Value),
+        FrontFlip: !string.IsNullOrEmpty(this.FrontFlipRow.ImgPath.Value),
+        Back: !string.IsNullOrEmpty(this.BackRow.ImgPath.Value),
+        BackFlip: !string.IsNullOrEmpty(this.BackFlipRow.ImgPath.Value),
+        Animation: hatAnimation
+    );
+}
+
+private static AnimationInfo? crateAnimationInfo(SkinRowModel rowModel)
+{
+    uint frameCount = rowModel.FrameCount.Value;
+
+    return
+        rowModel.IsAnimation.Value &&
+        rowModel.FileList.Count > 0 &&
+        1 <= frameCount && frameCount <= 300 ?
+            new AnimationInfo(
+                rowModel.Files, frameCount, rowModel.AnimationType) : null;
+}
+*/
 }

@@ -34,6 +34,8 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
     public DelegateCommand AddAnimationFileCommand { get; }
     public DelegateCommand RemoveFileCommand { get; }
 
+    public string RowName { get; }
+
     private readonly ICommonDialogService<FileDialogService.Result> fileDialogService;
 
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -46,6 +48,7 @@ public sealed class SkinRowPanelViewModel : BindableBase, ISkinRowViewModel
     {
         this.fileDialogService = comDlgService;
         this.model = model;
+        this.RowName = model.RowName;
 
         this.SelectFileCommand = new DelegateCommand(this.SelectFile);
         this.AddAnimationFileCommand = new DelegateCommand(this.AddFileItem);

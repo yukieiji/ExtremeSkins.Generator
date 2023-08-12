@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ExtremeSkins.Generator.Panel.Interfaces;
 
-public interface IExtremeHatModel
+public interface IExtremeHatModel : IExportModel
 {
-    public ObservableCollection<KeyValuePair<string, SkinRowModel>> ImgRows { get; }
+    public ObservableCollection<SkinRowModel> ImgRows { get; }
 }

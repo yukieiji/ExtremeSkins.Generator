@@ -20,7 +20,7 @@ public sealed class PanelModule : IModule
     public void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry
-            .RegisterSingleton<IExtremeHatModel, ExtremeHatModel>()
+            .RegisterInstance<IExtremeHatModel>(new ExtremeHatModel())
             .RegisterSingleton<ICommonDialogService<FileDialogService.Result>, FileDialogService>()
             .RegisterSingleton<IWindowsDialogService, MessageShowService>();
 

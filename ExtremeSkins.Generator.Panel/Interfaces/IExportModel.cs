@@ -1,13 +1,12 @@
-﻿using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtremeSkins.Generator.Panel.Models;
+namespace ExtremeSkins.Generator.Panel.Interfaces;
 
-public abstract class ExportModelBase : BindableBase
+public interface IExportModel
 {
     public enum ExportResult
     {
@@ -15,5 +14,5 @@ public abstract class ExportModelBase : BindableBase
         FrontImgMissing
     }
 
-    public abstract ExportResult Export();
+    public ExportResult Export();
 }

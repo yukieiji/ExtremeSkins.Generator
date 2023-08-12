@@ -10,6 +10,7 @@ namespace ExtremeSkins.Generator.Panel.Models;
 
 public sealed class SkinRowModel : BindableBase
 {
+    public string RowName { get; } = "TEST";
     public ReactivePropertySlim<string> ImgPath { get; set; }
     public ReactivePropertySlim<bool> IsAnimation { get; set;  }
 
@@ -24,6 +25,11 @@ public sealed class SkinRowModel : BindableBase
         this.ImgPath = new ReactivePropertySlim<string>("");
         this.IsAnimation = new ReactivePropertySlim<bool>(false);
         this.FrameCount = new ReactiveProperty<uint>(1);
+    }
+
+    public SkinRowModel(string rowName) : this()
+    {
+        this.RowName = rowName;
     }
 
     public void AddFile(string path)

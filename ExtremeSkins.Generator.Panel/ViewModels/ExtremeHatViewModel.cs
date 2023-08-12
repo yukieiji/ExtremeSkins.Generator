@@ -92,8 +92,9 @@ public sealed class ExtremeHatViewModel : SkinsExportPanelBase
     {
         this.model = model;
         this.Rows = model.ImgRows
-            .ToReadOnlyReactiveCollection(x => new SkinRowPanelViewModel(x.Value, comDlgService))
+            .ToReadOnlyReactiveCollection(x => new SkinRowPanelViewModel(x, comDlgService))
             .AddTo(this.disposables);
+        this.ExportButtonCommand = new DelegateCommand(() => this.model.Export());
         this.SelectFileCommand = new DelegateCommand<string>(SetText);
     }
 

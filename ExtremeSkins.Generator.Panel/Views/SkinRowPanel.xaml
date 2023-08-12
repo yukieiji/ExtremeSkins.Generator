@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:exs="clr-namespace:ExtremeSkins.Generator.Panel.ViewModels"
-             mc:Ignorable="d"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             mc:Ignorable="d">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter" />
@@ -25,7 +23,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Column="0"
-                Text="{Binding TitleText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Text="{Binding RowName}"
                 Margin="0,0,0,5" />
             <TextBox
                 Grid.Column="1"

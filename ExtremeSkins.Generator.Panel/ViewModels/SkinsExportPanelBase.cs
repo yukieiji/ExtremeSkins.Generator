@@ -37,7 +37,7 @@ public abstract class SkinsExportPanelBase : BindableBase
     }
     private string autherName = string.Empty;
 
-    public DelegateCommand ExportButtonCommand { get; private set; }
+    public DelegateCommand ExportButtonCommand { get; set; }
     protected readonly IWindowsDialogService showMessageService;
 
     private IEventAggregator ea;
