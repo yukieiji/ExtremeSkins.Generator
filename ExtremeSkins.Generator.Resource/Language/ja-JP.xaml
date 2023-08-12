@@ -7,6 +7,14 @@
     <system:String x:Key="ExportButton">エクスポート</system:String>
     <system:String x:Key="SelectFile">ファイルを選択する</system:String>
     <system:String x:Key="OpenExportedFolder">出力先のフォルダを開く</system:String>
+    <system:String x:Key="IsAnimation">アニメーションの有効化</system:String>
+    <system:String x:Key="UpdateFrame">更新フレーム間隔：</system:String>
+    <system:String x:Key="AddFile">ファイルを追加</system:String>
+    <system:String x:Key="AllClear">すべて削除</system:String>
+    <system:String x:Key="ClearThis">削除</system:String>
+    <system:String x:Key="UpdateMode">モード：</system:String>
+    <system:String x:Key="SequentialImg">連続</system:String>
+    <system:String x:Key="RandomImg">ランダム</system:String>
 
     <!-- ExtremeHat -->
     <system:String x:Key="ExH.EnterAuther">ハットの製作者名：</system:String>

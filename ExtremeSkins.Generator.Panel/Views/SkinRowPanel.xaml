@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -37,7 +38,7 @@
                 Command="{Binding SelectFileCommand}"
                 CommandParameter="Front"/>
         </Grid>
-        <Grid Grid.Row="1" Margin="30,0,0,10">
+        <Grid Grid.Row="1" Margin="40,0,0,2.5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="128" />
                 <ColumnDefinition Width="Auto" />
@@ -45,97 +46,103 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 Grid.Column="0"
-                Text="IsAnimation"
+                Text="{DynamicResource IsAnimation}"
                 Margin="0,0,0,5" />
             <CheckBox
                 x:Name="EnableAnimation"
                 IsChecked="{Binding IsAnimation.Value}"
                 Grid.Column="1"
                 />
-            <Grid
-                Grid.Column="2"
-                Margin="20, 10, 10, 5"
-                Visibility="{Binding Path=IsChecked, ElementName=EnableAnimation, Converter={StaticResource BoolVisibilityConverter}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="32" />
-                    <RowDefinition Height="32" />
-                    <RowDefinition Height="32" />
-                    <RowDefinition Height="*" MinHeight="32" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="5, 2.5, 2.5, 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="128" />
-                        <ColumnDefinition Width="64" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="0"
-                        Text="UpdateFrame"
-                        Margin="0,0,0,5" />
-                    <TextBox
-                        Grid.Column="1"
-                        Text="{Binding FrameCount.Value}"
-                        Margin="0,0,5,0" />
-                </Grid>
-                <Grid Grid.Row="1" Margin="5, 2.5, 2.5, 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="128" />
-                        <ColumnDefinition Width="128" />
-                    </Grid.ColumnDefinitions>
-                    <RadioButton
-                        Grid.Column="0"
-                        Command="{Binding RadioCheckCommand}"
-                        CommandParameter="Sequential"
-                        IsChecked="True"
-                        Content="Sequential"/>
-                    <RadioButton
-                        Grid.Column="1"
-                        Command="{Binding RadioCheckCommand}"
-                        CommandParameter="Random"
-                        Content="Random"/>
-                </Grid>
-                <Grid Grid.Row="2" Margin="5, 10, 2.5, 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="128" />
-                        <ColumnDefinition Width="128" />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        Margin="5, 0, 5, 0"
-                        Grid.Column="0"
-                        Command="{Binding AddAnimationFileCommand}"
-                        CommandParameter="Add"
-                        Content="Add"/>
-                    <Button
-                        Margin="5, 0, 5, 0"
-                        Grid.Column="1"
-                        Command="{Binding RemoveFileCommand}"
-                        CommandParameter="Clear"
-                        Content="Clear"/>
-                </Grid>
-                <ListBox
-                    Grid.Row="3"
-                    ItemsSource="{Binding FileList}"
-                    HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="exs:FileListItem">
-                            <Grid Margin="5" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="128" />
-                                </Grid.ColumnDefinitions>
-                                <TextBox
-                                    Grid.Column="0"
-                                    Text="{Binding FilePath.Value}" />
-                                <Button
-                                    Grid.Column="1"
-                                    Name="ClearBt"
-                                    Content="Clear"
-                                    Height="25"
-                                    Command="{Binding RemoveSelf}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+        </Grid>
+        <Grid
+            Grid.Row="2"
+            Margin="80, 5, 0, 5"
+            Visibility="{Binding Path=IsChecked, ElementName=EnableAnimation, Converter={StaticResource BoolVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" MinHeight="32" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="5, 2.5, 2.5, 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="96" />
+                    <ColumnDefinition Width="128" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Column="0"
+                    Text="{DynamicResource UpdateFrame}"
+                    Margin="0, 0, 1.5, 0"/>
+                <TextBox
+                    Grid.Column="1"
+                    Text="{Binding FrameCount.Value}" />
             </Grid>
+            <Grid Grid.Row="1" Margin="5, 2.5, 2.5, 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="64" />
+                    <ColumnDefinition Width="64" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Column="0"
+                    Text="{DynamicResource UpdateMode}"/>
+                <RadioButton
+                    Grid.Column="1"
+                    Command="{Binding RadioCheckCommand}"
+                    CommandParameter="Sequential"
+                    IsChecked="True"
+                    Content="{DynamicResource SequentialImg}"
+                    Margin="0, 1, 0, 0"/>
+                <RadioButton
+                    Grid.Column="2"
+                    Command="{Binding RadioCheckCommand}"
+                    CommandParameter="Random"
+                    Content="{DynamicResource RandomImg}"
+                    Margin="0, 1, 0, 0"/>
+            </Grid>
+            <Grid Grid.Row="2" Margin="5, 2.5, 2.5, 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="128" />
+                    <ColumnDefinition Width="128" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Margin="5, 0, 5, 0"
+                    Grid.Column="0"
+                    Command="{Binding AddAnimationFileCommand}"
+                    CommandParameter="Add"
+                    Content="{DynamicResource AddFile}"/>
+                <Button
+                    Margin="5, 0, 5, 0"
+                    Grid.Column="1"
+                    Command="{Binding RemoveFileCommand}"
+                    CommandParameter="Clear"
+                    Content="{DynamicResource AllClear}"/>
+            </Grid>
+            <ListBox
+                Grid.Row="3"
+                ItemsSource="{Binding FileList}"
+                HorizontalContentAlignment="Stretch"
+                Margin="0, 0, 0, 15">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="exs:FileListItem">
+                        <Grid Margin="5" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="128" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Grid.Column="0"
+                                Text="{Binding FilePath.Value}" />
+                            <Button
+                                Grid.Column="1"
+                                Name="ClearBt"
+                                Content="{DynamicResource ClearThis}"
+                                Height="25"
+                                Command="{Binding RemoveSelf}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 </UserControl>
