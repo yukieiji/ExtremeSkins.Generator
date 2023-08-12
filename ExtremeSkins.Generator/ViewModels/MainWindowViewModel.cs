@@ -82,24 +82,30 @@ public sealed class MainWindowViewModel : BindableBase, IDestructible
     {
         var resource = Application.Current.MainWindow.Resources;
 
-        bool result = this.model.ExportToZip();
-        if (result)
+        string fileName = this.model.ExportToZip();
+        if (string.IsNullOrEmpty(fileName))
         {
             this.windowDlgService.Show(
                 new MessageShowService.ErrorMessageSetting()
                 {
                     Title = (string)resource["Error"],
-                    Message = (string)resource["CannotFindExS"],
+                    Message = (string)resource["CannotExportToZip"],
                 });
+
         }
         else
         {
-            this.windowDlgService.Show(
+            var showResult = this.windowDlgService.Show(
                 new MessageShowService.InfoMessageSetting()
                 {
-                    Title = (string)resource["Error"],
-                    Message = (string)resource["CannotFindExS"],
+                    Title = (string)resource["Success"],
+                    Message = (string)resource["SuccessExportToZip"],
                 });
+            if (showResult == MessageBoxResult.OK)
+            {
+                System.Diagnostics.Process.Start(
+                    "EXPLORER.EXE", $@"/select, ""{fileName}""");
+            }
         }
     }
 

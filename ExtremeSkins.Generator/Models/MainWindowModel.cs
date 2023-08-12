@@ -21,12 +21,12 @@ public sealed class MainWindowModel : IMainWindowModel
         AmongUsPathContainer = amongUsPathContainer;
     }
 
-    public bool ExportToZip()
+    public string ExportToZip()
     {
         string exportFolder = IExporter.ExportDefaultPath;
         if (!Directory.Exists(exportFolder))
         {
-            return false;
+            return "";
         }
 
         string fileName = $"output_{DateTime.Now.ToString("yyyy-MM-ddTHH-mm-ss")}.zip";
@@ -49,7 +49,7 @@ public sealed class MainWindowModel : IMainWindowModel
         addRecursivelyAllFolder(zip, ExVData.FolderName);
         addRecursivelyAllFolder(zip, ExNData.FolderName);
 
-        return true;
+        return fileName;
     }
 
     private static void addRecursivelyAllFolder(ZipArchive zip, string folderName)

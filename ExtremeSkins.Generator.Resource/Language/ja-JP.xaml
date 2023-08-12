@@ -3,19 +3,6 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xml:space="preserve">
 
-    <system:String x:Key="AmongUsPath">スキンをインストールするAmongUsのパス：</system:String>
-    <system:String x:Key="ExportButton">エクスポート</system:String>
-    <system:String x:Key="SelectFile">ファイルを選択する</system:String>
-    <system:String x:Key="OpenExportedFolder">出力先のフォルダを開く</system:String>
-    <system:String x:Key="IsAnimation">アニメーションの有効化</system:String>
-    <system:String x:Key="UpdateFrame">更新フレーム間隔：</system:String>
-    <system:String x:Key="AddFile">ファイルを追加</system:String>
-    <system:String x:Key="AllClear">すべて削除</system:String>
-    <system:String x:Key="ClearThis">削除</system:String>
-    <system:String x:Key="UpdateMode">モード：</system:String>
-    <system:String x:Key="SequentialImg">連続</system:String>
-    <system:String x:Key="RandomImg">ランダム</system:String>
-
     <!-- ExtremeHat -->
     <system:String x:Key="ExH.EnterAuther">ハットの製作者名：</system:String>
     <system:String x:Key="ExH.EnterSkin">ハットの名前：</system:String>
@@ -58,6 +45,22 @@
     <system:String x:Key="PngTitle">画像ファイルの選択</system:String>
     <system:String x:Key="TextTitle">テキストファイルの選択</system:String>
 
+    <system:String x:Key="AmongUsPath">スキンをインストールするAmongUsのパス：</system:String>
+    <system:String x:Key="ExportButton">エクスポート</system:String>
+    <system:String x:Key="SelectFile">ファイルを選択する</system:String>
+    <system:String x:Key="ExportZipFolder">提出用Zipファイル作成</system:String>
+    <system:String x:Key="OpenExportedFolder">出力先のフォルダを開く</system:String>
+    <system:String x:Key="IsAnimation">アニメーションの有効化</system:String>
+    <system:String x:Key="UpdateFrame">更新フレーム間隔：</system:String>
+    <system:String x:Key="AddFile">ファイルを追加</system:String>
+    <system:String x:Key="AllClear">すべて削除</system:String>
+    <system:String x:Key="ClearThis">削除</system:String>
+    <system:String x:Key="UpdateMode">モード：</system:String>
+    <system:String x:Key="SequentialImg">連続</system:String>
+    <system:String x:Key="RandomImg">ランダム</system:String>
+
+    <system:String x:Key="CannotExportToZip">Zipファイルへの出力に失敗しました&#xa;スキンを再度出力後再実行して下さい</system:String>
+    <system:String x:Key="SuccessExportToZip">Zipファイルへの出力に成功しました&#xa;OKボタンを押すとZipファイルを表示します</system:String>
     <system:String x:Key="CannotFindExS">Extreme Skinsがインストールされていません、インストールして一度Among Usを起動して下さい</system:String>
     <system:String x:Key="CannotFindExSConfig">Extreme Skins後の初回起動が完了していません、一度Among Usを起動して下さい</system:String>
     <system:String x:Key="CannotEmptyAuther">製作者を無名に出来ません、追加して下さい</system:String>

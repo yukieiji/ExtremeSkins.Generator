@@ -6,5 +6,5 @@ public interface IMainWindowModel
 {
     public IAmongUsPathContainerModel AmongUsPathContainer { get; }
 
-    public bool ExportToZip();
+    public string ExportToZip();
 }
