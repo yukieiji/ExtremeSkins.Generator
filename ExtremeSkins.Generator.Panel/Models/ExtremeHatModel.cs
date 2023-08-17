@@ -116,14 +116,15 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
         var options = new JsonSerializerOptions()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+            Converters = { new JsonStringEnumConverter() },
         };
         StatusData status = await respons.Content.ReadFromJsonAsync<StatusData>(options);
-        if (status.Status == ExSStatus.Booting.ToString())
+        if (status.Status == ExSStatus.Booting)
         {
             return false;
         }
 
-        return status.Module.ExtremeHat == ModuleStatus.Arrive.ToString();
+        return status.Module.ExtremeHat == ModuleStatus.Arrive;
     }
 
     public async Task<bool> HotReloadCosmic()
@@ -137,13 +138,13 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
         };
 
-        var postRespons = await this.ApiServerModel.PostAsync("exs/hat/", newHatData, options);
+        var postRespons = await this.ApiServerModel.PostAsync("hat/", newHatData, options);
         if (postRespons != null && postRespons.IsSuccessStatusCode)
         {
             return true;
         }
 
-        var respons = await this.ApiServerModel.PutAsync("exs/hat/", newHatData, options);
+        var respons = await this.ApiServerModel.PutAsync("hat/", newHatData);
         return respons != null && respons.IsSuccessStatusCode;
     }
     private void CreateExporter(bool exportWithAu=true)
