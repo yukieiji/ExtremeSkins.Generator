@@ -23,6 +23,8 @@ public interface IExportModel
         MissingFrontImg,
     }
 
+    public IApiServerModel ApiServerModel { get; }
+
     public IAmongUsPathContainerModel AmongUsPathContainer { get; }
 
     public ReactivePropertySlim<string> SkinName { get; }

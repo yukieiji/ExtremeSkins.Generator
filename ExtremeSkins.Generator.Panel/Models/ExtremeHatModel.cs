@@ -21,6 +21,7 @@ namespace ExtremeSkins.Generator.Panel.Models;
 
 public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
 {
+    public IApiServerModel ApiServerModel { get; set; }
     public IAmongUsPathContainerModel AmongUsPathContainer { get; }
     public ReactivePropertySlim<string> SkinName { get; }
     public ReactivePropertySlim<string> AutherName { get; }
@@ -32,9 +33,12 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
     private ExtremeHatsExporter? exporter = null;
     private TranslationExporter? transDataExporter = null;
 
-    public ExtremeHatModel(IAmongUsPathContainerModel model)
+    public ExtremeHatModel(
+        IApiServerModel apiServerModel,
+        IAmongUsPathContainerModel auModel)
     {
-        this.AmongUsPathContainer = model;
+        this.ApiServerModel = apiServerModel;
+        this.AmongUsPathContainer = auModel;
         this.SkinName = new ReactivePropertySlim<string>("");
         this.AutherName = new ReactivePropertySlim<string>("");
         this.LicencePath = new ReactivePropertySlim<string>("");
