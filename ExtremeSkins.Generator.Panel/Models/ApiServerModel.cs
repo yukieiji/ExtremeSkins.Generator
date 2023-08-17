@@ -10,13 +10,16 @@ namespace ExtremeSkins.Generator.Panel.Models;
 public sealed class ApiServerModel : IApiServerModel
 {
     private readonly HttpClient client;
-    private const string URL = "http://localhost:57700";
+    private const string URL = "http://localhost:57700/exs/";
 
     public ApiServerModel()
     {
         this.client = new HttpClient();
         this.client.DefaultRequestHeaders.Add("User-Agent", "ExS.Gen");
     }
+
+    public Task<HttpResponseMessage> GetAmongUsStatusAsync()
+        => this.client.GetAsync(URL);
 
     public Task<HttpResponseMessage> GetAsync(string route)
         => this.client.GetAsync(createUrl(route));
@@ -47,15 +50,7 @@ public sealed class ApiServerModel : IApiServerModel
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(URL);
-        if (!route.StartsWith('/'))
-        {
-            sb.Append("/");
-        }
         sb.Append(route);
-        if (!route.EndsWith('/'))
-        {
-            sb.Append("/");
-        }
         return sb.ToString();
     }
 }

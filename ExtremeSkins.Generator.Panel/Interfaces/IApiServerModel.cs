@@ -7,6 +7,7 @@ namespace ExtremeSkins.Generator.Panel.Interfaces;
 
 public interface IApiServerModel
 {
+    public Task<HttpResponseMessage> GetAmongUsStatusAsync();
     public Task<HttpResponseMessage> GetAsync(string route);
     public Task<HttpResponseMessage> PostAsync<T>(string route, T jsonData, JsonSerializerOptions? options = default);
     public Task<HttpResponseMessage> PutAsync<T>(string route, T jsonData, JsonSerializerOptions? options = default);
