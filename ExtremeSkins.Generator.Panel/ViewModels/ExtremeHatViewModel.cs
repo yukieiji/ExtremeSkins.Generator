@@ -128,7 +128,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
         }
     }
 
-    protected override void HotReload()
+    protected override async void HotReload()
     {
         var resource = Application.Current.MainWindow.Resources;
 
@@ -172,13 +172,13 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
             case SameSkinCheckResult.No:
                 break;
             case SameSkinCheckResult.ExistMyExportedSkin:
-                var result = this.ShowMessageService.Show(
+                var existResult = this.ShowMessageService.Show(
                     new MessageShowService.CheckMessageSetting()
                     {
                         Title = (string)resource["Error"],
                         Message = (string)resource["IsOverrideMessage"],
                     });
-                switch (result)
+                switch (existResult)
                 {
                     case MessageBoxResult.Yes:
                         isOverride = true;
@@ -196,17 +196,37 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
 
         string errorMessage = this.model.Export(isOverride);
 
-        if (string.IsNullOrEmpty(errorMessage))
+        if (!string.IsNullOrEmpty(errorMessage))
         {
-            string messageKey =
-                string.IsNullOrEmpty(this.model.AmongUsPathContainer.AmongUsFolderPath) ?
-                "ExportSuccess" : "ExportSuccessWithInstall";
+            this.ShowMessageService.Show(
+               new MessageShowService.ErrorMessageSetting()
+               {
+                   Title = (string)resource["Error"],
+                   Message = $"{(string)resource["ExportError"]}\\{errorMessage}",
+               });
+            return;
+        }
 
+        bool isEnaleHat = await this.model.IsExHEnable();
+
+        if (!isEnaleHat)
+        {
+            this.ShowMessageService.Show(
+               new MessageShowService.ErrorMessageSetting()
+               {
+                   Title = (string)resource["Error"],
+                   Message = $"{(string)resource["ExportError"]}\\{errorMessage}",
+               });
+            return;
+        }
+        bool result = await this.model.HotReloadCosmic();
+        if (result)
+        {
             this.ShowMessageService.Show(
                 new MessageShowService.InfoMessageSetting()
                 {
                     Title = (string)resource["Success"],
-                    Message = (string)resource[messageKey],
+                    Message = (string)resource["ExportSuccess"],
                 });
         }
         else

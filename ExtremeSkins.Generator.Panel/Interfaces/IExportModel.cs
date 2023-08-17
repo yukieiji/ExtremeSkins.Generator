@@ -2,12 +2,13 @@
 
 using Reactive.Bindings;
 
+using System;
 using System.IO;
+using System.Threading.Tasks;
 
 using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Panel.Models;
 using ExtremeSkins.Generator.Core.Interface;
-using System;
 
 namespace ExtremeSkins.Generator.Panel.Interfaces;
 
@@ -29,6 +30,8 @@ public interface IExportModel
 
     public ReactivePropertySlim<string> SkinName { get; }
     public ReactivePropertySlim<string> AutherName { get; }
+
+    public Task<bool> HotReloadCosmic();
 
     public string Export(bool isOverride);
 

@@ -9,6 +9,8 @@ namespace ExtremeSkins.Generator.Core;
 
 public sealed class ExtremeHatsExporter  : IInfoHasExporter<HatInfo>
 {
+    public string FolderName => $"{this.info.Name}_{this.info.Author}";
+
     public HatInfo Info
     {
         init

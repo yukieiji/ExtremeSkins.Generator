@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 
 using ExtremeSkins.Core.ExtremeHats;
@@ -16,6 +19,9 @@ using ExtremeSkins.Generator.Panel.Interfaces;
 
 using static ExtremeSkins.Generator.Panel.Interfaces.IExportModel;
 
+using ExtremeSkins.Core.API;
+using System.Net.Http.Json;
+using System.IO;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
@@ -100,6 +106,46 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
         return this.exporter!.CheckSameSkin();
     }
 
+    public async Task<bool> IsExHEnable()
+    {
+        var respons = await this.ApiServerModel.GetAmongUsStatusAsync();
+        if (respons == null || !respons.IsSuccessStatusCode)
+        {
+            return false;
+        }
+        var options = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+        };
+        StatusData status = await respons.Content.ReadFromJsonAsync<StatusData>(options);
+        if (status.Status == ExSStatus.Booting.ToString())
+        {
+            return false;
+        }
+
+        return status.Module.ExtremeHat == ModuleStatus.Arrive.ToString();
+    }
+
+    public async Task<bool> HotReloadCosmic()
+    {
+        string outputParentPath = Path.GetFullPath(
+            Path.Combine(IExporter.ExportDefaultPath, DataStructure.FolderName));
+        InfoData newHatData = new InfoData(outputParentPath, this.exporter!.FolderName);
+
+        var options = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+        };
+
+        var postRespons = await this.ApiServerModel.PostAsync("exs/hat/", newHatData, options);
+        if (postRespons != null && postRespons.IsSuccessStatusCode)
+        {
+            return true;
+        }
+
+        var respons = await this.ApiServerModel.PutAsync("exs/hat/", newHatData, options);
+        return respons != null && respons.IsSuccessStatusCode;
+    }
     private void CreateExporter(bool exportWithAu=true)
     {
 
