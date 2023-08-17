@@ -113,10 +113,21 @@
                 CommandParameter="License" />
         </Grid>
 
-        <Button
-            Grid.Row="10"
-            Content="{DynamicResource ExportButton}"
-            Margin="0,30,0,30"
-            Command="{Binding ExportButtonCommand}" />
+        <Grid Grid.Row="10" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Content="{DynamicResource ExportButton}"
+                Margin="30,0,10,0"
+                Command="{Binding ExportButtonCommand}" />
+            <Button
+                Grid.Column="1"
+                Content="{DynamicResource ExportButton}"
+                Margin="10,0,30,0"
+                Command="{Binding ExportButtonCommand}" />
+        </Grid>
     </Grid>
 </UserControl>
