@@ -127,4 +127,96 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                });
         }
     }
+
+    protected override void HotReload()
+    {
+        var resource = Application.Current.MainWindow.Resources;
+
+        IExportModel.ExportStatus status = this.model.GetCurrentExportStatus();
+
+        switch (status)
+        {
+            case IExportModel.ExportStatus.MissingAutherName:
+                this.ShowMessageService.Show(
+                    new MessageShowService.ErrorMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["CannotEmptyAuther"],
+                    });
+                return;
+            case IExportModel.ExportStatus.MissingSkinName:
+                this.ShowMessageService.Show(
+                    new MessageShowService.ErrorMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["CannotEmptySkin"],
+                    });
+                return;
+            case IExportModel.ExportStatus.MissingFrontImg:
+                this.ShowMessageService.Show(
+                    new MessageShowService.ErrorMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["CannotEmptyFlontImage"],
+                    });
+                return;
+            default:
+                break;
+        }
+
+        var sameSkinStatus = this.model.GetSameSkinStatus();
+
+        bool isOverride = false;
+        switch (sameSkinStatus)
+        {
+            case SameSkinCheckResult.No:
+                break;
+            case SameSkinCheckResult.ExistMyExportedSkin:
+                var result = this.ShowMessageService.Show(
+                    new MessageShowService.CheckMessageSetting()
+                    {
+                        Title = (string)resource["Error"],
+                        Message = (string)resource["IsOverrideMessage"],
+                    });
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        isOverride = true;
+                        break;
+                    case MessageBoxResult.No:
+                        isOverride = false;
+                        break;
+                    default:
+                        return;
+                }
+                break;
+            default:
+                return;
+        }
+
+        string errorMessage = this.model.Export(isOverride);
+
+        if (string.IsNullOrEmpty(errorMessage))
+        {
+            string messageKey =
+                string.IsNullOrEmpty(this.model.AmongUsPathContainer.AmongUsFolderPath) ?
+                "ExportSuccess" : "ExportSuccessWithInstall";
+
+            this.ShowMessageService.Show(
+                new MessageShowService.InfoMessageSetting()
+                {
+                    Title = (string)resource["Success"],
+                    Message = (string)resource[messageKey],
+                });
+        }
+        else
+        {
+            this.ShowMessageService.Show(
+               new MessageShowService.ErrorMessageSetting()
+               {
+                   Title = (string)resource["Error"],
+                   Message = $"{(string)resource["ExportError"]}\\{errorMessage}",
+               });
+        }
+    }
 }

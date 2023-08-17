@@ -19,6 +19,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
     public ReactivePropertySlim<string> AutherName { get; set; }
 
     public DelegateCommand ExportButtonCommand { get; set; }
+    public DelegateCommand HotReloadButtonCommand { get; set; }
 
     protected CompositeDisposable Disposables = new CompositeDisposable();
 
@@ -40,9 +41,11 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
 
         this.ShowMessageService = windowsDialogService;
         this.ExportButtonCommand = new DelegateCommand(Export);
+        this.HotReloadButtonCommand = new DelegateCommand(HotReload);
     }
 
     protected abstract void Export();
+    protected abstract void HotReload();
 
     public void Destroy()
     {

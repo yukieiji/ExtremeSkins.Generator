@@ -96,7 +96,7 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
         return this.exporter!.CheckSameSkin();
     }
 
-    private void CreateExporter()
+    private void CreateExporter(bool exportWithAu=true)
     {
 
         this.transDataExporter = null;
@@ -153,7 +153,7 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
             Animation: hatAnimation
         );
 
-        string amongUsPath = this.AmongUsPathContainer.AmongUsFolderPath;
+        string amongUsPath = exportWithAu ? this.AmongUsPathContainer.AmongUsFolderPath : string.Empty;
 
         this.exporter = new ExtremeHatsExporter()
         {
