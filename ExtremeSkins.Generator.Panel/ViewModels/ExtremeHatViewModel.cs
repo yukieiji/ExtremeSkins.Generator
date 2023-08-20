@@ -194,6 +194,19 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                 return;
         }
 
+        bool isEnaleHat = await this.model.IsExHEnable();
+
+        if (!isEnaleHat)
+        {
+            this.ShowMessageService.Show(
+               new MessageShowService.ErrorMessageSetting()
+               {
+                   Title = (string)resource["Error"],
+                   Message = $"{(string)resource["ExHNotFoundError"]}",
+               });
+            return;
+        }
+
         string errorMessage = this.model.Export(isOverride);
 
         if (!string.IsNullOrEmpty(errorMessage))
@@ -207,18 +220,6 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
             return;
         }
 
-        bool isEnaleHat = await this.model.IsExHEnable();
-
-        if (!isEnaleHat)
-        {
-            this.ShowMessageService.Show(
-               new MessageShowService.ErrorMessageSetting()
-               {
-                   Title = (string)resource["Error"],
-                   Message = $"{(string)resource["ExportError"]}\\{errorMessage}",
-               });
-            return;
-        }
         bool result = await this.model.HotReloadCosmic();
         if (result)
         {
@@ -226,7 +227,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                 new MessageShowService.InfoMessageSetting()
                 {
                     Title = (string)resource["Success"],
-                    Message = (string)resource["ExportSuccess"],
+                    Message = (string)resource["HotReloadSuccess"],
                 });
         }
         else
@@ -235,7 +236,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                new MessageShowService.ErrorMessageSetting()
                {
                    Title = (string)resource["Error"],
-                   Message = $"{(string)resource["ExportError"]}\\{errorMessage}",
+                   Message = $"{(string)resource["HotReloadError"]}",
                });
         }
     }
