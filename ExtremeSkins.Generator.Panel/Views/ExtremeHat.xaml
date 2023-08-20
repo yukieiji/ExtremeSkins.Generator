@@ -125,7 +125,7 @@
                 Command="{Binding ExportButtonCommand}" />
             <Button
                 Grid.Column="1"
-                Content="{DynamicResource ExportButton}"
+                Content="{DynamicResource HotReloadButton}"
                 Margin="10,0,30,0"
                 Command="{Binding HotReloadButtonCommand}" />
         </Grid>
