@@ -51,6 +51,16 @@ public sealed class TranslationExporter : IExporter
         {SupportedLangs.Irish     , ""},
     };
 
+    public void AddTransData(string key, string value)
+    {
+        if (string.IsNullOrEmpty(key) ||
+            string.IsNullOrEmpty(value))
+        {
+            return;
+        }
+        this.transData.Add(key, value);
+    }
+
     public void AddTransData(Dictionary<string, string> exportData)
     {
         this.transData = exportData;

@@ -24,10 +24,10 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
     protected CompositeDisposable Disposables = new CompositeDisposable();
 
     protected readonly IWindowsDialogService ShowMessageService;
-    private IExportModel model;
+    private ICosmicModel model;
 
     public NewSkinsExportPanelBase(
-        IExportModel model,
+        ICosmicModel model,
         IWindowsDialogService windowsDialogService)
     {
 

@@ -32,11 +32,11 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
     {
         var resource = Application.Current.MainWindow.Resources;
 
-        IExportModel.ExportStatus status = this.model.GetCurrentExportStatus();
+        ICosmicModel.ExportStatus status = this.model.GetCurrentExportStatus();
 
         switch (status)
         {
-            case IExportModel.ExportStatus.MissingAutherName:
+            case ICosmicModel.ExportStatus.MissingAutherName:
                 this.ShowMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
@@ -44,7 +44,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                         Message = (string)resource["CannotEmptyAuther"],
                     });
                 return;
-            case IExportModel.ExportStatus.MissingSkinName:
+            case ICosmicModel.ExportStatus.MissingSkinName:
                 this.ShowMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
@@ -52,7 +52,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                         Message = (string)resource["CannotEmptySkin"],
                     });
                 return;
-            case IExportModel.ExportStatus.MissingFrontImg:
+            case ICosmicModel.ExportStatus.MissingFrontImg:
                 this.ShowMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
@@ -132,11 +132,11 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
     {
         var resource = Application.Current.MainWindow.Resources;
 
-        IExportModel.ExportStatus status = this.model.GetCurrentExportStatus();
+        ICosmicModel.ExportStatus status = this.model.GetCurrentExportStatus();
 
         switch (status)
         {
-            case IExportModel.ExportStatus.MissingAutherName:
+            case ICosmicModel.ExportStatus.MissingAutherName:
                 this.ShowMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
@@ -144,7 +144,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                         Message = (string)resource["CannotEmptyAuther"],
                     });
                 return;
-            case IExportModel.ExportStatus.MissingSkinName:
+            case ICosmicModel.ExportStatus.MissingSkinName:
                 this.ShowMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
@@ -152,7 +152,7 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
                         Message = (string)resource["CannotEmptySkin"],
                     });
                 return;
-            case IExportModel.ExportStatus.MissingFrontImg:
+            case ICosmicModel.ExportStatus.MissingFrontImg:
                 this.ShowMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {

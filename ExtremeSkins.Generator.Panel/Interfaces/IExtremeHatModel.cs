@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ExtremeSkins.Generator.Panel.Interfaces;
 
-public interface IExtremeHatModel : IExportModel
+public interface IExtremeHatModel : ICosmicModel
 {
     public ObservableCollection<SkinRowModel> ImgRows { get; }
 

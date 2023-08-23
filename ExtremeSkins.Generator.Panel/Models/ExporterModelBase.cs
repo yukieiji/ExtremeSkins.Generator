@@ -1,43 +1,41 @@
 ﻿using AnyAscii;
-
-using Reactive.Bindings;
+using ExtremeSkins.Core;
+using ExtremeSkins.Generator.Core.Interface;
 
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
-using ExtremeSkins.Core;
-using ExtremeSkins.Generator.Panel.Models;
-using ExtremeSkins.Generator.Core.Interface;
+using static ExtremeSkins.Generator.Panel.Interfaces.ICosmicModel;
 
-namespace ExtremeSkins.Generator.Panel.Interfaces;
+namespace ExtremeSkins.Generator.Panel.Models;
 
-public interface IExportModel
+public abstract class ExporterModelBase
 {
-    public record AnimationImgExportInfo(string FolderName, string[] FromImgPath, AnimationInfo? Info);
+    public string TranslatedAuthorName { get; private set; } = string.Empty;
+    public string TranslatedSkinName { get; private set; } = string.Empty;
 
-    public enum ExportStatus : byte
+    public abstract void Export(bool isOverride);
+
+    public abstract SameSkinCheckResult GetSameSkinCheckResult();
+
+
+    protected (string, string) ReplaceAscii(string authorName, string skinName)
     {
-        NoProblem,
-        MissingAutherName,
-        MissingSkinName,
-        MissingFrontImg,
+        this.TranslatedSkinName = string.Empty;
+        this.TranslatedAuthorName = string.Empty;
+
+        if (TryReplaceAscii(authorName, out string asciiedAutherName))
+        {
+            this.TranslatedAuthorName = authorName;
+            authorName = asciiedAutherName;
+        }
+        if (TryReplaceAscii(skinName, out string asciiedSkinName))
+        {
+            this.TranslatedSkinName = skinName;
+            skinName = asciiedSkinName;
+        }
+        return (authorName, skinName);
     }
-
-    public IApiServerModel ApiServerModel { get; }
-
-    public IAmongUsPathContainerModel AmongUsPathContainer { get; }
-
-    public ReactivePropertySlim<string> SkinName { get; }
-    public ReactivePropertySlim<string> AutherName { get; }
-
-    public Task<bool> HotReloadCosmic();
-
-    public string Export(bool isOverride);
-
-    public ExportStatus GetCurrentExportStatus();
-
-    public SameSkinCheckResult GetSameSkinStatus();
 
     protected static AnimationImgExportInfo CrateAnimationExportInfo(SkinRowModel rowModel)
     {
