@@ -12,6 +12,7 @@ public sealed class ExtremeVisorExporterModel : ExporterModelBase
 {
     public string AutherName => this.info.Author;
     public string FolderName => this.visorExporter.FolderName;
+    public string SkinName => this.info.Name;
 
     private readonly VisorInfo info;
     private readonly ExtremeVisorExporter visorExporter;

@@ -141,6 +141,7 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
         NewCosmicData newHatData = new NewCosmicData(
             outputParentPath,
             this.exporter!.FolderName,
+            this.exporter!.SkinName,
             this.exporter!.AutherName,
             this.exporter!.TranslatedSkinName,
             this.exporter!.TranslatedAuthorName);

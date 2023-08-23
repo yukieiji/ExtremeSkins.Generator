@@ -12,6 +12,7 @@ public sealed class ExtremeHatExporterModel : ExporterModelBase
 {
     public string AutherName => this.info.Author;
     public string FolderName => this.hatsExporter.FolderName;
+    public string SkinName => this.info.Name;
 
     private readonly HatInfo info;
     private readonly ExtremeHatsExporter hatsExporter;
