@@ -108,23 +108,30 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
 
     public async Task<bool> IsModuleEnable()
     {
-        var respons = await this.ApiServerModel.GetAmongUsStatusAsync();
-        if (respons == null || !respons.IsSuccessStatusCode)
+        try
         {
-            return false;
-        }
-        var options = new JsonSerializerOptions()
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-            Converters = { new JsonStringEnumConverter() },
-        };
-        StatusData status = await respons.Content.ReadFromJsonAsync<StatusData>(options);
-        if (status.Status == ExSStatus.Booting)
-        {
-            return false;
-        }
+            var respons = await this.ApiServerModel.GetAmongUsStatusAsync();
+            if (respons == null || !respons.IsSuccessStatusCode)
+            {
+                return false;
+            }
+            var options = new JsonSerializerOptions()
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+                Converters = { new JsonStringEnumConverter() },
+            };
+            StatusData status = await respons.Content.ReadFromJsonAsync<StatusData>(options);
+            if (status.Status == ExSStatus.Booting)
+            {
+                return false;
+            }
 
-        return status.Module.ExtremeVisor == ModuleStatus.Arrive;
+            return status.Module.ExtremeVisor == ModuleStatus.Arrive;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public async Task<bool> HotReloadCosmic()
@@ -142,15 +149,21 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
         };
-
-        var postRespons = await this.ApiServerModel.PostAsync("visor/", newHatData, options);
-        if (postRespons != null && postRespons.IsSuccessStatusCode)
+        try
         {
-            return true;
-        }
+            var postRespons = await this.ApiServerModel.PostAsync("visor/", newHatData, options);
+            if (postRespons != null && postRespons.IsSuccessStatusCode)
+            {
+                return true;
+            }
 
-        var respons = await this.ApiServerModel.PutAsync("visor/", newHatData);
-        return respons != null && respons.IsSuccessStatusCode;
+            var respons = await this.ApiServerModel.PutAsync("visor/", newHatData);
+            return respons != null && respons.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private ExtremeVisorExporterModel CreateExporter(bool exportWithAu = true)

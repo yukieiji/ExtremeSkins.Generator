@@ -17,6 +17,7 @@ using ExtremeSkins.Generator.Core.Interface;
 using ExtremeSkins.Generator.Panel.Interfaces;
 
 using static ExtremeSkins.Generator.Panel.Interfaces.ICosmicModel;
+using System.Linq.Expressions;
 
 namespace ExtremeSkins.Generator.Panel.Models;
 
@@ -101,23 +102,30 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
 
     public async Task<bool> IsModuleEnable()
     {
-        var respons = await this.ApiServerModel.GetAmongUsStatusAsync();
-        if (respons == null || !respons.IsSuccessStatusCode)
+        try
         {
-            return false;
-        }
-        var options = new JsonSerializerOptions()
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
-            Converters = { new JsonStringEnumConverter() },
-        };
-        StatusData status = await respons.Content.ReadFromJsonAsync<StatusData>(options);
-        if (status.Status == ExSStatus.Booting)
-        {
-            return false;
-        }
+            var respons = await this.ApiServerModel.GetAmongUsStatusAsync();
+            if (respons == null || !respons.IsSuccessStatusCode)
+            {
+                return false;
+            }
+            var options = new JsonSerializerOptions()
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+                Converters = { new JsonStringEnumConverter() },
+            };
+            StatusData status = await respons.Content.ReadFromJsonAsync<StatusData>(options);
+            if (status.Status == ExSStatus.Booting)
+            {
+                return false;
+            }
 
-        return status.Module.ExtremeHat == ModuleStatus.Arrive;
+            return status.Module.ExtremeHat == ModuleStatus.Arrive;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public async Task<bool> HotReloadCosmic()
@@ -136,14 +144,21 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
         };
 
-        var postRespons = await this.ApiServerModel.PostAsync("hat/", newHatData, options);
-        if (postRespons != null && postRespons.IsSuccessStatusCode)
+        try
         {
-            return true;
-        }
+            var postRespons = await this.ApiServerModel.PostAsync("hat/", newHatData, options);
+            if (postRespons != null && postRespons.IsSuccessStatusCode)
+            {
+                return true;
+            }
 
-        var respons = await this.ApiServerModel.PutAsync("hat/", newHatData);
-        return respons != null && respons.IsSuccessStatusCode;
+            var respons = await this.ApiServerModel.PutAsync("hat/", newHatData);
+            return respons != null && respons.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private ExtremeHatExporterModel CreateExporter(bool exportWithAu = true)
