@@ -35,10 +35,10 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
     public ReactivePropertySlim<bool> IsShader { get; }
     public ReactivePropertySlim<string> LicencePath { get; }
 
-    public SkinRowModel Idle { get; }
-    public SkinRowModel LeftIdle { get; }
+    public ObservableCollection<SkinRowModel> ImgRows { get; }
 
-    public ObservableCollection<SkinRowModel> Rows { get; }
+    private SkinRowModel idle { get; }
+    private SkinRowModel leftIdle { get; }
 
     private ExtremeVisorExporterModel? exporter = null;
 
@@ -54,12 +54,12 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
         this.IsBehindHat = new ReactivePropertySlim<bool>(false);
         this.IsShader = new ReactivePropertySlim<bool>(false);
 
-        Idle = new SkinRowModel("ExV.SelectFrontImage");
-        LeftIdle = new SkinRowModel("ExV.SelectFrontFlipImage");
+        idle = new SkinRowModel("ExV.SelectFrontImage");
+        leftIdle = new SkinRowModel("ExV.SelectFrontFlipImage");
 
-        Rows = new ObservableCollection<SkinRowModel>()
+        ImgRows = new ObservableCollection<SkinRowModel>()
         {
-            Idle, LeftIdle,
+            idle, leftIdle,
         };
     }
 
@@ -90,7 +90,7 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
         {
             return ExportStatus.MissingSkinName;
         }
-        else if (string.IsNullOrEmpty(Idle.ImgPath.Value))
+        else if (string.IsNullOrEmpty(this.idle.ImgPath.Value))
         {
             return ExportStatus.MissingFrontImg;
         }
@@ -164,7 +164,7 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
             this.LicencePath.Value,
             this.IsBehindHat.Value,
             this.IsShader.Value,
-            this.Idle,
-            this.LeftIdle);
+            this.idle,
+            this.leftIdle);
     }
 }

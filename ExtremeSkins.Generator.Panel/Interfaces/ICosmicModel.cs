@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ExtremeSkins.Core;
 using ExtremeSkins.Generator.Panel.Models;
 using ExtremeSkins.Generator.Core.Interface;
+using System.Collections.ObjectModel;
 
 namespace ExtremeSkins.Generator.Panel.Interfaces;
 
@@ -30,6 +31,7 @@ public interface ICosmicModel
 
     public ReactivePropertySlim<string> SkinName { get; }
     public ReactivePropertySlim<string> AutherName { get; }
+    public ObservableCollection<SkinRowModel> ImgRows { get; }
 
     public Task<bool> IsModuleEnable();
 

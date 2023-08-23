@@ -13,11 +13,14 @@ using ExtremeSkins.Generator.Panel.Interfaces;
 using ExtremeSkins.Generator.Core.Interface;
 using ExtremeSkins.Generator.Service;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace ExtremeSkins.Generator.Panel.ViewModels;
 
 public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
 {
+    public ReadOnlyObservableCollection<SkinRowPanelViewModel> Rows { get; }
+
     public ReactivePropertySlim<string> SkinName { get; set; }
     public ReactivePropertySlim<string> AutherName { get; set; }
 
@@ -26,25 +29,30 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
 
     protected CompositeDisposable Disposables = new CompositeDisposable();
 
-    protected readonly IWindowsDialogService ShowMessageService;
-    private ICosmicModel model;
-    private string hotReloadErrorKey = string.Empty;
+    protected readonly ICosmicModel Model;
+
+    private readonly IWindowsDialogService showMessageService;
+    private readonly string hotReloadErrorKey = string.Empty;
 
     public NewSkinsExportPanelBase(
         ICosmicModel model,
         IWindowsDialogService windowsDialogService,
+        ICommonDialogService<FileDialogService.Result> comDlgService,
         string hotReloadErrorKey)
     {
+        this.Model = model;
 
-        this.model = model;
-        this.SkinName = this.model.SkinName
+        this.Rows = model.ImgRows
+            .ToReadOnlyReactiveCollection(x => new SkinRowPanelViewModel(x, comDlgService))
+            .AddTo(this.Disposables);
+        this.SkinName = this.Model.SkinName
             .ToReactivePropertySlimAsSynchronized(x => x.Value)
             .AddTo(this.Disposables);
-        this.AutherName = this.model.AutherName
+        this.AutherName = this.Model.AutherName
             .ToReactivePropertySlimAsSynchronized(x => x.Value)
             .AddTo(this.Disposables);
 
-        this.ShowMessageService = windowsDialogService;
+        this.showMessageService = windowsDialogService;
         this.ExportButtonCommand = new DelegateCommand(Export);
         this.HotReloadButtonCommand = new DelegateCommand(HotReload);
         this.hotReloadErrorKey = hotReloadErrorKey;
@@ -54,12 +62,12 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
     {
         var resource = Application.Current.MainWindow.Resources;
 
-        ICosmicModel.ExportStatus status = this.model.GetCurrentExportStatus();
+        ICosmicModel.ExportStatus status = this.Model.GetCurrentExportStatus();
 
         switch (status)
         {
             case ICosmicModel.ExportStatus.MissingAutherName:
-                this.ShowMessageService.Show(
+                this.showMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -67,7 +75,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                     });
                 return;
             case ICosmicModel.ExportStatus.MissingSkinName:
-                this.ShowMessageService.Show(
+                this.showMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -75,7 +83,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                     });
                 return;
             case ICosmicModel.ExportStatus.MissingFrontImg:
-                this.ShowMessageService.Show(
+                this.showMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -86,7 +94,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                 break;
         }
 
-        var sameSkinStatus = this.model.GetSameSkinStatus();
+        var sameSkinStatus = this.Model.GetSameSkinStatus();
 
         bool isOverride = false;
         switch (sameSkinStatus)
@@ -94,7 +102,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
             case SameSkinCheckResult.No:
                 break;
             case SameSkinCheckResult.ExistExS:
-                this.ShowMessageService.Show(
+                this.showMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -102,7 +110,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                     });
                 return;
             case SameSkinCheckResult.ExistMyExportedSkin:
-                var result = this.ShowMessageService.Show(
+                var result = this.showMessageService.Show(
                     new MessageShowService.CheckMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -124,15 +132,15 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                 return;
         }
 
-        string errorMessage = this.model.Export(isOverride);
+        string errorMessage = this.Model.Export(isOverride);
 
         if (string.IsNullOrEmpty(errorMessage))
         {
             string messageKey =
-                string.IsNullOrEmpty(this.model.AmongUsPathContainer.AmongUsFolderPath) ?
+                string.IsNullOrEmpty(this.Model.AmongUsPathContainer.AmongUsFolderPath) ?
                 "ExportSuccess" : "ExportSuccessWithInstall";
 
-            this.ShowMessageService.Show(
+            this.showMessageService.Show(
                 new MessageShowService.InfoMessageSetting()
                 {
                     Title = (string)resource["Success"],
@@ -141,7 +149,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
         }
         else
         {
-            this.ShowMessageService.Show(
+            this.showMessageService.Show(
                new MessageShowService.ErrorMessageSetting()
                {
                    Title = (string)resource["Error"],
@@ -154,12 +162,12 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
     {
         var resource = Application.Current.MainWindow.Resources;
 
-        ICosmicModel.ExportStatus status = this.model.GetCurrentExportStatus();
+        ICosmicModel.ExportStatus status = this.Model.GetCurrentExportStatus();
 
         switch (status)
         {
             case ICosmicModel.ExportStatus.MissingAutherName:
-                this.ShowMessageService.Show(
+                this.showMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -167,7 +175,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                     });
                 return;
             case ICosmicModel.ExportStatus.MissingSkinName:
-                this.ShowMessageService.Show(
+                this.showMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -175,7 +183,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                     });
                 return;
             case ICosmicModel.ExportStatus.MissingFrontImg:
-                this.ShowMessageService.Show(
+                this.showMessageService.Show(
                     new MessageShowService.ErrorMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -186,7 +194,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                 break;
         }
 
-        var sameSkinStatus = this.model.GetSameSkinStatus();
+        var sameSkinStatus = this.Model.GetSameSkinStatus();
 
         bool isOverride = false;
         switch (sameSkinStatus)
@@ -194,7 +202,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
             case SameSkinCheckResult.No:
                 break;
             case SameSkinCheckResult.ExistMyExportedSkin:
-                var existResult = this.ShowMessageService.Show(
+                var existResult = this.showMessageService.Show(
                     new MessageShowService.CheckMessageSetting()
                     {
                         Title = (string)resource["Error"],
@@ -216,11 +224,11 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
                 return;
         }
 
-        bool isEnaleHat = await this.model.IsModuleEnable();
+        bool isEnaleHat = await this.Model.IsModuleEnable();
 
         if (!isEnaleHat)
         {
-            this.ShowMessageService.Show(
+            this.showMessageService.Show(
                new MessageShowService.ErrorMessageSetting()
                {
                    Title = (string)resource["Error"],
@@ -229,11 +237,11 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
             return;
         }
 
-        string errorMessage = this.model.Export(isOverride);
+        string errorMessage = this.Model.Export(isOverride);
 
         if (!string.IsNullOrEmpty(errorMessage))
         {
-            this.ShowMessageService.Show(
+            this.showMessageService.Show(
                new MessageShowService.ErrorMessageSetting()
                {
                    Title = (string)resource["Error"],
@@ -242,10 +250,10 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
             return;
         }
 
-        bool result = await this.model.HotReloadCosmic();
+        bool result = await this.Model.HotReloadCosmic();
         if (result)
         {
-            this.ShowMessageService.Show(
+            this.showMessageService.Show(
                 new MessageShowService.InfoMessageSetting()
                 {
                     Title = (string)resource["Success"],
@@ -254,7 +262,7 @@ public abstract class NewSkinsExportPanelBase : BindableBase, IDestructible
         }
         else
         {
-            this.ShowMessageService.Show(
+            this.showMessageService.Show(
                new MessageShowService.ErrorMessageSetting()
                {
                    Title = (string)resource["Error"],
