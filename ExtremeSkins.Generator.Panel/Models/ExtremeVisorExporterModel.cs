@@ -65,12 +65,12 @@ public sealed class ExtremeVisorExporterModel : ExporterModelBase
         }
         if (this.info.Animation != null)
         {
-            if (this.info.Animation.Front != null &&
+            if (this.info.Animation.Idle != null &&
                 frontAnimationExportInfo.Info != null)
             {
                 AddAnimationImg(this.visorExporter, frontAnimationExportInfo);
             }
-            if (this.info.Animation.FrontFlip != null &&
+            if (this.info.Animation.LeftIdle != null &&
                 frontFlipAnimationExportInfo.Info != null)
             {
                 AddAnimationImg(this.visorExporter, frontFlipAnimationExportInfo);
