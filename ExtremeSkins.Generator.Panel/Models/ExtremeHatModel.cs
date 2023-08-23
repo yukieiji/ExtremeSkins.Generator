@@ -146,14 +146,16 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
 
         try
         {
-            var postRespons = await this.ApiServerModel.PostAsync("hat/", newHatData, options);
-            if (postRespons != null && postRespons.IsSuccessStatusCode)
+            try
             {
-                return true;
+                var postRespons = await this.ApiServerModel.PostAsync("hat/", newHatData, options);
+                return postRespons != null && postRespons.IsSuccessStatusCode;
             }
-
-            var respons = await this.ApiServerModel.PutAsync("hat/", newHatData);
-            return respons != null && respons.IsSuccessStatusCode;
+            catch
+            {
+                var respons = await this.ApiServerModel.PutAsync("hat/", newHatData);
+                return respons != null && respons.IsSuccessStatusCode;
+            }
         }
         catch
         {

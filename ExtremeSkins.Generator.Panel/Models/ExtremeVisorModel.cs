@@ -151,14 +151,16 @@ public sealed class ExtremeVisorModel : BindableBase, IExtremeVisorModel
         };
         try
         {
-            var postRespons = await this.ApiServerModel.PostAsync("visor/", newHatData, options);
-            if (postRespons != null && postRespons.IsSuccessStatusCode)
+            try
             {
-                return true;
+                var postRespons = await this.ApiServerModel.PostAsync("visor/", newHatData, options);
+                return postRespons != null && postRespons.IsSuccessStatusCode;
             }
-
-            var respons = await this.ApiServerModel.PutAsync("visor/", newHatData);
-            return respons != null && respons.IsSuccessStatusCode;
+            catch
+            {
+                var respons = await this.ApiServerModel.PutAsync("visor/", newHatData);
+                return respons != null && respons.IsSuccessStatusCode;
+            }
         }
         catch
         {
