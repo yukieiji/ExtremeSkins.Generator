@@ -11,7 +11,7 @@ public sealed class ExtremeVisorViewModel : NewSkinsExportPanelBase
         IExtremeVisorModel model,
         ICommonDialogService<FileDialogService.Result> comDlgService,
         IWindowsDialogService windowsDialogService) :
-            base(model, windowsDialogService, comDlgService, "ExHNotFoundError")
+            base(model, windowsDialogService, comDlgService, "ExV.NotFoundError")
     {
     }
 }

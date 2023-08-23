@@ -10,6 +10,6 @@ public sealed class ExtremeHatViewModel : NewSkinsExportPanelBase
         IExtremeHatModel model,
         ICommonDialogService<FileDialogService.Result> comDlgService,
         IWindowsDialogService windowsDialogService) :
-            base(model, windowsDialogService, comDlgService, "ExHNotFoundError")
+            base(model, windowsDialogService, comDlgService, "ExH.NotFoundError")
     { }
 }

@@ -14,6 +14,7 @@
     <system:String x:Key="ExH.IsBounce">ハットが移動等でバウンドするか </system:String>
     <system:String x:Key="ExH.IsUseShader">ハットが体の色とシンクロするか </system:String>
     <system:String x:Key="ExH.SelectLicense">ハットの利用規約等が記載されているテキストファイル</system:String>
+    <system:String x:Key="ExH.NotFoundError">カスタムハットへアクセスできませんでした&#xa;以下のすべてを満たしているか確認して下さい&#xa;・AmongUsが起動している&#xa;・ExtremeSkinsがインストールされている&#xa;・CreatorModeが有効になっている&#xa;・カスタムハットが使える</system:String>
 
     <!-- ExtremeVisor -->
     <system:String x:Key="ExV.EnterAuther">バイザーの製作者名：</system:String>
@@ -23,6 +24,7 @@
     <system:String x:Key="ExV.IsBehindHat">バイザーがハットの後ろに描画されるか</system:String>
     <system:String x:Key="ExV.IsUseShader">バイザーが体の色とシンクロするか</system:String>
     <system:String x:Key="ExV.SelectLicense">バイザーの利用規約等が記載されているテキストファイル</system:String>
+    <system:String x:Key="ExV.NotFoundError">カスタムバイザーへアクセスできませんでした&#xa;以下のすべてを満たしているか確認して下さい&#xa;・AmongUsが起動している&#xa;・ExtremeSkinsがインストールされている&#xa;・CreatorModeが有効になっている&#xa;・カスタムバイザーが使える</system:String>
 
     <!-- ExtremeNamePlate -->
     <system:String x:Key="ExN.EnterAuther">ネームプレートの製作者名：</system:String>
@@ -63,6 +65,7 @@
     <system:String x:Key="SuccessExportToZip">Zipファイルへの出力に成功しました&#xa;OKボタンを押すとZipファイルを表示します</system:String>
     <system:String x:Key="CannotFindExS">Extreme Skinsがインストールされていません、インストールして一度Among Usを起動して下さい</system:String>
     <system:String x:Key="CannotFindExSConfig">Extreme Skins後の初回起動が完了していません、一度Among Usを起動して下さい</system:String>
+    <system:String x:Key="HotReloadButton">AmongUsに直接追加/更新</system:String>
     <system:String x:Key="CannotEmptyAuther">製作者を無名に出来ません、追加して下さい</system:String>
     <system:String x:Key="CannotEmptySkin">スキン名を無名に出来ません、追加して下さい</system:String>
     <system:String x:Key="CannotEmptyFlontImage">ハットの正面画像は必須です、追加して下さい</system:String>
