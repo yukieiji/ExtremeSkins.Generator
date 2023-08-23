@@ -99,7 +99,7 @@ public sealed class ExtremeHatModel : BindableBase, IExtremeHatModel
         return this.exporter.GetSameSkinCheckResult();
     }
 
-    public async Task<bool> IsExHEnable()
+    public async Task<bool> IsModuleEnable()
     {
         var respons = await this.ApiServerModel.GetAmongUsStatusAsync();
         if (respons == null || !respons.IsSuccessStatusCode)

@@ -31,6 +31,8 @@ public interface ICosmicModel
     public ReactivePropertySlim<string> SkinName { get; }
     public ReactivePropertySlim<string> AutherName { get; }
 
+    public Task<bool> IsModuleEnable();
+
     public Task<bool> HotReloadCosmic();
 
     public string Export(bool isOverride);

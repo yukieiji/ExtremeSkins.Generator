@@ -10,6 +10,7 @@ namespace ExtremeSkins.Generator.Core;
 
 public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
 {
+    public string FolderName => $"{this.info.Name}_{this.info.Author}";
 
     public VisorInfo Info
     {
@@ -44,7 +45,8 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
     private string licenseFile = string.Empty;
     private VisorInfo info = new VisorInfo(string.Empty, string.Empty, false, false);
 
-    private Dictionary<string, string> img = new Dictionary<string, string>();
+    private List<(string, string)> img = new List<(string, string)>();
+    private List<string> newFolder = new List<string>();
 
     private string defaultExportPath => Path.Combine(
         IExporter.ExportDefaultPath, DataStructure.FolderName);
@@ -69,7 +71,12 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
 
     public void AddImage(string imgName, string basePath)
     {
-        this.img.Add(imgName, basePath);
+        this.img.Add((imgName, basePath));
+    }
+
+    public void AddFolder(string newFolder)
+    {
+        this.newFolder.Add(newFolder);
     }
 
     public void Export(bool isOverride)
@@ -107,6 +114,10 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
         }
 
         Directory.CreateDirectory(exportFolder);
+        foreach (string newFolder in this.newFolder)
+        {
+            Directory.CreateDirectory(Path.Combine(exportFolder, newFolder));
+        }
 
         foreach (var (imgName, copyFromPath) in this.img)
         {
@@ -119,5 +130,5 @@ public sealed class ExtremeVisorExporter : IInfoHasExporter<VisorInfo>
     }
 
     private string getExportFolderPath(string targetPath) =>
-        Path.Combine(targetPath, $"{this.info.Name}_{this.info.Author}");
+        Path.Combine(targetPath, this.FolderName);
 }
